@@ -1,4 +1,4 @@
-| Player                                             | Interaktion |
+| Player-                                            | Interaktion |
 | -------------------------------------------------- | ----------- |
 | Enum Color (red,green,blue,yellow) Tas kanske bort | Piece       |
 | Array[4]<Piece> Pieces tas kanske bort             | GameEngie   |
@@ -10,7 +10,7 @@
 |                                                    |             |
 |                                                    |             |
 
-| Piece                     | Interaktion |
+| Piece-                    | Interaktion |
 | ------------------------- | ----------- |
 | Bool isActive             | Spelare     |
 | int ID                    | GameEngie   |
@@ -34,7 +34,7 @@
 |                                  |             |
 |                                  |             |
 
-| Dice                  | Interaktion |
+| Dice-                 | Interaktion |
 | --------------------- | ----------- |
 | int GetRandom(1-6){ } | GameEngine  |
 |                       | Piece       |
