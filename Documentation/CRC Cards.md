@@ -1,14 +1,14 @@
-| Player                             | Interaktion |
-| ---------------------------------- | ----------- |
-| Enum Color (red,green,blue,yellow) | Piece       |
-| Array[4]<Piece> Pieces             | GameEngie   |
-| List<Game> ActiveGames             | Color       |
-| int ID                             |             |
-| string name                        |             |
-| Bool HasFinished                   |             |
-| override ToString                  |             |
-|                                    |             |
-|                                    |             |
+| Player                                             | Interaktion |
+| -------------------------------------------------- | ----------- |
+| Enum Color (red,green,blue,yellow) Tas kanske bort | Piece       |
+| Array[4]<Piece> Pieces tas kanske bort             | GameEngie   |
+| List<Game> ActiveGames                             | Color       |
+| int ID-                                            |             |
+| string name-                                       |             |
+| Bool HasFinished -                                 |             |
+| override ToString                                  |             |
+|                                                    |             |
+|                                                    |             |
 
 | Piece                     | Interaktion |
 | ------------------------- | ----------- |
@@ -47,7 +47,7 @@
 | List<player> players                    | gameEngine  |
 | ïnt NextPlayer (vem ska slå nästa slag) |             |
 | Bool HasFinished                        |             |
-|                                         |             |
+| Dictionary<Player, Pice>?????           |             |
 |                                         |             |
 |                                         |             |
 |                                         |             |
