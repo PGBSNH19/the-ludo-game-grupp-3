@@ -4,6 +4,12 @@ TO DO
 - Planera för vilka tester vi ska göra först
 - Fundera över AI-spelare och flowchart
 - Skapa databas
+- Lägga till /ta bort från Dictionaryn
+- ändra piace texten
+- avsluta spelet 
+- sätta regler för att gå ut med  pjäsen
+- knuff
+- ta ut en pjäs från boet
 
 
 

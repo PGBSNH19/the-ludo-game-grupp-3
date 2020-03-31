@@ -17,6 +17,7 @@ namespace LudoEngine
         public GameState()
         {
             players = new List<Player>();
+            PlayerPieces = new Dictionary<Player, Piece>();
         }
 
 
@@ -27,11 +28,11 @@ namespace LudoEngine
         /// </summary>
         public GameState(Player playerOne, List<Piece> playerOnePieces
             , Player playerTwo, List<Piece> playerTwoPieces
-            , Player playerThree = null , List<Piece> playerThreePieces = null
+            , Player playerThree = null, List<Piece> playerThreePieces = null
             , Player playerFour = null, List<Piece> playerFourPieces = null)
-            :base()
+            : base()
         {
-            
+
             PlayerPieces = new Dictionary<Player, Piece>();
 
             players.Add(playerOne);
@@ -57,6 +58,26 @@ namespace LudoEngine
             players.Add(player);
         }
 
+        public List<Player> GetPlayers()
+        {
+            return players;
+        }
+        public Piece GetPieces(Player player)
+        {
+            return PlayerPieces[player];
+        }
+        public void MovePieces(Player player, Piece piece, int steps)
+        {
+            Console.WriteLine(piece);
+            PlayerPieces[player].Position += steps;
+            Console.WriteLine(piece);
+
+        }
+
+        public void AddPiece(Player player,Piece piece)
+        {
+            PlayerPieces.Add(player, piece);
+        }
         public override string ToString()
         {
             return $"Is the game {ID} finished: {HasFinished}.";

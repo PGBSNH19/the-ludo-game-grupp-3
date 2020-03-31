@@ -7,7 +7,7 @@ namespace LudoEngine
     public class GameEngine
     {
 
-        
+
 
 
         private int _numberOfPlayers;
@@ -41,24 +41,39 @@ namespace LudoEngine
             PiecesPerPlayer = piecesPerPlayer;
         }
 
-        public void StartNewGame()
+        public GameState StartNewGame()
         {
             var game = new GameState();
 
             for (int i = 0; i < NumberOfPlayers; i++)
             {
-                game.AddPlayer(new Player(
-                    GetName()));
+                var p = new Player(GetName());
+                game.AddPlayer(p);
 
                 string pieceColor = PickColor();
 
                 for (int j = 0; j < PiecesPerPlayer; j++)
                 {
                     var peice = new Piece(pieceColor);
+                    game.AddPiece(p, peice);
                 }
             }
+            return game;
         }
 
+        public void PlayGame(GameState game)
+        {
+            var players = game.GetPlayers();
+            game.NextPlayer = players[0];
+            while (true)
+            {
+                game.MovePieces(game.NextPlayer
+                    , game.GetPieces(game.NextPlayer)
+                    , Dice.Roll());
+
+
+            }
+        }
         public string PickColor()
         {
             Console.WriteLine();
@@ -90,7 +105,7 @@ namespace LudoEngine
 
         }
 
-        public
+
 
     }
 }
