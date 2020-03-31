@@ -11,9 +11,9 @@ namespace LudoEngine
         public bool HasFinished { get; set; }
         public int Steps { get; set; }
         public int Position { get; set; }
-        public Color Color { get; set; }
+        public string Color { get; set; }
 
-        public Piece(Color color)
+        public Piece(string color)
         {
             IsActive = false;
             HasFinished = false;

@@ -22,17 +22,17 @@
 |                           |             |
 |                           |             |
 
-| Enum Color (Eventuellt i player) | Interaktion |
-| -------------------------------- | ----------- |
-| string Red                       | Spelare     |
-| string blue                      |             |
-| string yellow                    |             |
-| string green                     |             |
-|                                  |             |
-|                                  |             |
-|                                  |             |
-|                                  |             |
-|                                  |             |
+| Enum Color (Eventuellt i player)- | Interaktion |
+| --------------------------------- | ----------- |
+| string Red                        | Spelare     |
+| string blue                       |             |
+| string yellow                     |             |
+| string green                      |             |
+|                                   |             |
+|                                   |             |
+|                                   |             |
+|                                   |             |
+|                                   |             |
 
 | Dice-                 | Interaktion |
 | --------------------- | ----------- |
@@ -41,7 +41,7 @@
 |                       |             |
 |                       |             |
 
-| GameState                               | Interaktion |
+| GameState-                              | Interaktion |
 | --------------------------------------- | ----------- |
 | int id                                  | player      |
 | List<player> players                    | gameEngine  |
@@ -53,7 +53,7 @@
 |                                         |             |
 |                                         |             |
 
-| GameEngine                    | Interaktion |
+| GameEngine-                   | Interaktion |
 | ----------------------------- | ----------- |
 | int NumberOfplayers           | menu        |
 | const int piecesPerPlayer = 4 | gameState   |

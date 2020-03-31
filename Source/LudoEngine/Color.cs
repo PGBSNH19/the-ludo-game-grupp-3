@@ -6,7 +6,7 @@ namespace LudoEngine
 {
     public class Color 
     {
-        enum Colors
+        public enum Colors
         {
            yellow,
            red,
@@ -14,6 +14,4 @@ namespace LudoEngine
            green
         }
     }
-
-     
 }
