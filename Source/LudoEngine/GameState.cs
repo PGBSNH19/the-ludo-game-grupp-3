@@ -13,16 +13,19 @@ namespace LudoEngine
         public bool HasFinished { get; set; }
         List<Player> players;
 
-        Dictionary<Player, List<Piece>> PlayerPieces;
+        Dictionary<Player, List<Piece>> playerPieces;
 
+
+        #region Constructors
         public GameState()
         {
             players = new List<Player>();
-            PlayerPieces = new Dictionary<Player, List<Piece>>();
+            playerPieces = new Dictionary<Player, List<Piece>>();
         }
 
 
         /// <summary>
+        ///This censtruktor is for reading in a whole game, mostly the parameterless ctor will be used!
         ///Every GameState takes each player and it's pieces in list form. 
         ///Saves the players to a temp list.
         ///Both the players and each of it's pieces will then be saved in dictionary PlayerPieces.
@@ -34,7 +37,7 @@ namespace LudoEngine
             : base()
         {
 
-            PlayerPieces = new Dictionary<Player, List<Piece>>();
+            playerPieces = new Dictionary<Player, List<Piece>>();
 
             players.Add(playerOne);
             players.Add(playerTwo);
@@ -53,6 +56,7 @@ namespace LudoEngine
                 }
             }
         }
+        #endregion
 
         public void AddPlayer(Player player)
         {
@@ -65,17 +69,19 @@ namespace LudoEngine
         }
         public void AddPieces(Player player,List<Piece> pieces)
         {
-            PlayerPieces.Add(player, pieces);
+            playerPieces.Add(player, pieces);
         }
 
         public List<Piece> GetPieces(Player player)
         {
-            return PlayerPieces[player];
+            return playerPieces[player];
         }
         public void MovePiece(Player player, Piece piece, int steps)
         {
-            var correctPiece = PlayerPieces[player].Where(x => x == piece).FirstOrDefault();
+            var correctPiece = playerPieces[player].Where(x => x == piece).FirstOrDefault();
             correctPiece.Steps = steps;
+
+            // A method should determine if the piece can move to the square it is intending.
             if (true)
             {
                 Console.Write($"You moved {correctPiece.Steps} from square {correctPiece.Position} ");
@@ -86,6 +92,37 @@ namespace LudoEngine
             }
             correctPiece.Steps = 0;
         }
+
+        public bool IsPieceClearForMoving(Player currentPlayer, Piece piece)
+        {
+            foreach (var p in playerPieces)
+            {
+                foreach (var item in p.Value)
+                {
+                    // Checks position of each piece in the game.
+                    if (item.Position >= piece.Position + piece.Steps)
+                    {
+                        // If any of the sqaures in path are occupied.
+
+                        if (currentPlayer == p.Key)
+                        {
+                            // If it's a piece owned by current player on the same square.
+                            return false;
+                        }
+                        else if (item.Position == piece.Position + piece.Steps)
+                        {
+                            // Push opponent piece back to start.
+                            item.Position = 0;
+                            return true;
+                        }
+                    }
+
+                }
+            }
+            return true;
+        }
+
+
 
         public override string ToString()
         {
