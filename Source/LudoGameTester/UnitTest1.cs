@@ -32,7 +32,7 @@ namespace LudoGameTester
         {
             //Arrange
             var gamestate = new GameState();
-           
+
             List<Piece> pieces = new List<Piece>();
             pieces.Add(new Piece("Red"));
             pieces.Add(new Piece("Red"));
@@ -54,10 +54,10 @@ namespace LudoGameTester
             var gamestate = new GameState();
             List<Piece> pieces = new List<Piece>();
             pieces.Add(new Piece("Red"));
-            
+
             var player = new Player("Sebbe");
             gamestate.AddPieces(player, pieces);
-            
+
             // Gets the right piece and sets it's position to 1.
             var gamePiece = gamestate.GetPieces(player).Where(x => x == pieces[0]).FirstOrDefault();
             gamePiece.Position = 1;
@@ -70,28 +70,45 @@ namespace LudoGameTester
         }
 
         [TestMethod]
-        public void ()
+        public void IsPieceClearForMoving_NoPieceOnTheLandingSquare_true()
         {
             //Arrange
+            var gamestate = new GameState();
+            List<Piece> pieces = new List<Piece>();
+            var player = new Player("Sebbe");
+            pieces.Add(new Piece("Red"));
+            gamestate.AddPieces(player, pieces);
+            var gamePiece = gamestate.GetPieces(player).Where(x => x == pieces[0]).FirstOrDefault();
+            gamePiece.Position = 15;
+
+            List<Piece> pieces2 = new List<Piece>();
+            var player2 = new Player("kaptenen");
+            pieces2.Add(new Piece("blue"));
+            gamestate.AddPieces(player2, pieces2);
+            var gamePiece2 = gamestate.GetPieces(player2).Where(x => x == pieces2[0]).FirstOrDefault();
+            gamePiece2.Position = 11;
+            gamePiece2.Steps = 6;
+
 
             //Act
+            var canMove=gamestate.IsPieceClearForMoving(player2, pieces2[0]);
 
             //Assert
-
+            Assert.IsTrue(canMove);
         }
 
 
-    //[TestMethod]
-    //public void ()
-    //{
-    //    //Arrange
+        //[TestMethod]
+        //public void ()
+        //{
+        //    //Arrange
 
-    //    //Act
+        //    //Act
 
-    //    //Assert
+        //    //Assert
 
-    //}
+        //}
 
 
-}
+    }
 }
