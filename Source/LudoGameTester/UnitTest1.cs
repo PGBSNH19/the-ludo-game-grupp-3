@@ -46,6 +46,7 @@ namespace LudoGameTester
             //Assert
             Assert.AreEqual(pieces, returnList);
         }
+
         [TestMethod]
         public void MovePiece_ValidInput_SetPiecePositionPlusEqualToSteps()
         {
@@ -68,17 +69,29 @@ namespace LudoGameTester
             Assert.AreEqual(5, gamePiece.Position);
         }
 
-        //[TestMethod]
-        //public void ()
-        //{
-        //    //Arrange
+        [TestMethod]
+        public void ()
+        {
+            //Arrange
 
-        //    //Act
+            //Act
 
-        //    //Assert
+            //Assert
 
-        //}
+        }
 
 
-    }
+    //[TestMethod]
+    //public void ()
+    //{
+    //    //Arrange
+
+    //    //Act
+
+    //    //Assert
+
+    //}
+
+
+}
 }
