@@ -92,7 +92,7 @@ namespace LudoEngine
                             && (roll == 1 || roll == 6) 
                             && inactivePieces.Count >= 1)
                         {
-                            Menu.PickPieceToMove(activePieces, roll);
+                            Menu.PickPieceToMove(activePieces, roll, inactivePieces);
                         }
                         else if (activePieces != null)
                         {
@@ -165,7 +165,11 @@ namespace LudoEngine
 
         }
 
-
+        public void MoveToStartingPosition(List<Piece> inactivePieces)
+        {
+            inactivePieces.FirstOrDefault().IsActive = true;
+            inactivePieces.FirstOrDefault().Position = 1;
+        }
 
     }
 }
