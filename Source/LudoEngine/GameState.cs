@@ -99,11 +99,11 @@ namespace LudoEngine
             {
                 foreach (var item in p.Value)
                 {
-                    // Checks position of each piece in the game.
-                    if (item.Position >= piece.Position + piece.Steps)
+                    // Checks position of each piece in front of the pice we want to move.
+                    // Checks if the position of a piece found is in the way or in the same square we want to move to. 
+                    if (item.Position > piece.Position && item.Position <= piece.Position + piece.Steps)
                     {
                         // If any of the sqaures in path are occupied.
-
                         if (currentPlayer == p.Key)
                         {
                             // If it's a piece owned by current player on the same square.

@@ -91,12 +91,124 @@ namespace LudoGameTester
 
 
             //Act
-            var canMove=gamestate.IsPieceClearForMoving(player2, pieces2[0]);
+            var canMove = gamestate.IsPieceClearForMoving(player2, pieces2[0]);
 
             //Assert
             Assert.IsTrue(canMove);
         }
 
+        [TestMethod]
+        public void IsPieceClearForMoving_OpponentPieceOnTheLandingSquare_True()
+        {
+            //Arrange
+            var gamestate = new GameState();
+            List<Piece> pieces = new List<Piece>();
+            var player = new Player("Sebbe");
+            pieces.Add(new Piece("Red"));
+            gamestate.AddPieces(player, pieces);
+            var gamePiece = gamestate.GetPieces(player).Where(x => x == pieces[0]).FirstOrDefault();
+            gamePiece.Position = 17;
+            
+
+            List<Piece> pieces2 = new List<Piece>();
+            var player2 = new Player("kaptenen");
+            pieces2.Add(new Piece("blue"));
+            gamestate.AddPieces(player2, pieces2);
+            var gamePiece2 = gamestate.GetPieces(player2).Where(x => x == pieces2[0]).FirstOrDefault();
+            gamePiece2.Position = 11;
+            gamePiece2.Steps = 6;
+
+
+            //Act
+            var canMove = gamestate.IsPieceClearForMoving(player2, pieces2[0]);
+
+            //Assert
+            Assert.IsTrue(canMove);
+        }
+
+
+        [TestMethod]
+        public void IsPieceClearForMoving_CurrentPlayerPieceOnPath_False()
+        {
+            //Arrange
+            var gamestate = new GameState();
+           
+            List<Piece> pieces = new List<Piece>();
+            var player2 = new Player("kaptenen");
+            pieces.Add(new Piece("blue"));
+            pieces.Add(new Piece("blue"));
+            gamestate.AddPieces(player2, pieces);
+            var gamePiece1 = gamestate.GetPieces(player2).Where(x => x == pieces[0]).FirstOrDefault();
+            var gamePiece2 = gamestate.GetPieces(player2).Where(x => x == pieces[1]).FirstOrDefault();
+
+            gamePiece1.Position = 9;
+            gamePiece1.Steps = 0;
+
+            gamePiece2.Position = 5;
+            gamePiece2.Steps = 6;
+
+            //Act
+            var canMove = gamestate.IsPieceClearForMoving(player2, pieces[1]);
+
+            //Assert
+            Assert.IsFalse(canMove);
+        }
+
+
+        [TestMethod]
+        public void IsPieceClearForMoving_CurrentPlayerPieceOnLandingSquare_False()
+        {
+            //Arrange
+            var gamestate = new GameState();
+
+            List<Piece> pieces = new List<Piece>();
+            var player2 = new Player("kaptenen");
+            pieces.Add(new Piece("blue"));
+            pieces.Add(new Piece("blue"));
+            gamestate.AddPieces(player2, pieces);
+            var gamePiece1 = gamestate.GetPieces(player2).Where(x => x == pieces[0]).FirstOrDefault();
+            var gamePiece2 = gamestate.GetPieces(player2).Where(x => x == pieces[1]).FirstOrDefault();
+
+            gamePiece1.Position = 11;
+            gamePiece1.Steps = 0;
+
+            gamePiece2.Position = 5;
+            gamePiece2.Steps = 6;
+
+            //Act
+            var canMove = gamestate.IsPieceClearForMoving(player2, pieces[1]);
+
+            //Assert
+            Assert.IsFalse(canMove);
+        }
+
+        [TestMethod]
+        public void IsPieceClearForMoving_NoPieceOnPath_True()
+        {
+            //Arrange
+            var gamestate = new GameState();
+            List<Piece> pieces = new List<Piece>();
+            var player = new Player("Sebbe");
+            pieces.Add(new Piece("Red"));
+            gamestate.AddPieces(player, pieces);
+            var gamePiece = gamestate.GetPieces(player).Where(x => x == pieces[0]).FirstOrDefault();
+            gamePiece.Position = 25;
+
+            List<Piece> pieces2 = new List<Piece>();
+            var player2 = new Player("kaptenen");
+            pieces2.Add(new Piece("blue"));
+            gamestate.AddPieces(player2, pieces2);
+            var gamePiece2 = gamestate.GetPieces(player2).Where(x => x == pieces2[0]).FirstOrDefault();
+            gamePiece2.Position = 11;
+            gamePiece2.Steps = 6;
+
+
+            //Act
+            var canMove = gamestate.IsPieceClearForMoving(player2, pieces2[0]);
+
+            //Assert
+            Assert.IsTrue(canMove);
+        }
 
         //[TestMethod]
         //public void ()
