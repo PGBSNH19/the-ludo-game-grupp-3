@@ -7,8 +7,7 @@ TO DO
 - Skapa databas
 - ändra piece texten
 - avsluta spelet 
-- sätta regler för att gå ut med  pjäsen
-- ta ut en pjäs från boet
+- sätta regler för att gå ut med  pjäsen(Nästa klar)
 - Fundera på hur vill vill att spelet ska se ut i konsolen
 
 
@@ -23,3 +22,4 @@ Complete:
 - knuff
 - Lägga till /ta bort från Dictionary
 - Planera för vilka tester vi ska göra först
+- ta ut en pjäs från boet()
