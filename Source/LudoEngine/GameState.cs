@@ -95,6 +95,8 @@ namespace LudoEngine
 
         public bool IsPieceClearForMoving(Player currentPlayer, Piece piece)
         {
+            // Looparna kan refaktoreras till Linq
+
             foreach (var p in playerPieces)
             {
                 foreach (var item in p.Value)
@@ -103,8 +105,14 @@ namespace LudoEngine
                     // Checks if the position of a piece found is in the way or in the same square we want to move to. 
                     if (item.Position > piece.Position && item.Position <= piece.Position + piece.Steps)
                     {
+                        if (piece.Position == 0 && item.Position == 1)
+                        {
+                            // If a player tries to move from 0 -> 1 and there is a piece there.
+                            return true;
+                        }
+
                         // If any of the sqaures in path are occupied.
-                        if (currentPlayer == p.Key)
+                        else if (currentPlayer == p.Key)
                         {
                             // If it's a piece owned by current player on the same square.
                             return false;
@@ -116,9 +124,9 @@ namespace LudoEngine
                             return true;
                         }
                     }
-
                 }
             }
+            // No pieces in the way
             return true;
         }
 

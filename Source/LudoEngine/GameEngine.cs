@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace LudoEngine
@@ -65,15 +66,74 @@ namespace LudoEngine
         {
             var players = game.GetPlayers();
             game.NextPlayer = players[0];
+
+
+            // break loop when last person has finished
             while (true)
             {
-                //game.MovePieces(game.NextPlayer
-                //    , game.GetPieces(game.NextPlayer)
-                //    , Dice.Roll());
+                // One round.
+                foreach (var p in players)
+                {
+                    var CurrentPlayerPieces = game.GetPieces(p);
+                    bool reroll = false;
+
+                    do
+                    {
+                        var activePieces = CurrentPlayerPieces.Where(x => x.IsActive == true).ToList();
+                        var inactivePieces = CurrentPlayerPieces.Where(x => x.IsActive == false).ToList();
+
+                        int roll = Dice.Roll();
+
+
+
+
+                        // If the player has any active pieces on the board 
+                        if((activePieces != null) 
+                            && (roll == 1 || roll == 6) 
+                            && inactivePieces.Count >= 1)
+                        {
+                            Menu.PickPieceToMove(activePieces, roll);
+                        }
+                        else if (activePieces != null)
+                        {
+                            Menu.PickActivePieceToMove(activePieces);
+                        }
+                        else if (roll == 1 || roll == 6)
+                        {
+                            Menu.PickInactivePieceToMove();
+                        }
+                        else
+                        {
+                            Console.WriteLine("You have no active pieces.");
+                        }
+                        
+                     
+
+                        if (roll == 6) { reroll = true; }
+
+                    } while (reroll);
+                    // Första killen ska rolla
+                    // Spara value på roll
+                    // rollar man 6 får man ett extra slag
+
+                    // om man har en pjäs isActive && HasFinished == false
+                    // Försök gå med en pjäs (eventuellt från lista)
+                    // Är det fritt, flytta.
+
+
+                    // Om man inte har en aktiv pjäs kolla efter 1 || 6
+                    // välj flytta en 6 steg eller 2 till "pos 1"
+                    // Försök gå med en pjäs (utav de som är inactive && HasFinished == false)
+                    // Är det min egen pjäs eller motståndarpjäs, flytta.
+
+
+                }
+
 
 
             }
         }
+        
         public string PickColor()
         {
             Console.WriteLine();

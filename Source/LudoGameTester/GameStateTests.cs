@@ -9,6 +9,8 @@ namespace LudoGameTester
     [TestClass]
     public class GameStateTests
     {
+
+
         [TestMethod]
         public void GetPlayers_ValidPlayers_True()
         {
@@ -69,6 +71,7 @@ namespace LudoGameTester
             Assert.AreEqual(5, gamePiece.Position);
         }
 
+        #region IsPieceClearForMovingTests
         [TestMethod]
         public void IsPieceClearForMoving_NoPieceOnTheLandingSquare_true()
         {
@@ -88,7 +91,6 @@ namespace LudoGameTester
             var gamePiece2 = gamestate.GetPieces(player2).Where(x => x == pieces2[0]).FirstOrDefault();
             gamePiece2.Position = 11;
             gamePiece2.Steps = 6;
-
 
             //Act
             var canMove = gamestate.IsPieceClearForMoving(player2, pieces2[0]);
@@ -209,6 +211,8 @@ namespace LudoGameTester
             //Assert
             Assert.IsTrue(canMove);
         }
+        #endregion
+
 
         //[TestMethod]
         //public void ()
