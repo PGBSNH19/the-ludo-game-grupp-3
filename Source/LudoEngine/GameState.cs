@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace LudoEngine
@@ -71,12 +72,19 @@ namespace LudoEngine
         {
             return PlayerPieces[player];
         }
-        public void MovePieces(Player player, Piece piece, int steps)
+        public void MovePiece(Player player, Piece piece, int steps)
         {
-            Console.WriteLine(piece);
-            //PlayerPieces[player].Position += steps;
-            Console.WriteLine(piece);
+            var correctPiece = PlayerPieces[player].Where(x => x == piece).FirstOrDefault();
+            correctPiece.Steps = steps;
+            if (true)
+            {
+                Console.Write($"You moved {correctPiece.Steps} from square {correctPiece.Position} ");
 
+                correctPiece.Position+= correctPiece.Steps;
+                Console.Write($"and landed on square {correctPiece.Position}.\n");
+
+            }
+            correctPiece.Steps = 0;
         }
 
         public override string ToString()
