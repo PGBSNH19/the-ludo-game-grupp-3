@@ -44,7 +44,7 @@ namespace LudoEngine
         public GameState StartNewGame()
         {
             var game = new GameState();
-
+            var pieces = new List<Piece>();
             for (int i = 0; i < NumberOfPlayers; i++)
             {
                 var p = new Player(GetName());
@@ -54,9 +54,9 @@ namespace LudoEngine
 
                 for (int j = 0; j < PiecesPerPlayer; j++)
                 {
-                    var peice = new Piece(pieceColor);
-                    game.AddPiece(p, peice);
+                    pieces.Add(new Piece(pieceColor));
                 }
+                    game.AddPieces(p, pieces);
             }
             return game;
         }
@@ -67,9 +67,9 @@ namespace LudoEngine
             game.NextPlayer = players[0];
             while (true)
             {
-                game.MovePieces(game.NextPlayer
-                    , game.GetPieces(game.NextPlayer)
-                    , Dice.Roll());
+                //game.MovePieces(game.NextPlayer
+                //    , game.GetPieces(game.NextPlayer)
+                //    , Dice.Roll());
 
 
             }

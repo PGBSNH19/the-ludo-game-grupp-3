@@ -12,12 +12,12 @@ namespace LudoEngine
         public bool HasFinished { get; set; }
         List<Player> players;
 
-        Dictionary<Player, Piece> PlayerPieces;
+        Dictionary<Player, List<Piece>> PlayerPieces;
 
         public GameState()
         {
             players = new List<Player>();
-            PlayerPieces = new Dictionary<Player, Piece>();
+            PlayerPieces = new Dictionary<Player, List<Piece>>();
         }
 
 
@@ -33,7 +33,7 @@ namespace LudoEngine
             : base()
         {
 
-            PlayerPieces = new Dictionary<Player, Piece>();
+            PlayerPieces = new Dictionary<Player, List<Piece>>();
 
             players.Add(playerOne);
             players.Add(playerTwo);
@@ -45,10 +45,10 @@ namespace LudoEngine
             {
                 if (player != null)
                 {
-                    PlayerPieces.Add(player, playerOnePieces[0]);
-                    PlayerPieces.Add(player, playerOnePieces[1]);
-                    PlayerPieces.Add(player, playerOnePieces[2]);
-                    PlayerPieces.Add(player, playerOnePieces[3]);
+                    //PlayerPieces.Add(player, playerOnePieces[0]);
+                    //PlayerPieces.Add(player, playerOnePieces[1]);
+                    //PlayerPieces.Add(player, playerOnePieces[2]);
+                    //PlayerPieces.Add(player, playerOnePieces[3]);
                 }
             }
         }
@@ -62,22 +62,23 @@ namespace LudoEngine
         {
             return players;
         }
-        public Piece GetPieces(Player player)
+        public void AddPieces(Player player,List<Piece> pieces)
+        {
+            PlayerPieces.Add(player, pieces);
+        }
+
+        public List<Piece> GetPieces(Player player)
         {
             return PlayerPieces[player];
         }
         public void MovePieces(Player player, Piece piece, int steps)
         {
             Console.WriteLine(piece);
-            PlayerPieces[player].Position += steps;
+            //PlayerPieces[player].Position += steps;
             Console.WriteLine(piece);
 
         }
 
-        public void AddPiece(Player player,Piece piece)
-        {
-            PlayerPieces.Add(player, piece);
-        }
         public override string ToString()
         {
             return $"Is the game {ID} finished: {HasFinished}.";
