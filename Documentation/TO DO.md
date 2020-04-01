@@ -1,10 +1,10 @@
 TO DO
 
+- Flytta allt som ska vara i GameEnige dit från GameState
+- 
 - Vi vill använda enum colors istället för att ha den som en sträng i klassen piece
-- Planera för vilka tester vi ska göra först
 - Fundera över AI-spelare och flowchart
 - Skapa databas
-- Lägga till /ta bort från Dictionaryn
 - ändra piece texten
 - avsluta spelet 
 - sätta regler för att gå ut med  pjäsen
@@ -21,3 +21,5 @@ Complete:
 - lägga till alla extentions (enity framework, sql, work tools)
 - Skapa alla klasser(outline) och metoder utifrån crc
 - knuff
+- Lägga till /ta bort från Dictionary
+- Planera för vilka tester vi ska göra först
