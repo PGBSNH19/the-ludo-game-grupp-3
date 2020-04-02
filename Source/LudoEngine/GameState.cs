@@ -76,6 +76,7 @@ namespace LudoEngine
         {
             return playerPieces[player];
         }
+
         public void MovePiece(Player player, Piece piece, int steps)
         {
             var correctPiece = playerPieces[player].Where(x => x == piece).FirstOrDefault();
