@@ -2,7 +2,7 @@
 
 - man kommer ur startzon på 1 eller 6
 - 1 hamnar man precis utanför start
-- 6 så får man flytta ut 2 pjäser eller gå 6 steg med en pjäs
+- 6 så får man flytta ut 2 pjäser eller gå 6 steg med en pjäs men inte gå till1 med en pjäs (om det bara finns en kvar)
 - varje 6 ger ett extra kast
 - för att vinna måste man gå in på exakt antal steg, annars studsar man tillbaka
 - För att vinna måste alla pläser gå in i mitten, först som får in alla vinner

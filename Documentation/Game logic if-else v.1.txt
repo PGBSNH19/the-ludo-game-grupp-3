@@ -1,0 +1,32 @@
+if (roll == 1 || roll == 6)
+                        {
+                            if (inactivePieces != null)
+                            {
+                                if (Menu.WantToMoveActivePiece())
+                                {
+                                    TryToMoveActivePiece(game,p,activePieces,roll);
+                                }
+                                else
+                                {
+                                    if (roll == 6)
+                                    {
+                                        if (inactivePieces.Count() > 1)
+                                        {
+                                            if (Menu.WantToMoveTwoPiecesFromYard())
+                                            {
+                                                MoveToStart(inactivePieces);
+                                                MoveToStart(inactivePieces);
+                                            }
+                                            else
+                                            {
+                                                CheckIfPieceCanMoveFromYard(game, p, activePieces, inactivePieces, roll);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            CheckIfPieceCanMoveFromYard(game, p, activePieces, inactivePieces, roll);
+                                        }
+                                    }
+                                }
+                            }
+                        }
