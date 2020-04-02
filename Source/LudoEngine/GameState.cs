@@ -93,41 +93,9 @@ namespace LudoEngine
             correctPiece.Steps = 0;
         }
 
-        public bool IsPieceClearForMoving(Player currentPlayer, Piece piece)
+        public Dictionary<Player, List<Piece>> GetPlayerPieces()
         {
-            // Looparna kan refaktoreras till Linq
-
-            foreach (var p in playerPieces)
-            {
-                foreach (var item in p.Value)
-                {
-                    // Checks position of each piece in front of the pice we want to move.
-                    // Checks if the position of a piece found is in the way or in the same square we want to move to. 
-                    if (item.Position > piece.Position && item.Position <= piece.Position + piece.Steps)
-                    {
-                        if (piece.Position == 0 && item.Position == 1)
-                        {
-                            // If a player tries to move from 0 -> 1 and there is a piece there.
-                            return true;
-                        }
-
-                        // If any of the sqaures in path are occupied.
-                        else if (currentPlayer == p.Key)
-                        {
-                            // If it's a piece owned by current player on the same square.
-                            return false;
-                        }
-                        else if (item.Position == piece.Position + piece.Steps)
-                        {
-                            // Push opponent piece back to start.
-                            item.Position = 0;
-                            return true;
-                        }
-                    }
-                }
-            }
-            // No pieces in the way
-            return true;
+            return playerPieces;
         }
 
 

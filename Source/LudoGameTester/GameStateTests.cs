@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 
+
 namespace LudoGameTester
 {
     [TestClass]
@@ -76,6 +77,9 @@ namespace LudoGameTester
         public void IsPieceClearForMoving_NoPieceOnTheLandingSquare_true()
         {
             //Arrange
+            var gameEngine = new GameEngine(2,1);
+           
+            
             var gamestate = new GameState();
             List<Piece> pieces = new List<Piece>();
             var player = new Player("Sebbe");
@@ -93,7 +97,7 @@ namespace LudoGameTester
             gamePiece2.Steps = 6;
 
             //Act
-            var canMove = gamestate.IsPieceClearForMoving(player2, pieces2[0]);
+            var canMove = gameEngine.IsPieceClearForMoving(player2, pieces2[0],gamestate);
 
             //Assert
             Assert.IsTrue(canMove);
@@ -103,6 +107,8 @@ namespace LudoGameTester
         public void IsPieceClearForMoving_OpponentPieceOnTheLandingSquare_True()
         {
             //Arrange
+            var gameEngine = new GameEngine(2, 1);
+
             var gamestate = new GameState();
             List<Piece> pieces = new List<Piece>();
             var player = new Player("Sebbe");
@@ -122,7 +128,7 @@ namespace LudoGameTester
 
 
             //Act
-            var canMove = gamestate.IsPieceClearForMoving(player2, pieces2[0]);
+            var canMove = gameEngine.IsPieceClearForMoving(player2, pieces2[0],gamestate);
 
             //Assert
             Assert.IsTrue(canMove);
@@ -133,6 +139,7 @@ namespace LudoGameTester
         public void IsPieceClearForMoving_CurrentPlayerPieceOnPath_False()
         {
             //Arrange
+            var gameEngine = new GameEngine(2, 1);
             var gamestate = new GameState();
            
             List<Piece> pieces = new List<Piece>();
@@ -150,7 +157,7 @@ namespace LudoGameTester
             gamePiece2.Steps = 6;
 
             //Act
-            var canMove = gamestate.IsPieceClearForMoving(player2, pieces[1]);
+            var canMove = gameEngine.IsPieceClearForMoving(player2, pieces[1],gamestate);
 
             //Assert
             Assert.IsFalse(canMove);
@@ -161,6 +168,7 @@ namespace LudoGameTester
         public void IsPieceClearForMoving_CurrentPlayerPieceOnLandingSquare_False()
         {
             //Arrange
+            var gameEngine = new GameEngine(2, 1);
             var gamestate = new GameState();
 
             List<Piece> pieces = new List<Piece>();
@@ -178,7 +186,7 @@ namespace LudoGameTester
             gamePiece2.Steps = 6;
 
             //Act
-            var canMove = gamestate.IsPieceClearForMoving(player2, pieces[1]);
+            var canMove = gameEngine.IsPieceClearForMoving(player2, pieces[1],gamestate);
 
             //Assert
             Assert.IsFalse(canMove);
@@ -189,6 +197,8 @@ namespace LudoGameTester
         {
             //Arrange
             var gamestate = new GameState();
+            var gameEngine = new GameEngine(2, 1);
+
             List<Piece> pieces = new List<Piece>();
             var player = new Player("Sebbe");
             pieces.Add(new Piece("Red"));
@@ -206,7 +216,7 @@ namespace LudoGameTester
 
 
             //Act
-            var canMove = gamestate.IsPieceClearForMoving(player2, pieces2[0]);
+            var canMove = gameEngine.IsPieceClearForMoving(player2, pieces2[0], gamestate);
 
             //Assert
             Assert.IsTrue(canMove);
