@@ -57,7 +57,7 @@ namespace LudoEngine
                 {
                     pieces.Add(new Piece(pieceColor));
                 }
-                    game.AddPieces(p, pieces);
+                game.AddPieces(p, pieces);
             }
             return game;
         }
@@ -88,11 +88,12 @@ namespace LudoEngine
 
 
                         // If the player has any active pieces on the board 
-                        if((activePieces != null) 
-                            && (roll == 1 || roll == 6) 
+                        if ((activePieces != null)
+                            && (roll == 1 || roll == 6)
                             && inactivePieces.Count >= 1)
                         {
-                            Menu.PickPieceToMove(activePieces, roll, inactivePieces);
+                           
+                            //Menu.PickPieceToMove(activePieces, roll, inactivePieces);
                         }
                         else if (activePieces != null)
                         {
@@ -106,8 +107,8 @@ namespace LudoEngine
                         {
                             Console.WriteLine("You have no active pieces.");
                         }
-                        
-                     
+
+
 
                         if (roll == 6) { reroll = true; }
 
@@ -133,7 +134,77 @@ namespace LudoEngine
 
             }
         }
-        
+        public static void PickPieceToMove(List<Piece> activePieces, int roll, List<Piece> inactivePieces, GameState game)
+        {
+
+            if (Menu.WantToMoveInactivePiece())
+            {
+                if (roll == 6)
+                {
+                    // Gör val av PickInactivePieceToMove eller PickActivePieceToMove
+                    if (inactivePieces.Count > 1 && Menu.WantToMoveTwoPiecesFromYard())
+                    {
+                    }
+                    else
+                    {
+
+                    }
+
+                }
+                else if (roll == 1)
+                {
+                    // Gör val av PickInactivePieceToMove eller PickActivePieceToMove
+
+                }
+
+
+            }
+            else
+            {
+
+            }
+
+
+            //skriv menu för inaktiva pjäser
+        }
+        public bool IsPieceClearForMoving(Player currentPlayer, Piece piece, GameState game)
+        {
+            var playerPieces = game.GetPlayerPieces();
+            // Looparna kan refaktoreras till Linq
+
+            foreach (var p in playerPieces)
+            {
+                foreach (var item in p.Value)
+                {
+                    // Checks position of each piece in front of the pice we want to move.
+                    // Checks if the position of a piece found is in the way or in the same square we want to move to. 
+                    if (item.Position > piece.Position && item.Position <= piece.Position + piece.Steps)
+                    {
+                        if (piece.Position == 0 && item.Position == 1)
+                        {
+                            // If a player tries to move from 0 -> 1 and there is a piece there.
+                            return true;
+                        }
+
+                        // If any of the sqaures in path are occupied.
+                        else if (currentPlayer == p.Key)
+                        {
+                            // If it's a piece owned by current player on the same square.
+                            return false;
+                        }
+                        else if (item.Position == piece.Position + piece.Steps)
+                        {
+                            // Push opponent piece back to start.
+                            item.Position = 0;
+                            return true;
+                        }
+                    }
+                }
+            }
+            // No pieces in the way
+            return true;
+        }
+
         public string PickColor()
         {
             Console.WriteLine();

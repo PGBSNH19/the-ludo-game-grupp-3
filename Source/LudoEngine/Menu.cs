@@ -12,6 +12,7 @@ namespace LudoEngine
 
         public static void PickActivePieceToMove(List<Piece> activePieces)
         {
+            
             //skriv menu för aktiva pjäser
         }
 
@@ -20,48 +21,17 @@ namespace LudoEngine
             //skriv menu för inaktiva pjäser
         }
 
-        public static void PickPieceToMove(List<Piece> activePieces, int roll, List<Piece> inactivePieces, GameEngine game)
+        
+
+        public static bool WantToMoveTwoPiecesFromYard()
         {
-
-            if (MoveFromYard())
-            {
-                if (roll == 6)
-                {
-                    // Gör val av PickInactivePieceToMove eller PickActivePieceToMove
-                    if (inactivePieces.Count>1 && MoveTwoFromYard())
-                    {
-                        
-                    }
-                    else
-                    {
-                        
-                    }
-                    
-                }
-                else if (roll == 1)
-                {
-                    // Gör val av PickInactivePieceToMove eller PickActivePieceToMove
-                    
-                }
-
-
-            }
-            else
-            {
-
-            }
-
-
-            //skriv menu för inaktiva pjäser
-        }
-
-        private static bool MoveTwoFromYard()
-        {
+            //fråga vill du flytta 2 gubbar till 1  från bo ja/nej
             return true;
         }
 
-        private static bool MoveFromYard()
+        public static bool WantToMoveInactivePiece()
         {
+            //vill du gå ut med gubbar eller vill du gå med en Active gubbe
             return true;
         }
     }
