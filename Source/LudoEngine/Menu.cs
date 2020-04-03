@@ -15,19 +15,53 @@ namespace LudoEngine
             Thread.Sleep(2000);
         }
 
-        public static Piece PickActivePieceToMove(List<Piece> activePieces)
-        {
+        
 
-            //skriv menu för aktiva pjäser
-            return null;
+        public static int PickFromList(List<Piece> list)
+        {
+            while (true)
+            {
+
+                Console.WriteLine("What piece do you want to move?");
+                int count = 0;
+                foreach (var item in list)
+                {
+                    count++;
+                    Console.WriteLine($"{count}.{item}");
+                }
+
+                try
+                {
+                    var playerpick = int.Parse(Console.ReadLine());
+
+                    if (playerpick > list.Count() || playerpick < 1)
+                    {
+                        throw new IndexOutOfRangeException();
+                    }
+                    else
+                    {
+                        return playerpick;
+
+                    }
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("Pick a valid piece.");
+                    Console.WriteLine();
+                    Thread.Sleep(2000);
+                }
+            }
         }
+
+
 
         public static void PickInactivePieceToMove()
         {
             //skriv menu för inaktiva pjäser
         }
 
-        
+
 
         public static bool WantToMoveTwoPiecesFromYard()
         {

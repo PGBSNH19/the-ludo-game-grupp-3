@@ -35,11 +35,11 @@ namespace LudoEngine
             }
         }
 
-        public void TryToMoveActivePiece(GameState game, Player p,List<Piece> activePieces, int roll)
+        public void TryToMoveActivePiece(GameState game, Player p, List<Piece> activePieces, int roll)
         {
             while (true)
             {
-                var activePiece = Menu.PickActivePieceToMove(activePieces);
+                var activePiece = PickActivePieceToMove(activePieces, Menu.PickFromList(activePieces));
                 if (IsPieceClearForMoving(p, activePiece, game))
                 {
                     game.MovePiece(p, activePiece, roll);
@@ -64,6 +64,7 @@ namespace LudoEngine
             var pieces = new List<Piece>();
             for (int i = 0; i < NumberOfPlayers; i++)
             {
+                pieces.Clear();
                 var p = new Player(GetName());
                 game.AddPlayer(p);
 
@@ -83,7 +84,6 @@ namespace LudoEngine
             var players = game.GetPlayers();
             game.NextPlayer = players[0];
 
-
             // break loop when last person has finished
             while (true)
             {
@@ -99,6 +99,7 @@ namespace LudoEngine
                         var activePieces = CurrentPlayerPieces.Where(x => x.IsActive == true).ToList();
                         var inactivePieces = CurrentPlayerPieces.Where(x => x.IsActive == false).ToList();
                         int roll = Dice.Roll();
+                        //skriv ut roll till användaren
 
                         if (roll == 1 || roll == 6)
                         {
@@ -118,29 +119,27 @@ namespace LudoEngine
             }
         }
 
-        private void UserRolledTwoToFive(GameState game, Player p, List<Piece> activePieces, List<Piece> inactivePieces, int roll)
+        public void UserRolledTwoToFive(GameState game, Player p, List<Piece> activePieces, List<Piece> inactivePieces, int roll)
         {
 
             if (roll > 1 && roll < 6
-                && activePieces != null)
+                && activePieces.Count() != 0)
             {
                 TryToMoveActivePiece(game, p, activePieces, roll);
             }
 
             if (roll > 1 && roll < 6
-                && activePieces == null
-                || activePieces.Count() == 0)
+                && activePieces.Count() == 0)
             {
                 Menu.InvalidPieceMove();
-                break;
             }
         }
 
 
-        private void UserRolledOneOrSix(GameState game, Player p, List<Piece> activePieces, List<Piece> inactivePieces, int roll)
+        public void UserRolledOneOrSix(GameState game, Player p, List<Piece> activePieces, List<Piece> inactivePieces, int roll)
         {
-            #region If the user rolls 1 or 6
-            // If the user has no opieces in yard and rolled 1 or 6.
+
+            // If the user has no pieces in yard and rolled 1 or 6.
             if ((roll == 1 || roll == 6)
                 && inactivePieces == null)
             {
@@ -210,10 +209,10 @@ namespace LudoEngine
             {
                 CheckIfPieceCanMoveFromYard(game, p, activePieces, inactivePieces, roll);
             }
-            #endregion
+
         }
 
-        private void CheckIfPieceCanMoveFromYard(GameState game, Player p, List<Piece> activePieces, List<Piece> inactivePieces, int roll)
+        public void CheckIfPieceCanMoveFromYard(GameState game, Player p, List<Piece> activePieces, List<Piece> inactivePieces, int roll)
         {
             if (IsPieceClearForMoving(p, inactivePieces[0], game))
             {
@@ -225,7 +224,7 @@ namespace LudoEngine
             }
         }
 
-       
+
         public bool IsPieceClearForMoving(Player currentPlayer, Piece piece, GameState game)
         {
             var playerPieces = game.GetPlayerPieces();
@@ -299,6 +298,11 @@ namespace LudoEngine
         {
             inactivePieces.FirstOrDefault().IsActive = true;
             inactivePieces.FirstOrDefault().Position = 1;
+        }
+        public Piece PickActivePieceToMove(List<Piece> activePieces, int playerpick)
+        {
+            return activePieces[playerpick - 1];
+
         }
 
     }

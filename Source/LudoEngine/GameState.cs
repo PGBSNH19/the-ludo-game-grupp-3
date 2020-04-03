@@ -67,7 +67,7 @@ namespace LudoEngine
         {
             return players;
         }
-        public void AddPieces(Player player,List<Piece> pieces)
+        public void AddPieces(Player player, List<Piece> pieces)
         {
             playerPieces.Add(player, pieces);
         }
@@ -82,15 +82,13 @@ namespace LudoEngine
             var correctPiece = playerPieces[player].Where(x => x == piece).FirstOrDefault();
             correctPiece.Steps = steps;
 
-            // A method should determine if the piece can move to the square it is intending.
-            if (true)
-            {
-                Console.Write($"You moved {correctPiece.Steps} from square {correctPiece.Position} ");
 
-                correctPiece.Position+= correctPiece.Steps;
-                Console.Write($"and landed on square {correctPiece.Position}.\n");
+            Console.Write($"You moved {correctPiece.Steps} from square {correctPiece.Position} ");
 
-            }
+            correctPiece.Position += correctPiece.Steps;
+
+            Console.Write($"and landed on square {correctPiece.Position}.\n");
+
             correctPiece.Steps = 0;
         }
 
