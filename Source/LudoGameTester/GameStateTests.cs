@@ -224,17 +224,37 @@ namespace LudoGameTester
         #endregion
 
 
-        //[TestMethod]
-        //public void ()
-        //{
-        //    //Arrange
+        [TestMethod]
+        public void PlayGame_RolledOneThereIsInActivePieces_True()
+        {
+            //Arrange
+            var gamestate = new GameState();
+            var gameEngine = new GameEngine(2, 1);
 
-        //    //Act
+            List<Piece> pieces = new List<Piece>();
+            var player = new Player("Sebbe");
+            pieces.Add(new Piece("Red"));
+            gamestate.AddPieces(player, pieces);
+            var gamePiece = gamestate.GetPieces(player).Where(x => x == pieces[0]).FirstOrDefault();
+            gamePiece.Position = 0;
 
-        //    //Assert
+            //Act
+            gameEngine.PlayGame(gamestate);
+            //Assert
 
-        //}
+        }
+
+    //[TestMethod]
+    //public void ()
+    //{
+    //    //Arrange
+
+    //    //Act
+
+    //    //Assert
+
+    //}
 
 
-    }
+}
 }
