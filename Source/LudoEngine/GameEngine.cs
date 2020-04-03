@@ -40,6 +40,7 @@ namespace LudoEngine
             while (true)
             {
                 var activePiece = PickActivePieceToMove(activePieces, Menu.PickFromList(activePieces));
+
                 if (IsPieceClearForMoving(p, activePiece, game))
                 {
                     game.MovePiece(p, activePiece, roll);
@@ -47,7 +48,8 @@ namespace LudoEngine
                 }
                 else
                 {
-                    Menu.InvalidPieceMove();
+                    Console.WriteLine("The path is blocked, choose another piece to move.");
+                    Thread.Sleep(2000);
                 }
             }
         }
@@ -98,8 +100,17 @@ namespace LudoEngine
                     {
                         var activePieces = CurrentPlayerPieces.Where(x => x.IsActive == true).ToList();
                         var inactivePieces = CurrentPlayerPieces.Where(x => x.IsActive == false).ToList();
+
+                        Console.Clear();
+                        //här ska vi skriva ut current game state så man vet var pjäserna står.
+                        Menu.PrintPlayerName(p);
+
+                        // Promts user to roll the dice and prints the roll in the console.
+                        Menu.PromtUserToRollDice();
+                        Console.ReadKey();
                         int roll = Dice.Roll();
-                        //skriv ut roll till användaren
+                        roll = 6;
+                        Menu.PrintDiceRoll(p, roll);
 
                         if (roll == 1 || roll == 6)
                         {
@@ -119,6 +130,102 @@ namespace LudoEngine
             }
         }
 
+        public void UserRolledOneOrSix(GameState game, Player p, List<Piece> activePieces, List<Piece> inactivePieces, int roll)
+        {
+            var inactivePieceCount = inactivePieces.Count();
+            var activePieceCount = activePieces.Count();
+            bool moveActive = false;
+
+            if (activePieceCount > 0)
+            {
+                moveActive = Menu.WantToMoveActivePiece();
+            }
+
+
+
+
+            // If the user has no pieces in yard and rolled 1 or 6.
+            if ((roll == 1 || roll == 6)
+                && inactivePieces.Count == 0)
+            {
+                TryToMoveActivePiece(game, p, activePieces, roll);
+            }
+
+            // If the user has chosen to move an ACTIVE piece. Moves if possible.
+            if ((roll == 1 || roll == 6)
+                && activePieces.Count > 0
+                && Menu.WantToMoveActivePiece())
+            {
+                TryToMoveActivePiece(game, p, activePieces, roll);
+            }
+
+            // If the user has chosen to move an INACTIVE piece to square 1, will always move.
+            if (roll == 1 && inactivePieces.Count() > 0
+                && !moveActive)
+            {
+                MoveToStart(inactivePieces);
+            }
+
+            // If the user has chosen to move an INACTIVE piece to sqaure 6 and the path is blocked by own piece.
+            // Tries to move an active piece instead.
+            if (roll == 6 
+                && inactivePieces.Count() == 1
+                && !moveActive
+                && CanPieceMoveFromYard(game, p, activePieces, inactivePieces, roll))
+            {
+                 game.MovePiece(p, inactivePieces[0], roll);
+            }
+
+            if (roll == 6
+                && inactivePieces.Count() == 1
+                && !moveActive
+                && !CanPieceMoveFromYard(game, p, activePieces, inactivePieces, roll))
+            {
+                Console.WriteLine("The path is blocked. You have to move an active piece.");
+                Thread.Sleep(2000);
+                TryToMoveActivePiece(game, p, activePieces, roll);
+            }
+
+            // If the user wants to move 2 INACTIVE pieces and there are at least 2 available. 
+            // Then sets the 2 first pieces to square 1.
+            if (roll == 6
+                && !moveActive
+                && inactivePieces.Count() > 1
+                && Menu.WantToMoveTwoPiecesFromYard())
+            {
+                MoveToStart(inactivePieces);
+                MoveToStart(inactivePieces);
+            }
+
+            // If the user wants to move 2 INACTIVE pieces and there aren't 2 available. 
+            // Prompts the user to choose to move an active piece instead.
+            // Otherwise tries to move to square 6.
+            if (roll == 6
+                && !moveActive
+                && inactivePieces.Count() <= 1
+                && Menu.WantToMoveTwoPiecesFromYard())
+            {
+                Console.WriteLine();
+                Console.WriteLine("You dont have 2 pieces available in yard.");
+
+                if (Menu.WantToMoveActivePiece())
+                {
+                    TryToMoveActivePiece(game, p, activePieces, roll);
+                }
+                CanPieceMoveFromYard(game, p, activePieces, inactivePieces, roll);
+            }
+
+            // If the user has chosen to move an INACTIVE piece to sqaure 6 if possible. 
+            if (roll == 6 && inactivePieces.Count() > 0
+                && inactivePieces.Count() > 1
+                && !moveActive
+                && !Menu.WantToMoveTwoPiecesFromYard())
+            {
+                CanPieceMoveFromYard(game, p, activePieces, inactivePieces, roll);
+            }
+
+        }
+
         public void UserRolledTwoToFive(GameState game, Player p, List<Piece> activePieces, List<Piece> inactivePieces, int roll)
         {
 
@@ -131,99 +238,21 @@ namespace LudoEngine
             if (roll > 1 && roll < 6
                 && activePieces.Count() == 0)
             {
-                Menu.InvalidPieceMove();
+                Menu.PrintNoActivePieces();
             }
         }
 
-
-        public void UserRolledOneOrSix(GameState game, Player p, List<Piece> activePieces, List<Piece> inactivePieces, int roll)
-        {
-
-            // If the user has no pieces in yard and rolled 1 or 6.
-            if ((roll == 1 || roll == 6)
-                && inactivePieces == null)
-            {
-                TryToMoveActivePiece(game, p, activePieces, roll);
-            }
-
-            // If the user has chosen to move an ACTIVE piece. Moves if possible.
-            if ((roll == 1 || roll == 6)
-                && inactivePieces != null
-                && Menu.WantToMoveActivePiece())
-            {
-                TryToMoveActivePiece(game, p, activePieces, roll);
-            }
-
-
-            // If the user has chosen to move an INACTIVE piece to square 1, will always move.
-            if (roll == 1 && inactivePieces != null
-                && !Menu.WantToMoveActivePiece()
-                && inactivePieces.Count() <= 1)
-            {
-                MoveToStart(inactivePieces);
-            }
-
-            // If the user has chosen to move an INACTIVE piece to sqaure 6 and the path is blocked by own piece.
-            // Tries to move an active piece instead.
-            if (roll == 6 && inactivePieces != null
-                && !Menu.WantToMoveActivePiece()
-                && inactivePieces.Count() <= 1)
-            {
-                CheckIfPieceCanMoveFromYard(game, p, activePieces, inactivePieces, roll);
-            }
-
-            // If the user wants to move 2 INACTIVE pieces and there are at least 2 available. 
-            // Then sets the 2 first pieces to square 1.
-            if (roll == 6 && inactivePieces != null
-                && !Menu.WantToMoveActivePiece()
-                && inactivePieces.Count() > 1
-                && Menu.WantToMoveTwoPiecesFromYard())
-            {
-                MoveToStart(inactivePieces);
-                MoveToStart(inactivePieces);
-            }
-
-            // If the user wants to move 2 INACTIVE pieces and there aren't 2 available. 
-            // Prompts the user to choose to move an active piece instead.
-            // Otherwise tries to move to square 6.
-            if (roll == 6 && inactivePieces != null
-                && !Menu.WantToMoveActivePiece()
-                && inactivePieces.Count() <= 1
-                && Menu.WantToMoveTwoPiecesFromYard())
-            {
-                Console.WriteLine();
-                Console.WriteLine("You dont have 2 pieces available in yard.");
-
-                if (Menu.WantToMoveActivePiece())
-                {
-                    TryToMoveActivePiece(game, p, activePieces, roll);
-                }
-                CheckIfPieceCanMoveFromYard(game, p, activePieces, inactivePieces, roll);
-            }
-
-            // If the user has chosen to move an INACTIVE piece to sqaure 6 if possible. 
-            if (roll == 6 && inactivePieces != null
-                && inactivePieces.Count() > 1
-                && !Menu.WantToMoveActivePiece()
-                && !Menu.WantToMoveTwoPiecesFromYard())
-            {
-                CheckIfPieceCanMoveFromYard(game, p, activePieces, inactivePieces, roll);
-            }
-
-        }
-
-        public void CheckIfPieceCanMoveFromYard(GameState game, Player p, List<Piece> activePieces, List<Piece> inactivePieces, int roll)
+        public bool CanPieceMoveFromYard(GameState game, Player p, List<Piece> activePieces, List<Piece> inactivePieces, int roll)
         {
             if (IsPieceClearForMoving(p, inactivePieces[0], game))
             {
-                game.MovePiece(p, inactivePieces[0], roll);
+                return true;
             }
             else
             {
-                TryToMoveActivePiece(game, p, activePieces, roll);
+                return false;
             }
         }
-
 
         public bool IsPieceClearForMoving(Player currentPlayer, Piece piece, GameState game)
         {

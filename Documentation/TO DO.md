@@ -1,13 +1,13 @@
 TO DO
 
-- Skriva tester för den nya logiken i gameEngine.
-- Fixa menymetoderna
-- testköra programmet
+- Fortsätt bryta ut Menu.WantToMoveTwoPiecesFromYard() ur if-satserna.
+- Skriva tester för den nya logiken i gameEngine.(börjat)
+- Fixa menymetoderna(börjat)
 - Vi vill använda enum colors istället för att ha den som en sträng i klassen piece
 - Fundera över AI-spelare och flowchart
 - Skapa databas
 - ändra piece texten
-- avsluta spelet 
+- Fixa logik för slutsträckan 
 - Fundera på hur vill vill att spelet ska se ut i konsolen
 
 
@@ -26,3 +26,4 @@ Complete:
 - Flytta allt som ska vara i GameEnige dit från GameState
 - sätta regler för att gå ut med  pjäsen
 - Gjort all logik enligt spelreglerna
+- testköra programmet

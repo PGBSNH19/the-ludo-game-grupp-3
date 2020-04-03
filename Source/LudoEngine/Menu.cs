@@ -9,13 +9,32 @@ namespace LudoEngine
     public class Menu
     {
 
-        public static void InvalidPieceMove()
+        public static void PrintNoActivePieces()
         {
-            Console.WriteLine("Sorry You can't move that piece.");
+            Console.WriteLine();
+            Console.WriteLine("You need to roll 1 or 6 to move pieces from yard.");
+            Console.WriteLine();
             Thread.Sleep(2000);
         }
 
-        
+        public static void PromtUserToRollDice()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Press any key to roll the dice.");
+            Console.WriteLine();
+        }
+
+        public static void PrintPlayerName(Player player)
+        {
+            Console.WriteLine();
+            Console.WriteLine($"It's {player.Name}'s turn.");
+            Console.WriteLine();
+        }
+        public static void PrintDiceRoll(Player player, int roll)
+        {
+            Console.WriteLine($"{player.Name} rolled {roll}.");
+        }
+
 
         public static int PickFromList(List<Piece> list)
         {
@@ -66,13 +85,16 @@ namespace LudoEngine
         public static bool WantToMoveTwoPiecesFromYard()
         {
             //fråga vill du flytta 2 gubbar till 1  från bo ja/nej
-            return true;
+            Console.WriteLine("Do you want to move 2 pieces to square 1?");
+
+            return bool.Parse(Console.ReadLine());
         }
 
         public static bool WantToMoveActivePiece()
         {
-            //vill du gå ut med gubbar eller vill du gå med en Active gubbe
-            return true;
+            Console.WriteLine("Do you want to move an active piece?");
+
+            return bool.Parse(Console.ReadLine());
         }
     }
 }
