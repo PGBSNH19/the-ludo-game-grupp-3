@@ -83,7 +83,7 @@ namespace LudoEngine
             correctPiece.Steps = steps;
 
 
-            Console.Write($"You moved {correctPiece.Steps} from square {correctPiece.Position} ");
+            Console.Write($"You moved {correctPiece.Steps} steps from square {correctPiece.Position} ");
 
             correctPiece.Position += correctPiece.Steps;
 

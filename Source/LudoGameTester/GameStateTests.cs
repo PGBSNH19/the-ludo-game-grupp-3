@@ -227,7 +227,8 @@ namespace LudoGameTester
         [TestMethod]
         public void PickActivePieceToMove_ThereAreActivePieces_True()
         {
-            var gameEngine = new GameEngine(1,3);
+
+            var gameEngine = new GameEngine(2,3);
             //Arrange
             var activePieceList = new List<Piece>
             {
@@ -242,41 +243,40 @@ namespace LudoGameTester
             //Assert
             Assert.AreEqual(activePieceList[2], result);
         }
-       
 
-        #endregion
+    #endregion
 
-        //[TestMethod]
-        //public void PlayGame_RolledOneThereIsInActivePieces_True()
-        //{
-        //    //Arrange
-        //    var gamestate = new GameState();
-        //    var gameEngine = new GameEngine(2, 1);
+    //[TestMethod]
+    //public void PlayGame_RolledOneThereIsInActivePieces_True()
+    //{
+    //    //Arrange
+    //    var gamestate = new GameState();
+    //    var gameEngine = new GameEngine(2, 1);
 
-        //    List<Piece> pieces = new List<Piece>();
-        //    var player = new Player("Sebbe");
-        //    pieces.Add(new Piece("Red"));
-        //    gamestate.AddPieces(player, pieces);
-        //    var gamePiece = gamestate.GetPieces(player).Where(x => x == pieces[0]).FirstOrDefault();
-        //    gamePiece.Position = 0;
+    //    List<Piece> pieces = new List<Piece>();
+    //    var player = new Player("Sebbe");
+    //    pieces.Add(new Piece("Red"));
+    //    gamestate.AddPieces(player, pieces);
+    //    var gamePiece = gamestate.GetPieces(player).Where(x => x == pieces[0]).FirstOrDefault();
+    //    gamePiece.Position = 0;
 
-        //    //Act
-        //    gameEngine.PlayGame(gamestate);
-        //    //Assert
+    //    //Act
+    //    gameEngine.PlayGame(gamestate);
+    //    //Assert
 
-        //}
+    //}
 
-        //[TestMethod]
-        //public void ()
-        //{
-        //    //Arrange
+    //[TestMethod]
+    //public void ()
+    //{
+    //    //Arrange
 
-        //    //Act
+    //    //Act
 
-        //    //Assert
+    //    //Assert
 
-        //}
+    //}
 
 
-    }
+}
 }
