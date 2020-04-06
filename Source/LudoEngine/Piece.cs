@@ -12,7 +12,14 @@ namespace LudoEngine
         public int Steps { get; set; }
         public int Position { get; set; }
         public string Color { get; set; }
-
+        public enum colors
+        {
+            red ,
+            blue,
+            green,
+            yellow
+           
+        }
         public Piece(string color)
         {
             IsActive = false;
@@ -24,7 +31,7 @@ namespace LudoEngine
 
         public override string ToString()
         {
-            return $"{ID} of {Color} moved {Steps} steps to the position {Position} and has finished:{HasFinished}.";
+            return $"Piece: {ID} of {Color} has the position {Position}.";
         }
     }
 }

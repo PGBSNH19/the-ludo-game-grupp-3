@@ -87,14 +87,49 @@ namespace LudoEngine
             //fråga vill du flytta 2 gubbar till 1  från bo ja/nej
             Console.WriteLine("Do you want to move 2 pieces to square 1?");
 
-            return bool.Parse(Console.ReadLine());
+            while (true)
+            {
+                var input = Console.ReadLine();
+                switch (input)
+                {
+                    case "yes":
+                        return true;
+
+
+                    case "no":
+                        return false;
+
+
+                    default:
+                        Console.WriteLine("Please enter yes or no");
+                        break;
+                }
+            }
+
         }
 
         public static bool WantToMoveActivePiece()
         {
             Console.WriteLine("Do you want to move an active piece?");
 
-            return bool.Parse(Console.ReadLine());
+            while (true)
+            {
+                var input = Console.ReadLine();
+                switch (input)
+                {
+                    case "yes":
+                        return true;
+
+
+                    case "no":
+                        return false;
+
+
+                    default:
+                        Console.WriteLine("Please enter yes or no");
+                        break;
+                }
+            }
         }
     }
 }

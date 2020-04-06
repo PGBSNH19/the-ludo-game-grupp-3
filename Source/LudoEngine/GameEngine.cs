@@ -9,7 +9,6 @@ namespace LudoEngine
     public class GameEngine
     {
 
-
         private int _numberOfPlayers;
         public int PiecesPerPlayer { get; set; }
 
@@ -37,11 +36,12 @@ namespace LudoEngine
 
         public void TryToMoveActivePiece(GameState game, Player p, List<Piece> activePieces, int roll)
         {
+
             while (true)
             {
                 var activePiece = PickActivePieceToMove(activePieces, Menu.PickFromList(activePieces));
 
-                if (IsPieceClearForMoving(p, activePiece, game))
+                if (IsPieceClearForMoving(p, activePiece, game, roll))
                 {
                     game.MovePiece(p, activePiece, roll);
                     break;
@@ -116,7 +116,7 @@ namespace LudoEngine
                         {
                             UserRolledOneOrSix(game, p, activePieces, inactivePieces, roll);
                         }
-                        if (roll > 1 || roll < 6)
+                        if (roll > 1 && roll < 6)
                         {
                             UserRolledTwoToFive(game, p, activePieces, inactivePieces, roll);
                         }
@@ -183,15 +183,17 @@ namespace LudoEngine
             if (roll == 6
                 && inactivePieces.Count() == 1
                 && !moveActive
-                && IsPieceClearForMoving(p, inactivePieces[0], game))
+                && IsPieceClearForMoving(p, inactivePieces[0], game, roll))
             {
-                game.MovePiece(p, inactivePieces[0], inactivePieces[0].Steps);
+                game.MovePiece(p, inactivePieces[0], roll);
+                inactivePieces.RemoveAt(0);
+
             }
 
             if (roll == 6
                 && inactivePieces.Count() == 1
                 && !moveActive
-                && !IsPieceClearForMoving(p, inactivePieces[0], game))
+                && !IsPieceClearForMoving(p, inactivePieces[0], game, roll))
             {
                 Console.WriteLine("The path is blocked. You have to move an active piece.");
                 Thread.Sleep(2000);
@@ -207,22 +209,25 @@ namespace LudoEngine
             {
                 MoveToStart(inactivePieces);
                 MoveToStart(inactivePieces);
+                Console.WriteLine("You moved 2 pieces to squere one.");
+                Thread.Sleep(2000);
             }
 
             // If the user has chosen to move an INACTIVE piece to sqaure 6 if possible. 
             if (roll == 6 && inactivePieces.Count() > 0
                 && !moveActive
                 && !moveTwoPiecesFromYard
-                && IsPieceClearForMoving(p, inactivePieces[0], game))
+                && IsPieceClearForMoving(p, inactivePieces[0], game, roll))
             {
-                game.MovePiece(p,inactivePieces[0],inactivePieces[0].Steps);
+                game.MovePiece(p, inactivePieces[0], roll);
+                inactivePieces.RemoveAt(0);
             }
 
 
             if (roll == 6 && inactivePieces.Count() > 0
                    && !moveActive
                    && !moveTwoPiecesFromYard
-                   && !IsPieceClearForMoving(p, inactivePieces[0], game))
+                   && !IsPieceClearForMoving(p, inactivePieces[0], game, roll))
             {
                 Console.WriteLine("The path is blocked. You have to move an active piece.");
                 Thread.Sleep(2000);
@@ -245,19 +250,7 @@ namespace LudoEngine
             }
         }
 
-        //public bool CanPieceMoveFromYard(GameState game, Player p, List<Piece> activePieces, List<Piece> inactivePieces, int roll)
-        //{
-        //    if (IsPieceClearForMoving(p, inactivePieces[0], game))
-        //    {
-        //        return true;
-        //    }
-        //    else
-        //    {
-        //        return false;
-        //    }
-        //}
-
-        public bool IsPieceClearForMoving(Player currentPlayer, Piece piece, GameState game)
+        public bool IsPieceClearForMoving(Player currentPlayer, Piece piece, GameState game, int roll)
         {
             var playerPieces = game.GetPlayerPieces();
             // Looparna kan refaktoreras till Linq
@@ -268,7 +261,7 @@ namespace LudoEngine
                 {
                     // Checks position of each piece in front of the pice we want to move.
                     // Checks if the position of a piece found is in the way or in the same square we want to move to. 
-                    if (item.Position > piece.Position && item.Position <= piece.Position + piece.Steps)
+                    if (item.Position > piece.Position && item.Position <= (piece.Position + roll))
                     {
                         if (piece.Position == 0 && item.Position == 1)
                         {
@@ -282,7 +275,7 @@ namespace LudoEngine
                             // If it's a piece owned by current player on the same square.
                             return false;
                         }
-                        else if (item.Position == piece.Position + piece.Steps)
+                        else if (item.Position == piece.Position + roll)
                         {
                             // Push opponent piece back to start.
                             item.Position = 0;
@@ -328,8 +321,9 @@ namespace LudoEngine
 
         public void MoveToStart(List<Piece> inactivePieces)
         {
-            inactivePieces.FirstOrDefault().IsActive = true;
-            inactivePieces.FirstOrDefault().Position = 1;
+            var piece = inactivePieces.Where(x => x.IsActive == false).ToList();
+            piece.FirstOrDefault().IsActive = true;
+            piece.FirstOrDefault().Position = 1;
         }
         public Piece PickActivePieceToMove(List<Piece> activePieces, int playerpick)
         {

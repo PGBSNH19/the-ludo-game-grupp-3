@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace LudoEngine
 {
@@ -88,8 +89,9 @@ namespace LudoEngine
             correctPiece.Position += correctPiece.Steps;
 
             Console.Write($"and landed on square {correctPiece.Position}.\n");
-
+            correctPiece.IsActive = true;
             correctPiece.Steps = 0;
+            Thread.Sleep(2500);
         }
 
         public Dictionary<Player, List<Piece>> GetPlayerPieces()

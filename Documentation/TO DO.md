@@ -1,21 +1,20 @@
 TO DO
 
-- Fortsätt bryta ut Menu.WantToMoveTwoPiecesFromYard() ur if-satserna.
 - Skriva tester för den nya logiken i gameEngine.(börjat)
 - Fixa menymetoderna(börjat)
 - Vi vill använda enum colors istället för att ha den som en sträng i klassen piece
 - Fundera över AI-spelare och flowchart
 - Skapa databas
-- ändra piece texten
 - Fixa logik för slutsträckan 
 - Fundera på hur vill vill att spelet ska se ut i konsolen
-
 
 
 
 Complete:
 
 - Skapa class lib
+- ändra piece texten
+- Fortsätt bryta ut Menu.WantToMoveTwoPiecesFromYard() ur if-satserna.
 - skapa console app
 - lägga till alla extentions (enity framework, sql, work tools)
 - Skapa alla klasser(outline) och metoder utifrån crc
