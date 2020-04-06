@@ -97,7 +97,7 @@ namespace LudoGameTester
             gamePiece2.Steps = 6;
 
             //Act
-            var canMove = gameEngine.IsPieceClearForMoving(player2, pieces2[0], gamestate);
+            var canMove = gameEngine.IsPieceClearForMoving(player2, pieces2[0], gamestate, gamePiece2.Steps);
 
             //Assert
             Assert.IsTrue(canMove);
@@ -128,7 +128,7 @@ namespace LudoGameTester
 
 
             //Act
-            var canMove = gameEngine.IsPieceClearForMoving(player2, pieces2[0], gamestate);
+            var canMove = gameEngine.IsPieceClearForMoving(player2, pieces2[0], gamestate, gamePiece2.Steps);
 
             //Assert
             Assert.IsTrue(canMove);
@@ -157,7 +157,7 @@ namespace LudoGameTester
             gamePiece2.Steps = 6;
 
             //Act
-            var canMove = gameEngine.IsPieceClearForMoving(player2, pieces[1], gamestate);
+            var canMove = gameEngine.IsPieceClearForMoving(player2, pieces[1], gamestate, gamePiece2.Steps);
 
             //Assert
             Assert.IsFalse(canMove);
@@ -186,7 +186,7 @@ namespace LudoGameTester
             gamePiece2.Steps = 6;
 
             //Act
-            var canMove = gameEngine.IsPieceClearForMoving(player2, pieces[1], gamestate);
+            var canMove = gameEngine.IsPieceClearForMoving(player2, pieces[1], gamestate, gamePiece2.Steps);
 
             //Assert
             Assert.IsFalse(canMove);
@@ -213,10 +213,10 @@ namespace LudoGameTester
             var gamePiece2 = gamestate.GetPieces(player2).Where(x => x == pieces2[0]).FirstOrDefault();
             gamePiece2.Position = 11;
             gamePiece2.Steps = 6;
-
+            
 
             //Act
-            var canMove = gameEngine.IsPieceClearForMoving(player2, pieces2[0], gamestate);
+            var canMove = gameEngine.IsPieceClearForMoving(player2, pieces2[0], gamestate, gamePiece2.Steps);
 
             //Assert
             Assert.IsTrue(canMove);

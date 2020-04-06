@@ -18,4 +18,9 @@
     <ProjectReference Include="..\LudoEngine\LudoEngine.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DatabaseModels\" />
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

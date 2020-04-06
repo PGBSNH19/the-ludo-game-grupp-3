@@ -7,6 +7,9 @@ TO DO
 - Skapa databas
 - Fixa logik för slutsträckan 
 - Fundera på hur vill vill att spelet ska se ut i konsolen
+- Gör så att man kan välja färg med tangenterna
+- flera spelare kan inte ha samma färg och ta bort valda färger ur listan med färger 
+- kolla så knuffen fungerar
 
 
 

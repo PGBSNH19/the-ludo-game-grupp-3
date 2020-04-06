@@ -9,8 +9,11 @@ namespace LudoEngine
     public class GameEngine
     {
 
+
+
         private int _numberOfPlayers;
         public int PiecesPerPlayer { get; set; }
+
 
         /// <summary>
         /// There has to be between 2 and 4 players.
@@ -36,7 +39,6 @@ namespace LudoEngine
 
         public void TryToMoveActivePiece(GameState game, Player p, List<Piece> activePieces, int roll)
         {
-
             while (true)
             {
                 var activePiece = PickActivePieceToMove(activePieces, Menu.PickFromList(activePieces));
@@ -70,7 +72,7 @@ namespace LudoEngine
                 var p = new Player(GetName());
                 game.AddPlayer(p);
 
-                string pieceColor = PickColor();
+                Colors pieceColor = PickColor();
 
                 for (int j = 0; j < PiecesPerPlayer; j++)
                 {
@@ -166,6 +168,7 @@ namespace LudoEngine
             // If the user has chosen to move an ACTIVE piece. Moves if possible.
             if ((roll == 1 || roll == 6)
                 && activePieces.Count > 0
+                && inactivePieces.Count != 0
                 && moveActive)
             {
                 TryToMoveActivePiece(game, p, activePieces, roll);
@@ -288,15 +291,39 @@ namespace LudoEngine
             return true;
         }
 
-        public string PickColor()
+        public Colors PickColor()
         {
             Console.WriteLine();
-            Console.Write("Choose a color: ");
-            string color = Console.ReadLine();
+            Console.WriteLine("Choose a color: ");
+            var colors = Enum.GetValues(typeof(Colors));
+
+            foreach (var item in colors)
+            {
+                Console.WriteLine(item);
+            }
+
+            while (true)
+            {
+                string input = Console.ReadLine().ToLower();
+
+                switch (input)
+                {
+                    case "red":
+                        return Colors.red;
+                    case "green":
+                        return Colors.green;
+                    case "yellow":
+                        return Colors.yellow;
+                    case "blue":
+                        return Colors.blue;
+                    default:
+                        Console.WriteLine("Please choose a valid color");
+                        break;
+                }
+            }
 
             // Här ska det göras ett call till databasen som kollar så att färgen som försöker väljas är ledig.
 
-            return color;
         }
 
         public string GetName()

@@ -11,16 +11,9 @@ namespace LudoEngine
         public bool HasFinished { get; set; }
         public int Steps { get; set; }
         public int Position { get; set; }
-        public string Color { get; set; }
-        public enum colors
-        {
-            red ,
-            blue,
-            green,
-            yellow
-           
-        }
-        public Piece(string color)
+        public Colors Color { get; set; }
+        
+        public Piece(Colors color)
         {
             IsActive = false;
             HasFinished = false;
