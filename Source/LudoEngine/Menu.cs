@@ -132,6 +132,7 @@ namespace LudoEngine
         public static void PrintDiceRoll(Player player, int roll)
         {
             Console.WriteLine($"{player.Name} rolled {roll}.");
+            Thread.Sleep(2000);
         }
 
 

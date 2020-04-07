@@ -75,6 +75,8 @@ namespace LudoEngine
 
         public List<Piece> GetPieces(Player player)
         {
+            Console.WriteLine(player.Name);
+            Thread.Sleep(4000);
             return playerPieces[player];
         }
 
@@ -86,11 +88,24 @@ namespace LudoEngine
 
             Console.Write($"You moved {correctPiece.Steps} steps from square {correctPiece.Position} ");
 
+
             correctPiece.Position += correctPiece.Steps;
 
-            Console.Write($"and landed on square {correctPiece.Position}.\n");
-            correctPiece.IsActive = true;
-            correctPiece.Steps = 0;
+            if (correctPiece.Position == 46)
+            {
+                correctPiece.HasFinished = true;
+                correctPiece.IsActive = false;
+                Console.WriteLine($"Piece: {correctPiece.ID} of {correctPiece.Color} has finished.");
+
+
+            }
+            else
+            {
+                Console.Write($"and landed on square {correctPiece.Position}.\n");
+                correctPiece.IsActive = true;
+                correctPiece.Steps = 0;
+            }
+
             Thread.Sleep(2500);
         }
 
