@@ -12,7 +12,7 @@ namespace LudoEngine
         public int Steps { get; set; }
         public int Position { get; set; }
         public Colors Color { get; set; }
-        
+
         public Piece(Colors color)
         {
             IsActive = false;
@@ -34,22 +34,19 @@ namespace LudoEngine
 
             // Här ska det göras ett call till databasen som kollar så att färgen som försöker väljas är ledig.
 
-            while (true)
+            switch (input)
             {
-                switch (input)
-                {
-                    case "red":
-                        return Colors.red;
-                    case "green":
-                        return Colors.green;
-                    case "yellow":
-                        return Colors.yellow;
-                    case "blue":
-                        return Colors.blue;
-                    default:
-                        Console.WriteLine("Please choose a valid color");
-                        break;
-                }
+                case "red":
+                    return Colors.red;
+                case "green":
+                    return Colors.green;
+                case "yellow":
+                    return Colors.yellow;
+                case "blue":
+                    return Colors.blue;
+                default:
+                    // This can never happen because of the menu selection process.
+                    return Colors.blue;
             }
         }
     }

@@ -38,7 +38,6 @@ namespace LudoEngine
                     if (i == selected)
                     {
                         Console.ForegroundColor = ConsoleColor.Yellow;
-
                     }
                     Console.WriteLine("- " + option);
                     Console.ResetColor();
@@ -85,10 +84,10 @@ namespace LudoEngine
                     break;
             }
         }
-    
+
         public static int ChoosePlayerAmount()
         {
-           var choosenAmount = MenuOptions(new List<string> { "2", "3", "4" }, "Number of players 2-4");
+            var choosenAmount = MenuOptions(new List<string> { "2", "3", "4" }, "Number of players 2-4");
             return int.Parse(choosenAmount);
         }
 
@@ -119,77 +118,49 @@ namespace LudoEngine
             Thread.Sleep(2000);
         }
 
-
+        //This whole method needs refactoring.
         public static int PickFromList(List<Piece> list)
         {
-            while (true)
+            int choice = -1;
+            List<string> availablePieces = new List<string>();
+
+            foreach (var item in list)
             {
+                availablePieces.Add(item.ToString());
+            }
 
-                Console.WriteLine("What piece do you want to move?");
-                int count = 0;
-                foreach (var item in list)
+            // Gets the pieces ToString as an anwser from the menu choice.
+            string input = MenuOptions(availablePieces, "What piece do you want to move?");
+
+            // Gets the index of the chosen piece
+            foreach (var piece in list)
+            {
+                if (piece.ToString() == input)
                 {
-                    count++;
-                    Console.WriteLine($"{count}.{item}");
-                }
-
-                try
-                {
-                    var playerpick = int.Parse(Console.ReadLine());
-
-                    if (playerpick > list.Count() || playerpick < 1)
-                    {
-                        throw new IndexOutOfRangeException();
-                    }
-                    else
-                    {
-                        return playerpick;
-
-                    }
-                }
-                catch (Exception)
-                {
-                    Console.WriteLine();
-                    Console.WriteLine("Pick a valid piece.");
-                    Console.WriteLine();
-                    Thread.Sleep(2000);
+                    choice = list.FindIndex(x => x == piece);
                 }
             }
+            return choice;
         }
-
-
 
         public static void PickInactivePieceToMove()
         {
             //skriv menu för inaktiva pjäser
         }
 
-
-
         public static bool WantToMoveTwoPiecesFromYard()
         {
-            //fråga vill du flytta 2 gubbar till 1  från bo ja/nej
-            Console.WriteLine("Do you want to move 2 pieces to square 1?");
+            string input = MenuOptions(new List<string> { "Yes", "No" }, "Do you want to move 2 pieces to square 1 ?");
 
-            while (true)
+            switch (input)
             {
-                var input = Console.ReadLine();
-                switch (input)
-                {
-                    case "yes":
-                        return true;
-
-
-                    case "no":
-                        return false;
-
-
-                    default:
-                        Console.WriteLine("Please enter yes or no");
-                        break;
-                }
+                case "yes":
+                    return true;
+                case "no":
+                    return false;
+                default:
+                    return false;
             }
-
         }
 
         public static bool WantToMoveActivePiece()
@@ -203,12 +174,8 @@ namespace LudoEngine
                 {
                     case "yes":
                         return true;
-
-
                     case "no":
                         return false;
-
-
                     default:
                         Console.WriteLine("Please enter yes or no");
                         break;

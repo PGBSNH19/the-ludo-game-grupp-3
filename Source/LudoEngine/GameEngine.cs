@@ -75,12 +75,11 @@ namespace LudoEngine
                 Console.WriteLine();
                 Console.WriteLine($"Player {i + 1}");
 
-
                 // Clears the pieces list for the next player pick.
                 pieces.Clear();
 
                 var p = new Player(GetName());
-                game.AddPlayer(p);
+                game.Players.Add(p);
 
                 Colors pieceColor = Piece.PickColor(Menu.MenuOptions(availableColors, "What color do you want to play?"));
 
@@ -89,7 +88,7 @@ namespace LudoEngine
                     pieces.Add(new Piece(pieceColor));
                 }
                 // Adds the pieces to the current gamestate.
-                game.AddPieces(p, pieces);
+                p.Pieces = pieces;
 
                 // Removes the color as an alternative for the next player to choose.
                 availableColors.Remove(pieces[0].Color.ToString());
@@ -97,6 +96,7 @@ namespace LudoEngine
                 Console.WriteLine();
                 Console.WriteLine($"{p.Name} choose color {pieces[0].Color} and has been added to the game.");
                 Thread.Sleep(2000);
+
             }
             return game;
         }
@@ -127,27 +127,20 @@ namespace LudoEngine
 
         public void PlayGame(GameState game)
         {
-            var players = game.GetPlayers();
-
             // break loop when last person has finished
             while (true)
             {
-
                 // One round per person.
-                foreach (var p in players)
+                foreach (var p in game.Players)
                 {
-                    Console.WriteLine(p.Name);
-                    Thread.Sleep(2000);
                     bool rolledSix = false;
-
 
                     // This will run if gets to roll again (rolled 6)
                     do
                     {
-
-                        var CurrentPlayerPieces = game.GetPieces(p);
-                        var activePieces = CurrentPlayerPieces.Where(x => x.IsActive == true).ToList();
-                        var inactivePieces = CurrentPlayerPieces.Where(x => x.IsActive == false && x.HasFinished == false).ToList();
+                        var CurrentPlayerPieces = p.Pieces;
+                        var activePieces = GetPlayersActivePieces(CurrentPlayerPieces);
+                        var inactivePieces = GetPlayersInactivePieces(CurrentPlayerPieces);
 
                         Console.Clear();
                         //här ska vi skriva ut current game state så man vet var pjäserna står.
@@ -159,11 +152,6 @@ namespace LudoEngine
                         int roll = Dice.Roll();
                         //roll = 1;
                         Menu.PrintDiceRoll(p, roll);
-
-                        if (CurrentPlayerPieces == null || CurrentPlayerPieces.Count == 0)
-                        {
-                            throw new IndexOutOfRangeException("There's no pieces in CurrentPlayerPieces.");
-                        }
 
                         if (roll == 1 || roll == 6)
                         {
@@ -178,23 +166,53 @@ namespace LudoEngine
                         rolledSix = (roll == 6) ? true : false;
                     } while (rolledSix);
 
-                    GetNextPlayer(game, players, p);
+                    //GetNextPlayer(game, p);
                 }
             }
         }
-
-        private static void GetNextPlayer(GameState game, List<Player> players, Player p)
+        public List<Piece> GetPlayersActivePieces(List<Piece> CurrentPlayerPieces)
         {
-            int num = players.IndexOf(p);
+            var pieces = new List<Piece>();
 
-            if (num + 1 <= players.Count())
+            CurrentPlayerPieces.ForEach(x =>
             {
-                game.NextPlayer = players[num + 1];
-            }
-            else
+                if (x.IsActive)
+                {
+                    pieces.Add(x);
+                }
+            });
+
+            return pieces;
+        }
+
+        public List<Piece> GetPlayersInactivePieces(List<Piece> CurrentPlayerPieces)
+        {
+            var pieces = new List<Piece>();
+
+           CurrentPlayerPieces.ForEach(x =>
             {
-                game.NextPlayer = players[0];
-            }
+                if (!x.IsActive)
+                {
+                    pieces.Add(x);
+                }
+            });
+
+            return pieces;
+        }
+
+        private static void GetNextPlayer(GameState game, Player p)
+        {
+            //var players = game.Players;
+            //int num = players.IndexOf(p);
+
+            //if (num + 1 <= players.Count())
+            //{
+            //    game.NextPlayer = players[num + 1];
+            //}
+            //else
+            //{
+            //    game.NextPlayer = players[0];
+            //}
         }
 
         public void UserRolledOneOrSix(GameState game, Player p, List<Piece> activePieces, List<Piece> inactivePieces, int roll)
@@ -208,7 +226,6 @@ namespace LudoEngine
             if (activePieceCount > 0)
             {
                 moveActive = Menu.WantToMoveActivePiece();
-
             }
 
             if (roll == 6
@@ -239,6 +256,7 @@ namespace LudoEngine
                 && !moveActive)
             {
                 MoveToStart(inactivePieces);
+                Thread.Sleep(2000);
             }
 
             // If the user has chosen to move an INACTIVE piece to sqaure 6 and the path is blocked by own piece.
@@ -253,6 +271,7 @@ namespace LudoEngine
 
             }
 
+            // If the user has chosen to move an INACTIVE piece to sqaure 6 and player only has 1 inactive piece.
             if (roll == 6
                 && inactivePieces.Count() == 1
                 && !moveActive
@@ -314,12 +333,11 @@ namespace LudoEngine
 
         public bool IsPieceClearForMoving(Player currentPlayer, Piece piece, GameState game, int roll)
         {
-            var playerPieces = game.GetPlayerPieces();
             // Looparna kan refaktoreras till Linq
 
-            foreach (var p in playerPieces)
+            foreach (var p in game.Players)
             {
-                foreach (var item in p.Value)
+                foreach (var item in p.Pieces)
                 {
                     // Checks position of each piece in front of the pice we want to move.
                     // Checks if the position of a piece found is in the way or in the same square we want to move to. 
@@ -333,7 +351,7 @@ namespace LudoEngine
                     if ((item.Position > piece.Position && item.Position <= (piece.Position + roll) && item.HasFinished == false))
                     {
                         // If any of the sqaures in path are occupied.
-                        if (currentPlayer == p.Key)
+                        if (currentPlayer == p)
                         {
                             // If it's a piece owned by current player on the same square.
                             return false;
@@ -390,8 +408,7 @@ namespace LudoEngine
         }
         public Piece PickActivePieceToMove(List<Piece> activePieces, int playerpick)
         {
-            return activePieces[playerpick - 1];
-
+            return activePieces[playerpick];
         }
     }
 }
