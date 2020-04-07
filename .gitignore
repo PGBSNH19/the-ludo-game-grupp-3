@@ -349,3 +349,4 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 Source/LudoEngine/appsettings.json
+Source/LudoGame/appsettings.json
