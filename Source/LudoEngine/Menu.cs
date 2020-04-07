@@ -81,27 +81,11 @@ namespace LudoEngine
                     var loadedGameState = loadedGame.LoadGame();
                     loadedGame.PlayGame(loadedGameState);
                     break;
-                //case "pay":
-                //    Console.WriteLine("Enter the name of the person paying: ");
-                //    name = Console.ReadLine();
-
-                //    //If the person is in the database run payparking whit that person objekt
-                //    if (ParkingEngine.IsPersonInDatabase(name).Result)
-                //    {
-                //        ParkingEngine.PayParking(ParkingEngine.GetPersonFromDatabase(name).Result);
-                //    }
-
-                //    else
-                //    {
-                //        Console.WriteLine("Cant find person in database");
-                //        Thread.Sleep(2500);
-                //    }
-                // break;
                 default:
                     break;
             }
         }
-
+    
         public static int ChoosePlayerAmount()
         {
            var choosenAmount = MenuOptions(new List<string> { "2", "3", "4" }, "Number of players 2-4");

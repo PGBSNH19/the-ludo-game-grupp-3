@@ -75,8 +75,6 @@ namespace LudoEngine
 
         public List<Piece> GetPieces(Player player)
         {
-            Console.WriteLine(player.Name);
-            Thread.Sleep(4000);
             return playerPieces[player];
         }
 
