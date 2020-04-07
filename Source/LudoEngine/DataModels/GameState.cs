@@ -12,10 +12,10 @@ namespace LudoEngine
         public int NextPlayerID { get; set; }
         public Player NextPlayer { get; set; }
         public bool HasFinished { get; set; }
+
         List<Player> players;
-
-        Dictionary<Player, List<Piece>> playerPieces;
-
+        // public EFKeyValuePair<Player, List<Piece>> EFKeyValuePair { get; set; }
+        public Dictionary<Player, List<Piece>> playerPieces { get; set; }
 
         #region Constructors
         public GameState()
@@ -101,7 +101,21 @@ namespace LudoEngine
 
         public override string ToString()
         {
-            return $"Is the game {ID} finished: {HasFinished}.";
+            if (players.Count == 2)
+            {
+
+                return $"Players in this game {ID}: {players[0].Name}, {players[1].Name}. ";
+            }
+            else if (players.Count == 3)
+            {
+                return $"Players in this game {ID}: {players[0].Name}, {players[1].Name}, {players[2].Name}. ";
+
+            }
+            else
+            {
+                return $"Players in this game {ID}: {players[0].Name}, {players[1].Name}, {players[2].Name}, {players[3].Name}. ";
+
+            }
         }
     }
 }

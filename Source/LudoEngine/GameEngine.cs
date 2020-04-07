@@ -51,12 +51,16 @@ namespace LudoEngine
                 }
             }
         }
+        public GameEngine()
+        {
 
+        }
         public GameEngine(int numberOfPlayers, int piecesPerPlayer)
         {
             NumberOfPlayers = numberOfPlayers;
             PiecesPerPlayer = piecesPerPlayer;
         }
+
 
         public GameState StartNewGame()
         {
@@ -69,9 +73,9 @@ namespace LudoEngine
             {
                 Console.Clear();
                 Console.WriteLine();
-                Console.WriteLine($"Player {i+1}");
+                Console.WriteLine($"Player {i + 1}");
 
-               // Clears the pieces list for the next player pick.
+                // Clears the pieces list for the next player pick.
                 pieces.Clear();
 
                 var p = new Player(GetName());
@@ -88,12 +92,36 @@ namespace LudoEngine
 
                 // Removes the color as an alternative for the next player to choose.
                 availableColors.Remove(pieces[0].Color.ToString());
-                
+
                 Console.WriteLine();
                 Console.WriteLine($"{p.Name} choose color {pieces[0].Color} and has been added to the game.");
                 Thread.Sleep(2000);
             }
             return game;
+        }
+        public GameState LoadGame()
+        {
+            List<GameState> savedGames = GetSavedGames();
+            if (savedGames==null)
+            {
+                throw new NullReferenceException("No saved games."); 
+            }
+            List<string> availableGames = new List<string>();
+            savedGames.ForEach(x => availableGames.Add(x.ToString()));
+
+            GameState selectedGame = PickSavedGame(Menu.MenuOptions(availableGames, "Choose a saved game"));
+            
+            return selectedGame;
+        }
+
+        private GameState PickSavedGame(string selectedGame)
+        {
+            throw new NotImplementedException();
+        }
+
+        private List<GameState> GetSavedGames()
+        {
+            throw new NotImplementedException();
         }
 
         public void PlayGame(GameState game)
@@ -312,11 +340,7 @@ namespace LudoEngine
             return name;
         }
 
-        public GameState LoadGame()
-        {
 
-            return null;
-        }
 
         public void SaveGame()
         {
