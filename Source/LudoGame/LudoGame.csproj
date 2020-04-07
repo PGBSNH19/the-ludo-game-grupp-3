@@ -1,9 +1,18 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="DatabaseModels\**" />
+    <Compile Remove="Migrations\**" />
+    <EmbeddedResource Remove="DatabaseModels\**" />
+    <EmbeddedResource Remove="Migrations\**" />
+    <None Remove="DatabaseModels\**" />
+    <None Remove="Migrations\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.3" />
@@ -16,11 +25,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LudoEngine\LudoEngine.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="DatabaseModels\" />
-    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>

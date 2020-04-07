@@ -8,29 +8,9 @@ namespace LudoEngine
 {
     public class Menu
     {
-
-        public static void MenuHeader()
-        {
-            Console.Title = "SpacePark";
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            var header = new[]
-            {
-            @" ____    __    ____  _______  __        ______   ______   .___  ___.  _______    .___________.  ______           _______..______      ___       ______  _______ .______      ___      .______       __  ___",
-            @" \   \  /  \  /   / |   ____||  |      /      | /  __  \  |   \/   | |   ____|   |           | /  __  \         /       ||   _  \    /   \     /      ||   ____||   _  \    /   \     |   _  \     |  |/  /",
-            @"  \   \/    \/   /  |  |__   |  |     |  ,----'|  |  |  | |  \  /  | |  |__      `---|  |----`|  |  |  |       |   (----`|  |_)  |  /  ^  \   |  ,----'|  |__   |  |_)  |  /  ^  \    |  |_)  |    |  '  /",
-            @"   \            /   |   __|  |  |     |  |     |  |  |  | |  |\/|  | |   __|         |  |     |  |  |  |        \   \    |   ___/  /  /_\  \  |  |     |   __|  |   ___/  /  /_\  \   |      /     |    <",
-            @"    \    /\    /    |  |____ |  `----.|  `----.|  `--'  | |  |  |  | |  |____        |  |     |  `--'  |    .----)   |   |  |     /  _____  \ |  `----.|  |____ |  |     /  _____  \  |  |\  \----.|  .  \",
-            @"     \__/  \__/     |_______||_______| \______| \______/  |__|  |__| |_______|       |__|      \______/     |_______/    | _|    /__/     \__\ \______||_______|| _|    /__/     \__\ | _| `._____||__|\__\"
-            };
-
-            foreach (var line in header)
-            {
-                Console.WriteLine(line);
-            }
-        }
-
         public static string MenuOptions(List<string> input, string type)
         {
+            Console.WriteLine();
             Console.WriteLine(type);
             var options = input;
 
@@ -39,6 +19,7 @@ namespace LudoEngine
             Console.CursorVisible = false;
 
             ConsoleKey? key = null;
+
             //Until the user presses enter the loop will continue to run
             while (key != ConsoleKey.Enter)
             {
@@ -91,6 +72,7 @@ namespace LudoEngine
 
                     var game = new GameEngine(numberOfPlayers, 4);
                     var gamestate = game.StartNewGame();
+                    //här ska vi spara spelet
                     game.PlayGame(gamestate);
                     break;
 

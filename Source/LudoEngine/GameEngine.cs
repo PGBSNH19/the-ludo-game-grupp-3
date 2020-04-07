@@ -8,12 +8,8 @@ namespace LudoEngine
 {
     public class GameEngine
     {
-
-
-
         private int _numberOfPlayers;
         public int PiecesPerPlayer { get; set; }
-
 
         /// <summary>
         /// There has to be between 2 and 4 players.
@@ -66,19 +62,36 @@ namespace LudoEngine
         {
             var game = new GameState();
             var pieces = new List<Piece>();
+
+            List<string> availableColors = new List<string> { "red", "green", "Yellow", "blue" };
+
             for (int i = 0; i < NumberOfPlayers; i++)
             {
+                Console.Clear();
+                Console.WriteLine();
+                Console.WriteLine($"Player {i+1}");
+
+               // Clears the pieces list for the next player pick.
                 pieces.Clear();
+
                 var p = new Player(GetName());
                 game.AddPlayer(p);
 
-                Colors pieceColor = PickColor();
+                Colors pieceColor = Piece.PickColor(Menu.MenuOptions(availableColors, "What color do you want to play?"));
 
                 for (int j = 0; j < PiecesPerPlayer; j++)
                 {
                     pieces.Add(new Piece(pieceColor));
                 }
+                // Adds the pieces to the current gamestate.
                 game.AddPieces(p, pieces);
+
+                // Removes the color as an alternative for the next player to choose.
+                availableColors.Remove(pieces[0].Color.ToString());
+                
+                Console.WriteLine();
+                Console.WriteLine($"{p.Name} choose color {pieces[0].Color} and has been added to the game.");
+                Thread.Sleep(2000);
             }
             return game;
         }
@@ -226,7 +239,6 @@ namespace LudoEngine
                 inactivePieces.RemoveAt(0);
             }
 
-
             if (roll == 6 && inactivePieces.Count() > 0
                    && !moveActive
                    && !moveTwoPiecesFromYard
@@ -291,41 +303,6 @@ namespace LudoEngine
             return true;
         }
 
-        public Colors PickColor()
-        {
-            Console.WriteLine();
-            Console.WriteLine("Choose a color: ");
-            var colors = Enum.GetValues(typeof(Colors));
-
-            foreach (var item in colors)
-            {
-                Console.WriteLine(item);
-            }
-
-            while (true)
-            {
-                string input = Console.ReadLine().ToLower();
-
-                switch (input)
-                {
-                    case "red":
-                        return Colors.red;
-                    case "green":
-                        return Colors.green;
-                    case "yellow":
-                        return Colors.yellow;
-                    case "blue":
-                        return Colors.blue;
-                    default:
-                        Console.WriteLine("Please choose a valid color");
-                        break;
-                }
-            }
-
-            // Här ska det göras ett call till databasen som kollar så att färgen som försöker väljas är ledig.
-
-        }
-
         public string GetName()
         {
             Console.WriteLine();
@@ -357,6 +334,5 @@ namespace LudoEngine
             return activePieces[playerpick - 1];
 
         }
-
     }
 }

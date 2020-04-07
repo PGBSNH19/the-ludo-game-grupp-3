@@ -4,12 +4,11 @@ using System.Text;
 
 namespace LudoEngine
 {
-    
-        public enum Colors
-        {
-           yellow,
-           red,
-           blue,
-           green
-        }
+    public enum Colors
+    {
+        yellow,
+        red,
+        blue,
+        green
+    }
 }

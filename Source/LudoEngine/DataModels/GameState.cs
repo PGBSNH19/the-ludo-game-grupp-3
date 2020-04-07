@@ -99,8 +99,6 @@ namespace LudoEngine
             return playerPieces;
         }
 
-
-
         public override string ToString()
         {
             return $"Is the game {ID} finished: {HasFinished}.";
