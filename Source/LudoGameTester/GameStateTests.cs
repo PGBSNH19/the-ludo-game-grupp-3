@@ -37,8 +37,8 @@ namespace LudoGameTester
             var gamestate = new GameState();
 
             List<Piece> pieces = new List<Piece>();
-            pieces.Add(new Piece("Red"));
-            pieces.Add(new Piece("Red"));
+            pieces.Add(new Piece(Colors.red));
+            pieces.Add(new Piece(Colors.red));
 
             var player = new Player("Sebbe");
 
@@ -56,7 +56,7 @@ namespace LudoGameTester
             //Arrange
             var gamestate = new GameState();
             List<Piece> pieces = new List<Piece>();
-            pieces.Add(new Piece("Red"));
+            pieces.Add(new Piece(Colors.red));
 
             var player = new Player("Sebbe");
             gamestate.AddPieces(player, pieces);
@@ -83,14 +83,14 @@ namespace LudoGameTester
             var gamestate = new GameState();
             List<Piece> pieces = new List<Piece>();
             var player = new Player("Sebbe");
-            pieces.Add(new Piece("Red"));
+            pieces.Add(new Piece(Colors.red));
             gamestate.AddPieces(player, pieces);
             var gamePiece = gamestate.GetPieces(player).Where(x => x == pieces[0]).FirstOrDefault();
             gamePiece.Position = 15;
 
             List<Piece> pieces2 = new List<Piece>();
             var player2 = new Player("kaptenen");
-            pieces2.Add(new Piece("blue"));
+            pieces2.Add(new Piece(Colors.blue));
             gamestate.AddPieces(player2, pieces2);
             var gamePiece2 = gamestate.GetPieces(player2).Where(x => x == pieces2[0]).FirstOrDefault();
             gamePiece2.Position = 11;
@@ -112,7 +112,7 @@ namespace LudoGameTester
             var gamestate = new GameState();
             List<Piece> pieces = new List<Piece>();
             var player = new Player("Sebbe");
-            pieces.Add(new Piece("Red"));
+            pieces.Add(new Piece(Colors.red));
             gamestate.AddPieces(player, pieces);
             var gamePiece = gamestate.GetPieces(player).Where(x => x == pieces[0]).FirstOrDefault();
             gamePiece.Position = 17;
@@ -120,7 +120,7 @@ namespace LudoGameTester
 
             List<Piece> pieces2 = new List<Piece>();
             var player2 = new Player("kaptenen");
-            pieces2.Add(new Piece("blue"));
+            pieces2.Add(new Piece(Colors.blue));
             gamestate.AddPieces(player2, pieces2);
             var gamePiece2 = gamestate.GetPieces(player2).Where(x => x == pieces2[0]).FirstOrDefault();
             gamePiece2.Position = 11;
@@ -144,8 +144,8 @@ namespace LudoGameTester
 
             List<Piece> pieces = new List<Piece>();
             var player2 = new Player("kaptenen");
-            pieces.Add(new Piece("blue"));
-            pieces.Add(new Piece("blue"));
+            pieces.Add(new Piece(Colors.blue));
+            pieces.Add(new Piece(Colors.blue));
             gamestate.AddPieces(player2, pieces);
             var gamePiece1 = gamestate.GetPieces(player2).Where(x => x == pieces[0]).FirstOrDefault();
             var gamePiece2 = gamestate.GetPieces(player2).Where(x => x == pieces[1]).FirstOrDefault();
@@ -173,8 +173,8 @@ namespace LudoGameTester
 
             List<Piece> pieces = new List<Piece>();
             var player2 = new Player("kaptenen");
-            pieces.Add(new Piece("blue"));
-            pieces.Add(new Piece("blue"));
+            pieces.Add(new Piece(Colors.blue));
+            pieces.Add(new Piece(Colors.blue));
             gamestate.AddPieces(player2, pieces);
             var gamePiece1 = gamestate.GetPieces(player2).Where(x => x == pieces[0]).FirstOrDefault();
             var gamePiece2 = gamestate.GetPieces(player2).Where(x => x == pieces[1]).FirstOrDefault();
@@ -201,19 +201,19 @@ namespace LudoGameTester
 
             List<Piece> pieces = new List<Piece>();
             var player = new Player("Sebbe");
-            pieces.Add(new Piece("Red"));
+            pieces.Add(new Piece(Colors.red));
             gamestate.AddPieces(player, pieces);
             var gamePiece = gamestate.GetPieces(player).Where(x => x == pieces[0]).FirstOrDefault();
             gamePiece.Position = 25;
 
             List<Piece> pieces2 = new List<Piece>();
             var player2 = new Player("kaptenen");
-            pieces2.Add(new Piece("blue"));
+            pieces2.Add(new Piece(Colors.blue));
             gamestate.AddPieces(player2, pieces2);
             var gamePiece2 = gamestate.GetPieces(player2).Where(x => x == pieces2[0]).FirstOrDefault();
             gamePiece2.Position = 11;
             gamePiece2.Steps = 6;
-            
+
 
             //Act
             var canMove = gameEngine.IsPieceClearForMoving(player2, pieces2[0], gamestate, gamePiece2.Steps);
@@ -228,55 +228,56 @@ namespace LudoGameTester
         public void PickActivePieceToMove_ThereAreActivePieces_True()
         {
 
-            var gameEngine = new GameEngine(2,3);
+            var gameEngine = new GameEngine(2, 3);
             //Arrange
             var activePieceList = new List<Piece>
             {
-                new Piece("red"),
-                new Piece("red"),
-                new Piece("red"),
+                new Piece(Colors.red),
+                new Piece(Colors.red),
+                new Piece(Colors.red)
             };
-            int playerpick= 3;
+
+            int playerpick = 3;
             //Act
-           var result= gameEngine.PickActivePieceToMove(activePieceList,playerpick);
+            var result = gameEngine.PickActivePieceToMove(activePieceList, playerpick);
 
             //Assert
             Assert.AreEqual(activePieceList[2], result);
         }
 
-    #endregion
+        #endregion
 
-    //[TestMethod]
-    //public void PlayGame_RolledOneThereIsInActivePieces_True()
-    //{
-    //    //Arrange
-    //    var gamestate = new GameState();
-    //    var gameEngine = new GameEngine(2, 1);
+        //[TestMethod]
+        //public void PlayGame_RolledOneThereIsInActivePieces_True()
+        //{
+        //    //Arrange
+        //    var gamestate = new GameState();
+        //    var gameEngine = new GameEngine(2, 1);
 
-    //    List<Piece> pieces = new List<Piece>();
-    //    var player = new Player("Sebbe");
-    //    pieces.Add(new Piece("Red"));
-    //    gamestate.AddPieces(player, pieces);
-    //    var gamePiece = gamestate.GetPieces(player).Where(x => x == pieces[0]).FirstOrDefault();
-    //    gamePiece.Position = 0;
+        //    List<Piece> pieces = new List<Piece>();
+        //    var player = new Player("Sebbe");
+        //    pieces.Add(new Piece("Red"));
+        //    gamestate.AddPieces(player, pieces);
+        //    var gamePiece = gamestate.GetPieces(player).Where(x => x == pieces[0]).FirstOrDefault();
+        //    gamePiece.Position = 0;
 
-    //    //Act
-    //    gameEngine.PlayGame(gamestate);
-    //    //Assert
+        //    //Act
+        //    gameEngine.PlayGame(gamestate);
+        //    //Assert
 
-    //}
+        //}
 
-    //[TestMethod]
-    //public void ()
-    //{
-    //    //Arrange
+        //[TestMethod]
+        //public void ()
+        //{
+        //    //Arrange
 
-    //    //Act
+        //    //Act
 
-    //    //Assert
+        //    //Assert
 
-    //}
+        //}
 
 
-}
+    }
 }

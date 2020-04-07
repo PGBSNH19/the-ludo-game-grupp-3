@@ -13,6 +13,7 @@ namespace LudoEngine
         public DbSet<Piece> Piece { get; set; }
         public DbSet<Player> Player { get; set; }
 
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
@@ -20,5 +21,6 @@ namespace LudoEngine
             var defaultConnectionString = config.GetConnectionString("DefaultConnection");
             optionsBuilder.UseSqlServer(defaultConnectionString);
         }
+      
     }
 }

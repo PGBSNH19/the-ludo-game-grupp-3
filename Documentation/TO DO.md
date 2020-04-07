@@ -10,6 +10,7 @@ TO DO
 - Gör så att man kan välja färg med tangenterna
 - flera spelare kan inte ha samma färg och ta bort valda färger ur listan med färger 
 - kolla så knuffen fungerar
+- ta sig tillbaka i menyn
 
 
 
