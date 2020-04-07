@@ -11,6 +11,10 @@ TO DO
 - flera spelare kan inte ha samma färg och ta bort valda färger ur listan med färger 
 - kolla så knuffen fungerar
 - ta sig tillbaka i menyn
+- sätta välj pice/vil du gå med en eller 2 med piltangenter
+- skriv ut lista med pieces nära dig
+- setill så att alla spelare inte går med samma gubbar
+- ta borty inactive pieces count i roll six or one
 
 
 
