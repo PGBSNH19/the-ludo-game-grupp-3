@@ -79,7 +79,7 @@ namespace LudoEngine
                 case "load game":
                     var loadedGame = new GameEngine();
                     var loadedGameState = loadedGame.LoadGame();
-
+                    loadedGame.PlayGame(loadedGameState);
                     break;
                 //case "pay":
                 //    Console.WriteLine("Enter the name of the person paying: ");
