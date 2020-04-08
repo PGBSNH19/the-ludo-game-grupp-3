@@ -135,7 +135,7 @@ namespace LudoEngine
             // Gets the index of the chosen piece
             foreach (var piece in list)
             {
-                if (piece.ToString() == input)
+                if (piece.ToString().ToLower() == input)
                 {
                     choice = list.FindIndex(x => x == piece);
                 }
