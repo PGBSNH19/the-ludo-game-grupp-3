@@ -5,279 +5,278 @@ using System.Linq;
 
 
 
-namespace LudoGameTester
-{
-    [TestClass]
-    public class GameStateTests
-    {
+//{
+    //[TestClass]
+    //public class GameStateTests
+    //{
 
 
-        [TestMethod]
-        public void GetPlayers_ValidPlayers_True()
-        {
-            //Arrange
-            var gameState = new GameState();
-            var player1 = new Player("Sebastian");
-            var player2 = new Player("Eric");
+    //    [TestMethod]
+    //    public void GetPlayers_ValidPlayers_True()
+    //    {
+    //        //Arrange
+    //        var gameState = new GameState();
+    //        var player1 = new Player("Sebastian");
+    //        var player2 = new Player("Eric");
 
-            //Act
-            gameState.AddPlayer(player1);
-            gameState.AddPlayer(player2);
-            var playerList = gameState.GetPlayers();
+    //        //Act
+    //        gameState.AddPlayer(player1);
+    //        gameState.AddPlayer(player2);
+    //        var playerList = gameState.GetPlayers();
 
-            //Assert
-            Assert.AreEqual(playerList[0], player1);
-            Assert.AreEqual(playerList[1], player2);
-        }
+    //        //Assert
+    //        Assert.AreEqual(playerList[0], player1);
+    //        Assert.AreEqual(playerList[1], player2);
+    //    }
 
-        [TestMethod]
-        public void GetPices_ValidPlayersAndPieces_True()
-        {
-            //Arrange
-            var gamestate = new GameState();
+    //    [TestMethod]
+    //    public void GetPices_ValidPlayersAndPieces_True()
+    //    {
+    //        //Arrange
+    //        var gamestate = new GameState();
 
-            List<Piece> pieces = new List<Piece>();
-            pieces.Add(new Piece(Colors.red));
-            pieces.Add(new Piece(Colors.red));
+    //        List<Piece> pieces = new List<Piece>();
+    //        pieces.Add(new Piece(Colors.red));
+    //        pieces.Add(new Piece(Colors.red));
 
-            var player = new Player("Sebbe");
+    //        var player = new Player("Sebbe");
 
-            //Act
-            gamestate.AddPieces(player, pieces);
-            var returnList = gamestate.GetPieces(player);
+    //        //Act
+    //        gamestate.AddPieces(player, pieces);
+    //        var returnList = gamestate.GetPieces(player);
 
-            //Assert
-            Assert.AreEqual(pieces, returnList);
-        }
+    //        //Assert
+    //        Assert.AreEqual(pieces, returnList);
+    //    }
 
-        [TestMethod]
-        public void MovePiece_ValidInput_SetPiecePositionPlusEqualToSteps()
-        {
-            //Arrange
-            var gamestate = new GameState();
-            List<Piece> pieces = new List<Piece>();
-            pieces.Add(new Piece(Colors.red));
+    //    [TestMethod]
+    //    public void MovePiece_ValidInput_SetPiecePositionPlusEqualToSteps()
+    //    {
+    //        //Arrange
+    //        var gamestate = new GameState();
+    //        List<Piece> pieces = new List<Piece>();
+    //        pieces.Add(new Piece(Colors.red));
 
-            var player = new Player("Sebbe");
-            gamestate.AddPieces(player, pieces);
+    //        var player = new Player("Sebbe");
+    //        gamestate.AddPieces(player, pieces);
 
-            // Gets the right piece and sets it's position to 1.
-            var gamePiece = gamestate.GetPieces(player).Where(x => x == pieces[0]).FirstOrDefault();
-            gamePiece.Position = 1;
+    //        // Gets the right piece and sets it's position to 1.
+    //        var gamePiece = gamestate.GetPieces(player).Where(x => x == pieces[0]).FirstOrDefault();
+    //        gamePiece.Position = 1;
 
-            //Act
-            gamestate.MovePiece(player, pieces[0], 4);
+    //        //Act
+    //        gamestate.MovePiece(player, pieces[0], 4);
 
-            //Assert
-            Assert.AreEqual(5, gamePiece.Position);
-        }
+    //        //Assert
+    //        Assert.AreEqual(5, gamePiece.Position);
+    //    }
 
-        #region IsPieceClearForMovingTests
-        [TestMethod]
-        public void IsPieceClearForMoving_NoPieceOnTheLandingSquare_true()
-        {
-            //Arrange
-            var gameEngine = new GameEngine(2, 1);
-
-
-            var gamestate = new GameState();
-            List<Piece> pieces = new List<Piece>();
-            var player = new Player("Sebbe");
-            pieces.Add(new Piece(Colors.red));
-            gamestate.AddPieces(player, pieces);
-            var gamePiece = gamestate.GetPieces(player).Where(x => x == pieces[0]).FirstOrDefault();
-            gamePiece.Position = 15;
-
-            List<Piece> pieces2 = new List<Piece>();
-            var player2 = new Player("kaptenen");
-            pieces2.Add(new Piece(Colors.blue));
-            gamestate.AddPieces(player2, pieces2);
-            var gamePiece2 = gamestate.GetPieces(player2).Where(x => x == pieces2[0]).FirstOrDefault();
-            gamePiece2.Position = 11;
-            gamePiece2.Steps = 6;
-
-            //Act
-            var canMove = gameEngine.IsPieceClearForMoving(player2, pieces2[0], gamestate, gamePiece2.Steps);
-
-            //Assert
-            Assert.IsTrue(canMove);
-        }
-
-        [TestMethod]
-        public void IsPieceClearForMoving_OpponentPieceOnTheLandingSquare_True()
-        {
-            //Arrange
-            var gameEngine = new GameEngine(2, 1);
-
-            var gamestate = new GameState();
-            List<Piece> pieces = new List<Piece>();
-            var player = new Player("Sebbe");
-            pieces.Add(new Piece(Colors.red));
-            gamestate.AddPieces(player, pieces);
-            var gamePiece = gamestate.GetPieces(player).Where(x => x == pieces[0]).FirstOrDefault();
-            gamePiece.Position = 17;
+//        #region IsPieceClearForMovingTests
+//        [TestMethod]
+//        public void IsPieceClearForMoving_NoPieceOnTheLandingSquare_true()
+//        {
+//            //Arrange
+//            var gameEngine = new GameEngine(2, 1);
 
 
-            List<Piece> pieces2 = new List<Piece>();
-            var player2 = new Player("kaptenen");
-            pieces2.Add(new Piece(Colors.blue));
-            gamestate.AddPieces(player2, pieces2);
-            var gamePiece2 = gamestate.GetPieces(player2).Where(x => x == pieces2[0]).FirstOrDefault();
-            gamePiece2.Position = 11;
-            gamePiece2.Steps = 6;
+//            var gamestate = new GameState();
+//            List<Piece> pieces = new List<Piece>();
+//            var player = new Player("Sebbe");
+//            pieces.Add(new Piece(Colors.red));
+//            gamestate.AddPieces(player, pieces);
+//            var gamePiece = gamestate.GetPieces(player).Where(x => x == pieces[0]).FirstOrDefault();
+//            gamePiece.Position = 15;
+
+//            List<Piece> pieces2 = new List<Piece>();
+//            var player2 = new Player("kaptenen");
+//            pieces2.Add(new Piece(Colors.blue));
+//            gamestate.AddPieces(player2, pieces2);
+//            var gamePiece2 = gamestate.GetPieces(player2).Where(x => x == pieces2[0]).FirstOrDefault();
+//            gamePiece2.Position = 11;
+//            gamePiece2.Steps = 6;
+
+//            //Act
+//            var canMove = gameEngine.IsPieceClearForMoving(player2, pieces2[0], gamestate, gamePiece2.Steps);
+
+//            //Assert
+//            Assert.IsTrue(canMove);
+//        }
+
+//        [TestMethod]
+//        public void IsPieceClearForMoving_OpponentPieceOnTheLandingSquare_True()
+//        {
+//            //Arrange
+//            var gameEngine = new GameEngine(2, 1);
+
+//            var gamestate = new GameState();
+//            List<Piece> pieces = new List<Piece>();
+//            var player = new Player("Sebbe");
+//            pieces.Add(new Piece(Colors.red));
+//            gamestate.AddPieces(player, pieces);
+//            var gamePiece = gamestate.GetPieces(player).Where(x => x == pieces[0]).FirstOrDefault();
+//            gamePiece.Position = 17;
 
 
-            //Act
-            var canMove = gameEngine.IsPieceClearForMoving(player2, pieces2[0], gamestate, gamePiece2.Steps);
-
-            //Assert
-            Assert.IsTrue(canMove);
-        }
-
-
-        [TestMethod]
-        public void IsPieceClearForMoving_CurrentPlayerPieceOnPath_False()
-        {
-            //Arrange
-            var gameEngine = new GameEngine(2, 1);
-            var gamestate = new GameState();
-
-            List<Piece> pieces = new List<Piece>();
-            var player2 = new Player("kaptenen");
-            pieces.Add(new Piece(Colors.blue));
-            pieces.Add(new Piece(Colors.blue));
-            gamestate.AddPieces(player2, pieces);
-            var gamePiece1 = gamestate.GetPieces(player2).Where(x => x == pieces[0]).FirstOrDefault();
-            var gamePiece2 = gamestate.GetPieces(player2).Where(x => x == pieces[1]).FirstOrDefault();
-
-            gamePiece1.Position = 9;
-            gamePiece1.Steps = 0;
-
-            gamePiece2.Position = 5;
-            gamePiece2.Steps = 6;
-
-            //Act
-            var canMove = gameEngine.IsPieceClearForMoving(player2, pieces[1], gamestate, gamePiece2.Steps);
-
-            //Assert
-            Assert.IsFalse(canMove);
-        }
+//            List<Piece> pieces2 = new List<Piece>();
+//            var player2 = new Player("kaptenen");
+//            pieces2.Add(new Piece(Colors.blue));
+//            gamestate.AddPieces(player2, pieces2);
+//            var gamePiece2 = gamestate.GetPieces(player2).Where(x => x == pieces2[0]).FirstOrDefault();
+//            gamePiece2.Position = 11;
+//            gamePiece2.Steps = 6;
 
 
-        [TestMethod]
-        public void IsPieceClearForMoving_CurrentPlayerPieceOnLandingSquare_False()
-        {
-            //Arrange
-            var gameEngine = new GameEngine(2, 1);
-            var gamestate = new GameState();
+//            //Act
+//            var canMove = gameEngine.IsPieceClearForMoving(player2, pieces2[0], gamestate, gamePiece2.Steps);
 
-            List<Piece> pieces = new List<Piece>();
-            var player2 = new Player("kaptenen");
-            pieces.Add(new Piece(Colors.blue));
-            pieces.Add(new Piece(Colors.blue));
-            gamestate.AddPieces(player2, pieces);
-            var gamePiece1 = gamestate.GetPieces(player2).Where(x => x == pieces[0]).FirstOrDefault();
-            var gamePiece2 = gamestate.GetPieces(player2).Where(x => x == pieces[1]).FirstOrDefault();
-
-            gamePiece1.Position = 11;
-            gamePiece1.Steps = 0;
-
-            gamePiece2.Position = 5;
-            gamePiece2.Steps = 6;
-
-            //Act
-            var canMove = gameEngine.IsPieceClearForMoving(player2, pieces[1], gamestate, gamePiece2.Steps);
-
-            //Assert
-            Assert.IsFalse(canMove);
-        }
-
-        [TestMethod]
-        public void IsPieceClearForMoving_NoPieceOnPath_True()
-        {
-            //Arrange
-            var gamestate = new GameState();
-            var gameEngine = new GameEngine(2, 1);
-
-            List<Piece> pieces = new List<Piece>();
-            var player = new Player("Sebbe");
-            pieces.Add(new Piece(Colors.red));
-            gamestate.AddPieces(player, pieces);
-            var gamePiece = gamestate.GetPieces(player).Where(x => x == pieces[0]).FirstOrDefault();
-            gamePiece.Position = 25;
-
-            List<Piece> pieces2 = new List<Piece>();
-            var player2 = new Player("kaptenen");
-            pieces2.Add(new Piece(Colors.blue));
-            gamestate.AddPieces(player2, pieces2);
-            var gamePiece2 = gamestate.GetPieces(player2).Where(x => x == pieces2[0]).FirstOrDefault();
-            gamePiece2.Position = 11;
-            gamePiece2.Steps = 6;
+//            //Assert
+//            Assert.IsTrue(canMove);
+//        }
 
 
-            //Act
-            var canMove = gameEngine.IsPieceClearForMoving(player2, pieces2[0], gamestate, gamePiece2.Steps);
+//        [TestMethod]
+//        public void IsPieceClearForMoving_CurrentPlayerPieceOnPath_False()
+//        {
+//            //Arrange
+//            var gameEngine = new GameEngine(2, 1);
+//            var gamestate = new GameState();
 
-            //Assert
-            Assert.IsTrue(canMove);
-        }
-        #endregion
+//            List<Piece> pieces = new List<Piece>();
+//            var player2 = new Player("kaptenen");
+//            pieces.Add(new Piece(Colors.blue));
+//            pieces.Add(new Piece(Colors.blue));
+//            gamestate.AddPieces(player2, pieces);
+//            var gamePiece1 = gamestate.GetPieces(player2).Where(x => x == pieces[0]).FirstOrDefault();
+//            var gamePiece2 = gamestate.GetPieces(player2).Where(x => x == pieces[1]).FirstOrDefault();
 
-        #region PickActivePieceToMove
-        [TestMethod]
-        public void PickActivePieceToMove_ThereAreActivePieces_True()
-        {
+//            gamePiece1.Position = 9;
+//            gamePiece1.Steps = 0;
 
-            var gameEngine = new GameEngine(2, 3);
-            //Arrange
-            var activePieceList = new List<Piece>
-            {
-                new Piece(Colors.red),
-                new Piece(Colors.red),
-                new Piece(Colors.red)
-            };
+//            gamePiece2.Position = 5;
+//            gamePiece2.Steps = 6;
 
-            int playerpick = 3;
-            //Act
-            var result = gameEngine.PickActivePieceToMove(activePieceList, playerpick);
+//            //Act
+//            var canMove = gameEngine.IsPieceClearForMoving(player2, pieces[1], gamestate, gamePiece2.Steps);
 
-            //Assert
-            Assert.AreEqual(activePieceList[2], result);
-        }
-
-        #endregion
-
-        //[TestMethod]
-        //public void PlayGame_RolledOneThereIsInActivePieces_True()
-        //{
-        //    //Arrange
-        //    var gamestate = new GameState();
-        //    var gameEngine = new GameEngine(2, 1);
-
-        //    List<Piece> pieces = new List<Piece>();
-        //    var player = new Player("Sebbe");
-        //    pieces.Add(new Piece("Red"));
-        //    gamestate.AddPieces(player, pieces);
-        //    var gamePiece = gamestate.GetPieces(player).Where(x => x == pieces[0]).FirstOrDefault();
-        //    gamePiece.Position = 0;
-
-        //    //Act
-        //    gameEngine.PlayGame(gamestate);
-        //    //Assert
-
-        //}
-
-        //[TestMethod]
-        //public void ()
-        //{
-        //    //Arrange
-
-        //    //Act
-
-        //    //Assert
-
-        //}
+//            //Assert
+//            Assert.IsFalse(canMove);
+//        }
 
 
-    }
-}
+//        [TestMethod]
+//        public void IsPieceClearForMoving_CurrentPlayerPieceOnLandingSquare_False()
+//        {
+//            //Arrange
+//            var gameEngine = new GameEngine(2, 1);
+//            var gamestate = new GameState();
+
+//            List<Piece> pieces = new List<Piece>();
+//            var player2 = new Player("kaptenen");
+//            pieces.Add(new Piece(Colors.blue));
+//            pieces.Add(new Piece(Colors.blue));
+//            gamestate.AddPieces(player2, pieces);
+//            var gamePiece1 = gamestate.GetPieces(player2).Where(x => x == pieces[0]).FirstOrDefault();
+//            var gamePiece2 = gamestate.GetPieces(player2).Where(x => x == pieces[1]).FirstOrDefault();
+
+//            gamePiece1.Position = 11;
+//            gamePiece1.Steps = 0;
+
+//            gamePiece2.Position = 5;
+//            gamePiece2.Steps = 6;
+
+//            //Act
+//            var canMove = gameEngine.IsPieceClearForMoving(player2, pieces[1], gamestate, gamePiece2.Steps);
+
+//            //Assert
+//            Assert.IsFalse(canMove);
+//        }
+
+//        [TestMethod]
+//        public void IsPieceClearForMoving_NoPieceOnPath_True()
+//        {
+//            //Arrange
+//            var gamestate = new GameState();
+//            var gameEngine = new GameEngine(2, 1);
+
+//            List<Piece> pieces = new List<Piece>();
+//            var player = new Player("Sebbe");
+//            pieces.Add(new Piece(Colors.red));
+//            gamestate.AddPieces(player, pieces);
+//            var gamePiece = gamestate.GetPieces(player).Where(x => x == pieces[0]).FirstOrDefault();
+//            gamePiece.Position = 25;
+
+//            List<Piece> pieces2 = new List<Piece>();
+//            var player2 = new Player("kaptenen");
+//            pieces2.Add(new Piece(Colors.blue));
+//            gamestate.AddPieces(player2, pieces2);
+//            var gamePiece2 = gamestate.GetPieces(player2).Where(x => x == pieces2[0]).FirstOrDefault();
+//            gamePiece2.Position = 11;
+//            gamePiece2.Steps = 6;
+
+
+//            //Act
+//            var canMove = gameEngine.IsPieceClearForMoving(player2, pieces2[0], gamestate, gamePiece2.Steps);
+
+//            //Assert
+//            Assert.IsTrue(canMove);
+//        }
+//        #endregion
+
+//        #region PickActivePieceToMove
+//        [TestMethod]
+//        public void PickActivePieceToMove_ThereAreActivePieces_True()
+//        {
+
+//            var gameEngine = new GameEngine(2, 3);
+//            //Arrange
+//            var activePieceList = new List<Piece>
+//            {
+//                new Piece(Colors.red),
+//                new Piece(Colors.red),
+//                new Piece(Colors.red)
+//            };
+
+//            int playerpick = 3;
+//            //Act
+//            var result = gameEngine.PickActivePieceToMove(activePieceList, playerpick);
+
+//            //Assert
+//            Assert.AreEqual(activePieceList[2], result);
+//        }
+
+//        #endregion
+
+//        //[TestMethod]
+//        //public void PlayGame_RolledOneThereIsInActivePieces_True()
+//        //{
+//        //    //Arrange
+//        //    var gamestate = new GameState();
+//        //    var gameEngine = new GameEngine(2, 1);
+
+//        //    List<Piece> pieces = new List<Piece>();
+//        //    var player = new Player("Sebbe");
+//        //    pieces.Add(new Piece("Red"));
+//        //    gamestate.AddPieces(player, pieces);
+//        //    var gamePiece = gamestate.GetPieces(player).Where(x => x == pieces[0]).FirstOrDefault();
+//        //    gamePiece.Position = 0;
+
+//        //    //Act
+//        //    gameEngine.PlayGame(gamestate);
+//        //    //Assert
+
+//        //}
+
+//        //[TestMethod]
+//        //public void ()
+//        //{
+//        //    //Arrange
+
+//        //    //Act
+
+//        //    //Assert
+
+//        //}
+
+
+//    }
+//}
