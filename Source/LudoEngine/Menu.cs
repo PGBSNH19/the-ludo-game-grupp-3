@@ -119,7 +119,7 @@ namespace LudoEngine
         }
 
         //This whole method needs refactoring.
-        public static int PickFromList(List<Piece> list)
+        public static int PickPieceFromList(List<Piece> list)
         {
             int choice = -1;
             List<string> availablePieces = new List<string>();
@@ -130,7 +130,7 @@ namespace LudoEngine
             }
 
             // Gets the pieces ToString as an anwser from the menu choice.
-            string input = MenuOptions(availablePieces, "What piece do you want to move?");
+           string input = MenuOptions(availablePieces, "What piece do you want to move?");
 
             // Gets the index of the chosen piece
             foreach (var piece in list)
@@ -163,22 +163,20 @@ namespace LudoEngine
             }
         }
 
-        public static bool WantToMoveActivePiece()
+        public static bool WantToMoveActivePiece(string input)
         {
-            Console.WriteLine("Do you want to move an active piece?");
+            
 
             while (true)
             {
-                var input = Console.ReadLine();
+                
                 switch (input)
                 {
                     case "yes":
                         return true;
                     case "no":
                         return false;
-                    default:
-                        Console.WriteLine("Please enter yes or no");
-                        break;
+                   
                 }
             }
         }

@@ -37,7 +37,7 @@ namespace LudoEngine
         {
             while (true)
             {
-                var activePiece = PickActivePieceToMove(activePieces, Menu.PickFromList(activePieces));
+                var activePiece = PickActivePieceToMove(activePieces, Menu.PickPieceFromList(activePieces));
 
                 if (IsPieceClearForMoving(p, activePiece, game, roll))
                 {
@@ -65,12 +65,12 @@ namespace LudoEngine
         public GameState StartNewGame()
         {
             var game = new GameState();
-            var pieces = new List<Piece>();
 
             List<string> availableColors = new List<string> { "red", "green", "yellow", "blue" };
 
             for (int i = 0; i < NumberOfPlayers; i++)
             {
+                var pieces = new List<Piece>();
                 Console.Clear();
                 Console.WriteLine();
                 Console.WriteLine($"Player {i + 1}");
@@ -88,8 +88,7 @@ namespace LudoEngine
                     pieces.Add(new Piece(pieceColor));
                 }
                 // Adds the pieces to the current gamestate.
-                p.Pieces = pieces;
-
+                game.Players[i].Pieces = pieces;
                 // Removes the color as an alternative for the next player to choose.
                 availableColors.Remove(pieces[0].Color.ToString());
 
@@ -189,13 +188,13 @@ namespace LudoEngine
         {
             var pieces = new List<Piece>();
 
-           CurrentPlayerPieces.ForEach(x =>
-            {
-                if (!x.IsActive)
-                {
-                    pieces.Add(x);
-                }
-            });
+            CurrentPlayerPieces.ForEach(x =>
+             {
+                 if (!x.IsActive)
+                 {
+                     pieces.Add(x);
+                 }
+             });
 
             return pieces;
         }
@@ -225,7 +224,7 @@ namespace LudoEngine
 
             if (activePieceCount > 0)
             {
-                moveActive = Menu.WantToMoveActivePiece();
+                moveActive = Menu.WantToMoveActivePiece(Menu.MenuOptions(new List<string> { "yes", "no" }, "Do you want to move an active piece?"));
             }
 
             if (roll == 6
@@ -393,7 +392,7 @@ namespace LudoEngine
 
             return name;
         }
-        
+
         public void SaveGame()
         {
 

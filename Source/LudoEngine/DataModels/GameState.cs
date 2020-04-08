@@ -12,6 +12,7 @@ namespace LudoEngine
         public int NextPlayerID { get; set; }
         public Player NextPlayer { get; set; }
         public bool HasFinished { get; set; }
+        //public int PlayerID { get; set; }
         public List<Player> Players;
 
         public GameState()
