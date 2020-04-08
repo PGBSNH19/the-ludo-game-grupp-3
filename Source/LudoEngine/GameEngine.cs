@@ -9,6 +9,7 @@ namespace LudoEngine
     public class GameEngine
     {
         private int _numberOfPlayers;
+        
         public int PiecesPerPlayer { get; set; }
 
         /// <summary>
@@ -51,16 +52,17 @@ namespace LudoEngine
                 }
             }
         }
+        
         public GameEngine()
         {
 
         }
+        
         public GameEngine(int numberOfPlayers, int piecesPerPlayer)
         {
             NumberOfPlayers = numberOfPlayers;
             PiecesPerPlayer = piecesPerPlayer;
         }
-
 
         public GameState StartNewGame()
         {
@@ -99,6 +101,7 @@ namespace LudoEngine
             }
             return game;
         }
+        
         public GameState LoadGame()
         {
             List<GameState> savedGames = GetSavedGames();
@@ -169,6 +172,7 @@ namespace LudoEngine
                 }
             }
         }
+        
         public List<Piece> GetPlayersActivePieces(List<Piece> CurrentPlayerPieces)
         {
             var pieces = new List<Piece>();

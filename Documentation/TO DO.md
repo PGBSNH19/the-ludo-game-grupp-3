@@ -1,5 +1,6 @@
 TO DO
 
+- Ändra menuoptions till att returnera en int istället för en string
 - Skriva tester för den nya logiken i gameEngine.(börjat)
 - Fixa menymetoderna(börjat)
 - Vi vill använda enum colors istället för att ha den som en sträng i klassen piece
