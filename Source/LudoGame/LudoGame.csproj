@@ -7,19 +7,8 @@
 
   <ItemGroup>
     <Compile Remove="DatabaseModels\**" />
-    <Compile Remove="Migrations\**" />
     <EmbeddedResource Remove="DatabaseModels\**" />
-    <EmbeddedResource Remove="Migrations\**" />
     <None Remove="DatabaseModels\**" />
-    <None Remove="Migrations\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="Migrations\20200407092026_initial.cs" />
-    <Compile Include="Migrations\20200407092026_initial.designer.cs" />
-    <Compile Include="Migrations\20200408120012_asd.cs" />
-    <Compile Include="Migrations\20200408120012_asd.designer.cs" />
-    <Compile Include="Migrations\LudoGameContextModelSnapshot.cs" />
   </ItemGroup>
 
   <ItemGroup>

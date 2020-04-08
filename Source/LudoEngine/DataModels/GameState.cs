@@ -12,7 +12,6 @@ namespace LudoEngine
         public int NextPlayerID { get; set; }
         public Player NextPlayer { get; set; }
         public bool HasFinished { get; set; }
-        //public int PlayerID { get; set; }
         public List<Player> Players;
 
         public GameState()
@@ -47,6 +46,36 @@ namespace LudoEngine
             }
 
             Thread.Sleep(2500);
+        }
+
+        public void SaveGame()
+        {
+            
+        }
+
+        public GameState LoadGame()
+        {
+            List<GameState> savedGames = GetSavedGames();
+            if (savedGames == null)
+            {
+                throw new NullReferenceException("No saved games.");
+            }
+
+            List<string> availableGames = new List<string>();
+            savedGames.ForEach(x => availableGames.Add(x.ToString()));
+
+            GameState selectedGame = PickSavedGame(Menu.MenuOptions(availableGames, "Choose a saved game"), savedGames);
+
+            return selectedGame;
+        }
+        public List<GameState> GetSavedGames()
+        {
+            throw new NotImplementedException();
+        }
+
+        public GameState PickSavedGame(string selectedGame, List<GameState> savedGames)
+        {
+            return savedGames.Where(x => x.ToString() == selectedGame).FirstOrDefault();
         }
 
         public override string ToString()

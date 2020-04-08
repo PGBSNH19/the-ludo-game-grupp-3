@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace LudoGame.Migrations
+namespace LudoEngine.Migrations
 {
     [DbContext(typeof(LudoGameContext))]
-    [Migration("20200408120012_asd")]
-    partial class asd
+    [Migration("20200408130249_bossesFrechaKärra")]
+    partial class bossesFrechaKärra
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,9 +34,12 @@ namespace LudoGame.Migrations
                     b.Property<int>("NextPlayerID")
                         .HasColumnType("int");
 
+                    b.Property<int?>("NextPlayerID1")
+                        .HasColumnType("int");
+
                     b.HasKey("ID");
 
-                    b.HasIndex("NextPlayerID");
+                    b.HasIndex("NextPlayerID1");
 
                     b.ToTable("GameState");
                 });
@@ -80,6 +83,9 @@ namespace LudoGame.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("GameStateID")
+                        .HasColumnType("int");
+
                     b.Property<bool>("HasFinished")
                         .HasColumnType("bit");
 
@@ -95,9 +101,7 @@ namespace LudoGame.Migrations
                 {
                     b.HasOne("LudoEngine.Player", "NextPlayer")
                         .WithMany()
-                        .HasForeignKey("NextPlayerID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("NextPlayerID1");
                 });
 
             modelBuilder.Entity("LudoEngine.Piece", b =>

@@ -7,12 +7,19 @@ using System.Text;
 
 namespace LudoEngine
 {
-    class LudoGameContext : DbContext
+    public class LudoGameContext : DbContext
     {
         public DbSet<GameState> GameState { get; set; }
         public DbSet<Piece> Piece { get; set; }
         public DbSet<Player> Player { get; set; }
 
+        public static LudoGameContext GetDbContext()
+        {
+            using (var context = new LudoGameContext())
+            {
+                return context;
+            }
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
