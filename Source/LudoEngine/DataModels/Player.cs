@@ -9,11 +9,13 @@ namespace LudoEngine
         public string Name { get; set; }
         public bool HasFinished { get; set; }
         public int GameStateID { get; set; }
+        public GameState GameState { get; set; }
         public List<Piece> Pieces { get; set; }
 
 
         public Player(string name)
         {
+            HasFinished = false;
             Name = name;
         }
 

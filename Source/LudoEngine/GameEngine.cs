@@ -9,7 +9,7 @@ namespace LudoEngine
     public class GameEngine
     {
         private int _numberOfPlayers;
-        
+
         public int PiecesPerPlayer { get; set; }
 
         /// <summary>
@@ -52,12 +52,12 @@ namespace LudoEngine
                 }
             }
         }
-        
+
         public GameEngine()
         {
 
         }
-        
+
         public GameEngine(int numberOfPlayers, int piecesPerPlayer)
         {
             NumberOfPlayers = numberOfPlayers;
@@ -82,12 +82,12 @@ namespace LudoEngine
 
                 var p = new Player(GetName());
                 game.Players.Add(p);
-
                 Colors pieceColor = Piece.PickColor(Menu.MenuOptions(availableColors, "What color do you want to play?"));
 
                 for (int j = 0; j < PiecesPerPlayer; j++)
                 {
                     pieces.Add(new Piece(pieceColor));
+
                 }
                 // Adds the pieces to the current gamestate.
                 game.Players[i].Pieces = pieces;
@@ -99,6 +99,8 @@ namespace LudoEngine
                 Thread.Sleep(2000);
 
             }
+
+                game.SavePlayerAndPieces(game);
             return game;
         }
 
@@ -147,7 +149,7 @@ namespace LudoEngine
                 }
             }
         }
-        
+
         public List<Piece> GetPlayersActivePieces(List<Piece> CurrentPlayerPieces)
         {
             var pieces = new List<Piece>();

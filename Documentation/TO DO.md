@@ -1,5 +1,6 @@
 TO DO
 
+- relationen mellan player och gamestate
 - Ändra menuoptions till att returnera en int istället för en string
 - Skriva tester för den nya logiken i gameEngine.(börjat)
 - Fixa menymetoderna(börjat)
@@ -16,6 +17,7 @@ TO DO
 - skriv ut lista med pieces nära dig
 - setill så att alla spelare inte går med samma gubbar
 - ta borty inactive pieces count i roll six or one
+ 
 
 
 

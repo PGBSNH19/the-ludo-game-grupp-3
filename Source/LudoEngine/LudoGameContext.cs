@@ -13,13 +13,7 @@ namespace LudoEngine
         public DbSet<Piece> Piece { get; set; }
         public DbSet<Player> Player { get; set; }
 
-        public static LudoGameContext GetDbContext()
-        {
-            using (var context = new LudoGameContext())
-            {
-                return context;
-            }
-        }
+      
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -14,8 +14,10 @@ namespace LudoEngine
         public bool HasFinished { get; set; }
         public List<Player> Players;
 
+        public LudoGameContext context = new LudoGameContext();
         public GameState()
         {
+            HasFinished = false;
             Players = new List<Player>();
         }
 
@@ -47,10 +49,30 @@ namespace LudoEngine
 
             Thread.Sleep(2500);
         }
-
-        public void SaveGame()
+        public void SavePlayer(Player player)
         {
-            
+            context.Player.Add(player);
+            context.SaveChanges();
+        }
+
+        public void SavePlayerAndPieces(GameState game)
+        {
+            game.NextPlayer = game.Players[0];
+            context.GameState.Add(game);
+
+            foreach (var player in game.Players)
+            {
+                context.Player.Add(player);
+                foreach (var piece in player.Pieces)
+                {
+                    context.Piece.Add(piece);
+                }
+            }
+
+
+            context.SaveChanges();
+
+
         }
 
         public GameState LoadGame()
