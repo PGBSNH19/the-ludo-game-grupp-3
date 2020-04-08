@@ -67,7 +67,7 @@ namespace LudoEngine
             var game = new GameState();
             var pieces = new List<Piece>();
 
-            List<string> availableColors = new List<string> { "red", "green", "Yellow", "blue" };
+            List<string> availableColors = new List<string> { "red", "green", "yellow", "blue" };
 
             for (int i = 0; i < NumberOfPlayers; i++)
             {

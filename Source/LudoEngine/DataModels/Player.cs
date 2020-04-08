@@ -9,6 +9,7 @@ namespace LudoEngine
         public string Name { get; set; }
         public bool HasFinished { get; set; }
         public List<Piece> Pieces { get; set; }
+
         List<GameState> PlayedGames;
 
         public Player(string name)
