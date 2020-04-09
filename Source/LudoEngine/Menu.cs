@@ -76,8 +76,9 @@ namespace LudoEngine
 
                 case "load game":
                     var loadedGame = new GameEngine();
-                    //var loadedGameState = loadedGame.LoadGame();
-                    //loadedGame.PlayGame(loadedGameState);
+                    var loadedGameState = new GameState();
+                    loadedGameState = loadedGameState.LoadGame();
+                    loadedGame.PlayGame(loadedGameState);
                     break;
                 default:
                     break;
@@ -129,7 +130,7 @@ namespace LudoEngine
             }
 
             // Gets the pieces ToString as an anwser from the menu choice.
-           string input = MenuOptions(availablePieces, "What piece do you want to move?");
+            string input = MenuOptions(availablePieces, "What piece do you want to move?");
 
             // Gets the index of the chosen piece
             foreach (var piece in list)
@@ -164,18 +165,18 @@ namespace LudoEngine
 
         public static bool WantToMoveActivePiece(string input)
         {
-            
+
 
             while (true)
             {
-                
+
                 switch (input)
                 {
                     case "yes":
                         return true;
                     case "no":
                         return false;
-                   
+
                 }
             }
         }

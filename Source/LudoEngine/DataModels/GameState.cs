@@ -12,7 +12,7 @@ namespace LudoEngine
         public bool HasFinished { get; set; }
         public List<Player> Players { get; set; }
         public LudoGameContext context = new LudoGameContext();
-       
+
         public GameState()
         {
             HasFinished = false;
@@ -21,7 +21,7 @@ namespace LudoEngine
 
         public void MovePiece(Player player, Piece piece, int steps)
         {
-            var correctPiece = player.Pieces.Single(s => s == piece);
+            var correctPiece = player.Pieces.SingleOrDefault(s => s.ID == piece.ID);
             correctPiece.Steps = steps;
 
             Console.Write($"You moved {correctPiece.Steps} steps from square {correctPiece.Position} ");
@@ -49,7 +49,7 @@ namespace LudoEngine
         public void SavePieceMove(Piece p)
         {
             var currentPiece = context.Piece.SingleOrDefault(x => x.ID == p.ID);
-            
+
             currentPiece.Position = p.Position;
             currentPiece.Steps = p.Steps;
             currentPiece.HasFinished = p.HasFinished;
@@ -99,33 +99,45 @@ namespace LudoEngine
 
         public GameState LoadGame()
         {
+            var availableGames = new List<string>();
             List<GameState> savedGames = GetSavedGames();
+
             if (savedGames == null)
             {
                 throw new NullReferenceException("No saved games.");
             }
 
-            List<string> availableGames = new List<string>();
+            savedGames.ForEach(x => x.Players = getPlayersFromDatabase(x));
+            savedGames.ForEach(x => x.Players.ForEach(z => z.Pieces = getPiecesFromDatabase(z)));
             savedGames.ForEach(x => availableGames.Add(x.ToString()));
+
 
             GameState selectedGame = PickSavedGame(Menu.MenuOptions(availableGames, "Choose a saved game"), savedGames);
 
             return selectedGame;
         }
 
+        public List<Player> getPlayersFromDatabase(GameState game)
+        {
+            return context.Player.Where(x => x.GameStateID == game.ID).ToList();
+        }
         public List<Piece> getPiecesFromDatabase(Player player)
         {
-            return context.Player.SingleOrDefault(x => x.ID == player.ID).Pieces;
+            //context.Piece.Where(x => x.PlayerID == player.ID);
+            var temp = context.Piece.Where(x => x.PlayerID == player.ID).ToList();
+            return temp;
         }
 
         public List<GameState> GetSavedGames()
         {
-            throw new NotImplementedException();
+
+
+            return context.GameState.ToList();
         }
 
         public GameState PickSavedGame(string selectedGame, List<GameState> savedGames)
         {
-            return savedGames.Where(x => x.ToString() == selectedGame).FirstOrDefault();
+            return savedGames.SingleOrDefault(x => x.ToString().ToLower() == selectedGame);
         }
 
         public override string ToString()
@@ -140,10 +152,15 @@ namespace LudoEngine
                 return $"Players in this game {ID}: {Players[0].Name}, {Players[1].Name}, {Players[2].Name}. ";
 
             }
-            else
+            else if (Players.Count == 4)
             {
                 return $"Players in this game {ID}: {Players[0].Name}, {Players[1].Name}, {Players[2].Name}, {Players[3].Name}. ";
 
+            }
+            else
+            {
+                Players.Count();
+                return "hej";
             }
         }
     }

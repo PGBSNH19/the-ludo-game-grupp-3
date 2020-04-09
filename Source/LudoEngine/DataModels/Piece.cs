@@ -12,6 +12,8 @@ namespace LudoEngine
         public int Steps { get; set; }
         public int Position { get; set; }
         public Colors Color { get; set; }
+        public int PlayerID { get; set; }
+        public Player player { get; set; }
 
         public Piece(Colors color)
         {

@@ -100,7 +100,7 @@ namespace LudoEngine
 
             }
 
-                game.SaveGame(game);
+            game.SaveGame(game);
             return game;
         }
 
@@ -296,10 +296,14 @@ namespace LudoEngine
 
         public bool IsPieceClearForMoving(Player currentPlayer, Piece piece, GameState game, int roll)
         {
+
+
             // Looparna kan refaktoreras till Linq
 
             foreach (var p in game.Players)
             {
+                int relativePosition = currentPlayer.GetRelativePositionOfOpponent(game, p);
+
                 foreach (var item in p.Pieces)
                 {
                     // Checks position of each piece in front of the pice we want to move.
@@ -319,7 +323,7 @@ namespace LudoEngine
                             // If it's a piece owned by current player on the same square.
                             return false;
                         }
-                        else if ((item.Position == piece.Position + roll) && piece.Position < 41)
+                        else if ((item.Position + relativePosition == piece.Position + roll) && piece.Position < 41)
                         {
                             // Push opponent piece back to start.
                             item.Position = 0;

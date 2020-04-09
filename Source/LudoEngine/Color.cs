@@ -6,9 +6,9 @@ namespace LudoEngine
 {
     public enum Colors
     {
-        yellow,
         red,
-        blue,
-        green
+        green,
+        yellow,
+        blue
     }
 }
