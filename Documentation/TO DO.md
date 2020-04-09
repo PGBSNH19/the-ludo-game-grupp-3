@@ -26,11 +26,11 @@ spelare 0 :
 spelare 1 :
 	spelare2+10
 	spelare3+20
-	spelare0-10
+	spelare0+30
 spelare 2 :
 	spelare3+10
-	spelare0-20
-	spelare1-10
+	spelare0+20
+	spelare1+30
 spelare 3 :
 	spelare0+10
 	spelare1+20
