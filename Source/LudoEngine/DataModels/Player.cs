@@ -9,6 +9,7 @@ namespace LudoEngine
         public string Name { get; set; }
         public bool HasFinished { get; set; }
         public bool IsMyTurn { get; set; }
+        public bool IsWinner { get; set; }
         public int GameStateID { get; set; }
         public GameState GameState { get; set; }
         public List<Piece> Pieces { get; set; }
@@ -18,7 +19,9 @@ namespace LudoEngine
             Name = name;
             HasFinished = false;
             IsMyTurn = false;
+            IsWinner = false;
         }
+
         /// <summary>
         /// how relative position is calculated
         /// spelare 0 :
@@ -40,11 +43,12 @@ namespace LudoEngine
 
         /// </summary>
         /// <returns></returns>
+        /// 
         public int GetRelativePositionOfOpponent(GameState game, Player p)
         {
             var currentPlayerIndex = game.Players.IndexOf(this);
             var oponentIndex = game.Players.IndexOf(p);
-            
+
             if (currentPlayerIndex == 0)
             {
                 if (oponentIndex == 1) { return 10; }
@@ -79,9 +83,8 @@ namespace LudoEngine
 
                 return 30;
             }
-
-
         }
+
         public override string ToString()
         {
             return $"{Name}: {ID}";

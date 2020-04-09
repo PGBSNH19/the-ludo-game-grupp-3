@@ -112,7 +112,7 @@ namespace LudoEngine
             savedGames.ForEach(x => availableGames.Add(x.ToString()));
 
 
-            GameState selectedGame = PickSavedGame(Menu.MenuOptions(availableGames, "Choose a saved game"), savedGames);
+            GameState selectedGame = PickSavedGame(Menu.MenuOptions(availableGames, "Choose a saved game: "), savedGames);
 
             return selectedGame;
         }

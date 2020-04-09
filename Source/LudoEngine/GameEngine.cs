@@ -112,6 +112,7 @@ namespace LudoEngine
                 // One round per person.
                 foreach (var p in game.Players)
                 {
+                    // Sets the turn to the active player.
                     game.ChangePlayerTurn(p);
                     bool rolledSix = false;
 
@@ -142,10 +143,30 @@ namespace LudoEngine
                             UserRolledTwoToFive(game, p, activePieces, inactivePieces, roll);
                         }
 
+                        // If someone wins run Main menu.
                         rolledSix = (roll == 6) ? true : false;
+                        if (CheckForWinner(p)) Menu.MainMenu(Menu.MenuOptions(new List<string> { "Start new game", "Load game", "Save game" }, "Options")); ;
+
                     } while (rolledSix);
                 }
             }
+        }
+
+        public bool CheckForWinner(Player p)
+        {
+            var temp = p.Pieces.Where(x => x.HasFinished).Count();
+            if (temp == 4)
+            {
+                p.IsWinner = true;
+
+                Console.WriteLine();
+                Console.WriteLine("YOU WON,END OF GAME! ");
+                Console.WriteLine();
+                
+                Thread.Sleep(2000);
+                return true;
+            }
+            return false;
         }
 
         public List<Piece> GetPlayersActivePieces(List<Piece> CurrentPlayerPieces)
@@ -296,10 +317,6 @@ namespace LudoEngine
 
         public bool IsPieceClearForMoving(Player currentPlayer, Piece piece, GameState game, int roll)
         {
-
-
-            // Looparna kan refaktoreras till Linq
-
             foreach (var p in game.Players)
             {
                 int relativePosition = currentPlayer.GetRelativePositionOfOpponent(game, p);
@@ -315,17 +332,18 @@ namespace LudoEngine
                         return true;
                     }
 
+                    // If any of the sqaures in path are occupied.
                     if ((item.Position > piece.Position && item.Position <= (piece.Position + roll) && item.HasFinished == false))
                     {
-                        // If any of the sqaures in path are occupied.
+                        // If it's a piece owned by current player on the same square.
                         if (currentPlayer == p)
                         {
-                            // If it's a piece owned by current player on the same square.
                             return false;
                         }
                         else if ((item.Position + relativePosition == piece.Position + roll) && piece.Position < 41)
                         {
                             // Push opponent piece back to start.
+                            item.IsActive = false;
                             item.Position = 0;
                             return true;
                         }

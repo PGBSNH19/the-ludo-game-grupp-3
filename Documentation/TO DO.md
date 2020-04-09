@@ -1,44 +1,32 @@
 TO DO
 
-- relationen mellan player och gamestate
-- Ändra menuoptions till att returnera en int istället för en string
 - Skriva tester för den nya logiken i gameEngine.(börjat)
-- Fixa menymetoderna(börjat)
-- Vi vill använda enum colors istället för att ha den som en sträng i klassen piece
-- Fundera över AI-spelare och flowchart
-- Skapa databas
-- Fixa logik för slutsträckan 
-- Fundera på hur vill vill att spelet ska se ut i konsolen
-- Gör så att man kan välja färg med tangenterna
-- flera spelare kan inte ha samma färg och ta bort valda färger ur listan med färger 
-- kolla så knuffen fungerar
+
+- Ändra menuoptions till att returnera en int istället för en string
+
 - ta sig tillbaka i menyn
-- sätta välj pice/vil du gå med en eller 2 med piltangenter
+
+- Utskrift för knuff
+
 - skriv ut lista med pieces nära dig
-- setill så att alla spelare inte går med samma gubbar
-- ta borty inactive pieces count i roll six or one
 
+- Fundera på hur vill vill att spelet ska se ut i konsolen
 
-spelare 0 :
-	spelare1+10
-	spelare2+20
-	spelare3+30
-spelare 1 :
-	spelare2+10
-	spelare3+20
-	spelare0+30
-spelare 2 :
-	spelare3+10
-	spelare0+20
-	spelare1+30
-spelare 3 :
-	spelare0+10
-	spelare1+20
-	spelare2+30
+- (Fixa lite med färg)
 
- 
+- Refaktorera det som behövs till linq
 
+  
 
+  Redovisning:
+
+  - Vem ska gå igenom vad.
+  - Vilka delar av programmet ska vi visa och hur (typ ifsatser regler)
+  - Klippa videon (sebbe)
+  - skapa powerpoint, vad vill vi ha med
+  - sänka thread.sleep för tärningen
+
+  
 
 Complete:
 
@@ -56,3 +44,15 @@ Complete:
 - sätta regler för att gå ut med  pjäsen
 - Gjort all logik enligt spelreglerna
 - testköra programmet
+- relationen mellan player och gamestate
+- Fixa menymetoderna
+- Vi vill använda enum colors istället för att ha den som en sträng i klassen piece
+- Fundera över AI-spelare och flowchart
+- Skapa databas
+- Fixa logik för slutsträckan 
+- Gör så att man kan välja färg med tangenterna
+- flera spelare kan inte ha samma färg och ta bort valda färger ur listan med färger 
+- kolla så knuffen fungerar
+- sätta välj pice/vill du gå med en eller 2 med piltangenter
+- setill så att alla spelare inte går med samma gubbar
+- ta borty inactive pieces count i roll six or one
