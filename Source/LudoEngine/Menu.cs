@@ -71,7 +71,6 @@ namespace LudoEngine
 
                     var game = new GameEngine(numberOfPlayers, 4);
                     var gamestate = game.StartNewGame();
-                    //här ska vi spara spelet
                     game.PlayGame(gamestate);
                     break;
 

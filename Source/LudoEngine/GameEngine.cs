@@ -100,7 +100,7 @@ namespace LudoEngine
 
             }
 
-                game.SavePlayerAndPieces(game);
+                game.SaveGame(game);
             return game;
         }
 
@@ -112,12 +112,13 @@ namespace LudoEngine
                 // One round per person.
                 foreach (var p in game.Players)
                 {
+                    game.ChangePlayerTurn(p);
                     bool rolledSix = false;
 
                     // This will run if gets to roll again (rolled 6)
                     do
                     {
-                        var CurrentPlayerPieces = p.Pieces;
+                        var CurrentPlayerPieces = game.getPiecesFromDatabase(p);
                         var activePieces = GetPlayersActivePieces(CurrentPlayerPieces);
                         var inactivePieces = GetPlayersInactivePieces(CurrentPlayerPieces);
 
@@ -141,11 +142,8 @@ namespace LudoEngine
                             UserRolledTwoToFive(game, p, activePieces, inactivePieces, roll);
                         }
 
-
                         rolledSix = (roll == 6) ? true : false;
                     } while (rolledSix);
-
-                    //GetNextPlayer(game, p);
                 }
             }
         }
@@ -178,21 +176,6 @@ namespace LudoEngine
              });
 
             return pieces;
-        }
-
-        private static void GetNextPlayer(GameState game, Player p)
-        {
-            //var players = game.Players;
-            //int num = players.IndexOf(p);
-
-            //if (num + 1 <= players.Count())
-            //{
-            //    game.NextPlayer = players[num + 1];
-            //}
-            //else
-            //{
-            //    game.NextPlayer = players[0];
-            //}
         }
 
         public void UserRolledOneOrSix(GameState game, Player p, List<Piece> activePieces, List<Piece> inactivePieces, int roll)

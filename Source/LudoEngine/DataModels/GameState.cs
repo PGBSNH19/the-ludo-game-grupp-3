@@ -9,12 +9,10 @@ namespace LudoEngine
     public class GameState
     {
         public int ID { get; set; }
-        public int NextPlayerID { get; set; }
-        public Player NextPlayer { get; set; }
         public bool HasFinished { get; set; }
-        public List<Player> Players;
-
+        public List<Player> Players { get; set; }
         public LudoGameContext context = new LudoGameContext();
+       
         public GameState()
         {
             HasFinished = false;
@@ -26,9 +24,7 @@ namespace LudoEngine
             var correctPiece = player.Pieces.Single(s => s == piece);
             correctPiece.Steps = steps;
 
-
             Console.Write($"You moved {correctPiece.Steps} steps from square {correctPiece.Position} ");
-
 
             correctPiece.Position += correctPiece.Steps;
 
@@ -36,9 +32,7 @@ namespace LudoEngine
             {
                 correctPiece.HasFinished = true;
                 correctPiece.IsActive = false;
-                Console.WriteLine($"Piece: {correctPiece.ID} of {correctPiece.Color} has finished.");
-
-
+                Console.WriteLine($"and {correctPiece.ID} of {correctPiece.Color} has finished.");
             }
             else
             {
@@ -47,17 +41,25 @@ namespace LudoEngine
                 correctPiece.Steps = 0;
             }
 
+            // Updates The piece position in the database.
+            SavePieceMove(correctPiece);
             Thread.Sleep(2500);
         }
-        public void SavePlayer(Player player)
+
+        public void SavePieceMove(Piece p)
         {
-            context.Player.Add(player);
+            var currentPiece = context.Piece.SingleOrDefault(x => x.ID == p.ID);
+            
+            currentPiece.Position = p.Position;
+            currentPiece.Steps = p.Steps;
+            currentPiece.HasFinished = p.HasFinished;
+            currentPiece.IsActive = p.IsActive;
+
             context.SaveChanges();
         }
 
-        public void SavePlayerAndPieces(GameState game)
+        public void SaveGame(GameState game)
         {
-            game.NextPlayer = game.Players[0];
             context.GameState.Add(game);
 
             foreach (var player in game.Players)
@@ -68,11 +70,31 @@ namespace LudoEngine
                     context.Piece.Add(piece);
                 }
             }
-
-
             context.SaveChanges();
+        }
 
+        public Player ChangePlayerTurn(Player p)
+        {
+            // Get the previous players index,
+            int currentPlayerIndex = Players.IndexOf(p);
 
+            if (currentPlayerIndex == 0)
+            {
+                currentPlayerIndex = Players.Count;
+            }
+
+            //Chooses the previous player.
+            var previousPlayer = Players[currentPlayerIndex - 1];
+
+            // Sets the IsMyTurn to false for the PREVIOUSPLAYER both locally and in the database.
+            previousPlayer.IsMyTurn = false;
+            context.Player.SingleOrDefault(x => x.ID == previousPlayer.ID).IsMyTurn = false;
+
+            // Sets the IsMyTurn to true for the CURRENT PLAYER both locally and in the database.
+            p.IsMyTurn = true;
+            context.Player.SingleOrDefault(x => x.ID == p.ID).IsMyTurn = true;
+            context.SaveChanges();
+            return p;
         }
 
         public GameState LoadGame()
@@ -90,6 +112,12 @@ namespace LudoEngine
 
             return selectedGame;
         }
+
+        public List<Piece> getPiecesFromDatabase(Player player)
+        {
+            return context.Player.SingleOrDefault(x => x.ID == player.ID).Pieces;
+        }
+
         public List<GameState> GetSavedGames()
         {
             throw new NotImplementedException();

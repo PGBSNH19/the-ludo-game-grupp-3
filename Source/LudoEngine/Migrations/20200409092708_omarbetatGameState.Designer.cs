@@ -4,14 +4,16 @@ using LudoEngine;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LudoEngine.Migrations
 {
     [DbContext(typeof(LudoGameContext))]
-    partial class LudoGameContextModelSnapshot : ModelSnapshot
+    [Migration("20200409092708_omarbetatGameState")]
+    partial class omarbetatGameState
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
