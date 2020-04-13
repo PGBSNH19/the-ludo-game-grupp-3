@@ -121,7 +121,7 @@ namespace LudoEngine
                         Menu.PromtUserToRollDice();
                         Console.ReadKey();
                         int roll = Dice.Roll();
-                        //roll = 1;
+                        //roll = 6;
                         Menu.PrintDiceRoll(p, roll);
 
                         if (roll == 1 || roll == 6)
