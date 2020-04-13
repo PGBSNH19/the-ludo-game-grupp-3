@@ -8,6 +8,29 @@ namespace LudoEngine
 {
     public class Menu
     {
+
+        public static void MenuHeader()
+        {
+            Console.Title = "SpacePark";
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            var header = new[]
+            {
+              @"  _                    ______     _______",
+              @" ( \        |\     /| (  __  \   (  ___  )",
+              @" | (        | )   ( | | (  \  )  | (   ) |",
+              @" | |        | |   | | | |   ) |  | |   | |",
+              @" | |        | |   | | | |   | |  | |   | |",
+              @" | |        | |   | | | |   ) |  | |   | |",
+              @" | (____/\  | (___) | | (__ / )  | (___) |",
+              @" (_______/  (_______) (______/   (_______)",
+            };
+
+            foreach (var line in header)
+            {
+                Console.WriteLine(line);
+            }
+        }
+
         public static string MenuOptions(List<string> input, string type)
         {
             Console.WriteLine();
