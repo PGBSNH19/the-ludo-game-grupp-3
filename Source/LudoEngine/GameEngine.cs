@@ -34,24 +34,6 @@ namespace LudoEngine
             }
         }
 
-        public void TryToMoveActivePiece(GameState game, Player p, List<Piece> activePieces, int roll)
-        {
-            while (true)
-            {
-                var activePiece = PickActivePieceToMove(activePieces, Menu.PickPieceFromList(activePieces));
-
-                if (IsPieceClearForMoving(p, activePiece, game, roll))
-                {
-                    game.MovePiece(p, activePiece, roll);
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("The path is blocked, choose another piece to move.");
-                    Thread.Sleep(2000);
-                }
-            }
-        }
 
         public GameEngine()
         {
@@ -62,6 +44,14 @@ namespace LudoEngine
         {
             NumberOfPlayers = numberOfPlayers;
             PiecesPerPlayer = piecesPerPlayer;
+        }
+        public string GetName()
+        {
+            Console.WriteLine();
+            Console.Write("Enter player name: ");
+            string name = Console.ReadLine();
+
+            return name;
         }
 
         public GameState StartNewGame()
@@ -370,15 +360,25 @@ namespace LudoEngine
             return true;
         }
 
-        public string GetName()
+        public void TryToMoveActivePiece(GameState game, Player p, List<Piece> activePieces, int roll)
         {
-            Console.WriteLine();
-            Console.Write("Enter player name: ");
-            string name = Console.ReadLine();
+            while (true)
+            {
+                var activePiece = PickActivePieceToMove(activePieces, Menu.PickPieceFromList(activePieces));
 
-            return name;
+                if (IsPieceClearForMoving(p, activePiece, game, roll))
+                {
+                    game.MovePiece(p, activePiece, roll);
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("The path is blocked, choose another piece to move.");
+                    Thread.Sleep(2000);
+                }
+            }
         }
-
+        
         public void MoveToStart(List<Piece> inactivePieces)
         {
             var piece = inactivePieces.Where(x => x.IsActive == false).ToList();
@@ -386,6 +386,7 @@ namespace LudoEngine
             piece.FirstOrDefault().Position = 1;
             Console.WriteLine($"Moved one piece to square one.");
         }
+        
         public Piece PickActivePieceToMove(List<Piece> activePieces, int playerpick)
         {
             return activePieces[playerpick];

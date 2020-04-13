@@ -40,10 +40,8 @@ namespace LudoEngine
         ///	    spelare0+10
         ///	    spelare1+20
         ///	    spelare2+30
-
         /// </summary>
-        /// <returns></returns>
-        /// 
+       
         public int GetRelativePositionOfOpponent(GameState game, Player p)
         {
             var currentPlayerIndex = game.Players.IndexOf(this);
