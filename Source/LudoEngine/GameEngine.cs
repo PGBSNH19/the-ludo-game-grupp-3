@@ -34,7 +34,6 @@ namespace LudoEngine
             }
         }
 
-
         public GameEngine()
         {
 
@@ -45,6 +44,7 @@ namespace LudoEngine
             NumberOfPlayers = numberOfPlayers;
             PiecesPerPlayer = piecesPerPlayer;
         }
+        
         public string GetName()
         {
             Console.WriteLine();
