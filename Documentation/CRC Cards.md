@@ -8,7 +8,6 @@
 | Bool HasFinished -                                 |             |
 | override ToString                                  |             |
 |                                                    |             |
-|                                                    |             |
 
 | Piece-                    | Interaktion |
 | ------------------------- | ----------- |
@@ -19,8 +18,6 @@
 | int steps(tärningsslaget) |             |
 | int position = -1         |             |
 |                           |             |
-|                           |             |
-|                           |             |
 
 | Enum Color (Eventuellt i player)- | Interaktion |
 | --------------------------------- | ----------- |
@@ -29,16 +26,11 @@
 | string yellow                     |             |
 | string green                      |             |
 |                                   |             |
-|                                   |             |
-|                                   |             |
-|                                   |             |
-|                                   |             |
 
 | Dice-                 | Interaktion |
 | --------------------- | ----------- |
 | int GetRandom(1-6){ } | GameEngine  |
 |                       | Piece       |
-|                       |             |
 |                       |             |
 
 | GameState-                              | Interaktion |
@@ -47,10 +39,7 @@
 | List<player> players                    | gameEngine  |
 | ïnt NextPlayer (vem ska slå nästa slag) |             |
 | Bool HasFinished                        |             |
-| Dictionary<Player, Pice>?????           |             |
-|                                         |             |
-|                                         |             |
-|                                         |             |
+| Dictionary<Player, Pice>??              |             |
 |                                         |             |
 
 | GameEngine-                   | Interaktion |
@@ -62,8 +51,6 @@
 | SaveGame(GameState)           |             |
 | CreateNewPlayer(Color, Name)  |             |
 |                               |             |
-|                               |             |
-|                               |             |
 
 | Menu                               | Interaktion |
 | ---------------------------------- | ----------- |
@@ -71,20 +58,10 @@
 | MenuSwitch(start, log, load, save) |             |
 | navigation(pilar upp ned osv)      |             |
 |                                    |             |
-|                                    |             |
-|                                    |             |
-|                                    |             |
-|                                    |             |
-|                                    |             |
 
 | Log                     | Interaktion |
 | ----------------------- | ----------- |
 | PrintActiveGames        | menu        |
 | PrintFinishedGames      | gameEngine  |
 | SaveFinishedGamesTo CSV |             |
-|                         |             |
-|                         |             |
-|                         |             |
-|                         |             |
-|                         |             |
 |                         |             |

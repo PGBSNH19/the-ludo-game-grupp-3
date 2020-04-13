@@ -24,11 +24,6 @@ namespace LudoEngine
             Color = color;
         }
 
-        public override string ToString()
-        {
-            return $"Piece: {ID} of {Color} has the position {Position}.";
-        }
-
         public static Colors PickColor(string input)
         {
             Console.WriteLine();
@@ -50,6 +45,11 @@ namespace LudoEngine
                     // This can never happen because of the menu selection process.
                     return Colors.blue;
             }
+        }
+        
+        public override string ToString()
+        {
+            return $"Piece: {ID} of {Color} has the position {Position}.";
         }
     }
 }
