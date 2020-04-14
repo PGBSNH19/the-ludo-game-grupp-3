@@ -26,7 +26,6 @@ namespace LudoEngine
               @"                                                        (("
             };
 
-
             foreach (var line in header)
             {
                 Console.WriteLine(line);
@@ -197,11 +196,6 @@ namespace LudoEngine
             Thread.Sleep(2000);
         }
 
-        public static void PickInactivePieceToMove()
-        {
-            //skriv menu för inaktiva pjäser
-        }
-
         public static bool WantToMoveTwoPiecesFromYard()
         {
             string input = MenuOptions(new List<string> { "Yes", "No" }, "Do you want to move 2 pieces to square 1 ?");
@@ -219,18 +213,14 @@ namespace LudoEngine
 
         public static bool WantToMoveActivePiece(string input)
         {
-
-
             while (true)
             {
-
                 switch (input)
                 {
                     case "yes":
                         return true;
                     case "no":
                         return false;
-
                 }
             }
         }

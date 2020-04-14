@@ -20,15 +20,12 @@ namespace TheLudoGame
             var gamestate = new GameState();
             gamestate.Players.Add(new Player("Sebbe"));
             var player = gamestate.Players[0];
-            player.Pieces.Add(new Piece(Colors.red));
-            player.Pieces.Add(new Piece(Colors.red));
 
+            player.Pieces.Add(new Piece(Colors.red));
+            player.Pieces.Add(new Piece(Colors.red));
 
             player.Pieces.ForEach(x => x.Position = 1);
             player.Pieces.ForEach(x => x.IsActive = true);
-
-
-
 
             //Act
             var canMove = gameEngine.IsPieceClearForMoving(player, player.Pieces[0], gamestate, 4);
@@ -44,28 +41,24 @@ namespace TheLudoGame
             var gameEngine = new GameEngine(2, 1);
             var gamestate = new GameState();
 
+            //Player1
             gamestate.Players.Add(new Player("Sebbe"));
             var playerone = gamestate.Players[0];
             playerone.Pieces.Add(new Piece(Colors.red));
             playerone.Pieces[0].Position = 6;
             playerone.Pieces[0].IsActive = true;
 
-
-
+            //Player2
             gamestate.Players.Add(new Player("Eric"));
             var playertwo = gamestate.Players[1];
             playertwo.Pieces.Add(new Piece(Colors.blue));
             playertwo.Pieces[0].Position = 1;
             playertwo.Pieces[0].IsActive = true;
 
-
-
-
             //Act
             var canMove = gameEngine.IsPieceClearForMoving(playerone, playerone.Pieces[0], gamestate, 5);
 
             //Assert
-
             Assert.IsTrue(canMove);
         }
 
@@ -86,8 +79,6 @@ namespace TheLudoGame
 
             playerone.Pieces[1].Position = 6;
             playerone.Pieces[1].IsActive = true;
-
-
 
             //Act
             var canMove = gameEngine.IsPieceClearForMoving(playerone, playerone.Pieces[0], gamestate, 6);
@@ -114,8 +105,6 @@ namespace TheLudoGame
             playerone.Pieces[1].Position = 6;
             playerone.Pieces[1].IsActive = true;
 
-
-
             //Act
             var canMove = gameEngine.IsPieceClearForMoving(playerone, playerone.Pieces[0], gamestate, 4);
 
@@ -141,8 +130,6 @@ namespace TheLudoGame
             playerone.Pieces[1].Position = 39;
             playerone.Pieces[1].IsActive = true;
 
-
-
             //Act
             var canMove = gameEngine.IsPieceClearForMoving(playerone, playerone.Pieces[0], gamestate, 4);
 
@@ -152,13 +139,9 @@ namespace TheLudoGame
 
         #endregion
 
-
-
-
         [TestMethod]
         public void PickActivePieceToMove_ThereAreActivePieces_True()
         {
-
             var gameEngine = new GameEngine(2, 3);
             //Arrange
             var activePieceList = new List<Piece>
@@ -183,8 +166,6 @@ namespace TheLudoGame
             var gamestate = new GameState();
             var gameEngine = new GameEngine(2, 1);
             var list = new List<Piece> { new Piece(Colors.green) };
-
-
 
             //Act
             gameEngine.MoveToStart(list);
@@ -231,9 +212,7 @@ namespace TheLudoGame
             for (int i = 0; i < 3; i++)
             {
                 playerone.Pieces[i].HasFinished=true;
-
             }
-
 
             //Act
             var result = gameEngine.CheckForWinner(playerone);

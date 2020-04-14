@@ -55,7 +55,6 @@ namespace LudoEngine
                 if (oponentIndex == 2) { return 20; }
 
                 return 30;
-
             }
             else if (currentPlayerIndex == 1)
             {
@@ -64,7 +63,6 @@ namespace LudoEngine
                 if (oponentIndex == 3) { return 20; }
 
                 return 30;
-
             }
             else if (currentPlayerIndex == 2)
             {

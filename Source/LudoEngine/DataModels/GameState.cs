@@ -25,6 +25,7 @@ namespace LudoEngine
             var correctPiece = player.Pieces.SingleOrDefault(s => s.ID == piece.ID);
             correctPiece.Steps = steps;
 
+            Console.WriteLine();
             Console.Write($"You moved {correctPiece.Steps} steps from square {correctPiece.Position} ");
 
             correctPiece.Position += correctPiece.Steps;
@@ -74,28 +75,24 @@ namespace LudoEngine
             context.SaveChanges();
         }
 
-        public Player ChangePlayerTurn(Player p)
+        public void ChangePlayerTurn(Player p)
         {
-            // Get the previous players index,
             int currentPlayerIndex = Players.IndexOf(p);
+            int nextPlayerIndex;
 
-            if (currentPlayerIndex == 0)
+            // Get the players index
+            if (currentPlayerIndex == Players.Count -1)
             {
-                currentPlayerIndex = Players.Count;
+                nextPlayerIndex = 0;
+            }
+            else
+            {
+                nextPlayerIndex = currentPlayerIndex + 1;
             }
 
-            //Chooses the previous player.
-            var previousPlayer = Players[currentPlayerIndex - 1];
-
-            // Sets the IsMyTurn to false for the PREVIOUSPLAYER both locally and in the database.
-            previousPlayer.IsMyTurn = false;
-            context.Player.SingleOrDefault(x => x.ID == previousPlayer.ID).IsMyTurn = false;
-
-            // Sets the IsMyTurn to true for the CURRENT PLAYER both locally and in the database.
-            p.IsMyTurn = true;
-            context.Player.SingleOrDefault(x => x.ID == p.ID).IsMyTurn = true;
-            
-            return p;
+            // Sets the IsMyTurn to true for the next and IsMyTurn to false for the current player both locally and in the database.
+            Players[nextPlayerIndex].IsMyTurn = true;
+            Players[currentPlayerIndex].IsMyTurn = false;
         }
 
         public GameState LoadGame()

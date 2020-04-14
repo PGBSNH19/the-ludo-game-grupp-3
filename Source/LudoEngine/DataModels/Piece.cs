@@ -29,8 +29,6 @@ namespace LudoEngine
             Console.WriteLine();
             var colors = Enum.GetValues(typeof(Colors));
 
-            // Här ska det göras ett call till databasen som kollar så att färgen som försöker väljas är ledig.
-
             switch (input)
             {
                 case "red":

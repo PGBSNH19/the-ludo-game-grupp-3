@@ -72,7 +72,6 @@ namespace LudoEngine
                 for (int j = 0; j < PiecesPerPlayer; j++)
                 {
                     pieces.Add(new Piece(pieceColor));
-
                 }
 
                 // Adds the pieces to the current gamestate.
@@ -95,50 +94,48 @@ namespace LudoEngine
             // break loop when last person has finished
             while (true)
             {
-                // One round per person.
-                foreach (var p in game.Players)
+                var activePlayer = game.Players.SingleOrDefault(x => x.IsMyTurn);
+                bool rolledSix = false;
+
+                // This will run if gets to roll again (rolled 6)
+                do
                 {
-                    if (p.IsMyTurn)
+                    // Gets the current players pieces from the database and divides them into lists based on inactive/active.
+                    var CurrentPlayerPieces = game.getPiecesFromDatabase(activePlayer);
+                    var activePieces = GetPlayersActivePieces(CurrentPlayerPieces);
+                    var inactivePieces = GetPlayersInactivePieces(CurrentPlayerPieces);
+
+                    Console.Clear();
+                    Menu.PrintPlayerName(activePlayer);
+
+                    // Promts user to roll the dice and prints the roll in the console.
+                    Menu.PromtUserToRollDice();
+                    Console.ReadKey();
+                    int roll = Dice.Roll();
+                    Menu.PrintDiceRoll(activePlayer, roll);
+
+                    if (roll == 1 || roll == 6)
                     {
-                        // Sets the turn to the active player.
-                        game.ChangePlayerTurn(p);
-                        game.context.SaveChanges();
-                        bool rolledSix = false;
-
-                        // This will run if gets to roll again (rolled 6)
-                        do
-                        {
-                            var CurrentPlayerPieces = game.getPiecesFromDatabase(p);
-                            var activePieces = GetPlayersActivePieces(CurrentPlayerPieces);
-                            var inactivePieces = GetPlayersInactivePieces(CurrentPlayerPieces);
-
-                            Console.Clear();
-                            //här ska vi skriva ut current game state så man vet var pjäserna står.
-                            Menu.PrintPlayerName(p);
-
-                            // Promts user to roll the dice and prints the roll in the console.
-                            Menu.PromtUserToRollDice();
-                            Console.ReadKey();
-                            int roll = Dice.Roll();
-                            //roll = 6;
-                            Menu.PrintDiceRoll(p, roll);
-
-                            if (roll == 1 || roll == 6)
-                            {
-                                UserRolledOneOrSix(game, p, activePieces, inactivePieces, roll);
-                            }
-                            if (roll > 1 && roll < 6)
-                            {
-                                UserRolledTwoToFive(game, p, activePieces, inactivePieces, roll);
-                            }
-
-                            // If someone wins run Main menu.
-                            rolledSix = (roll == 6) ? true : false;
-                            if (CheckForWinner(p)) Menu.MainMenu(Menu.MenuOptions(new List<string> { "Start New Game", "Load Unfinished Games", "Show Finished Games" }, "Options")); ;
-
-                        } while (rolledSix);
+                        UserRolledOneOrSix(game, activePlayer, activePieces, inactivePieces, roll);
                     }
-                }
+                    if (roll > 1 && roll < 6)
+                    {
+                        UserRolledTwoToFive(game, activePlayer, activePieces, inactivePieces, roll);
+                    }
+
+                    // If someone wins run Main menu.
+                    rolledSix = (roll == 6) ? true : false;
+                    if (CheckForWinner(activePlayer))
+                    {
+                        Menu.MainMenu(
+                            Menu.MenuOptions(new List<string>
+                            { "Start New Game", "Load Unfinished Games", "Show Finished Games" }, "Options"));
+                    }
+                } while (rolledSix);
+
+                //Changes the turn.
+                game.ChangePlayerTurn(activePlayer);
+                game.context.SaveChanges();
             }
         }
 
@@ -156,6 +153,7 @@ namespace LudoEngine
                 Thread.Sleep(2000);
                 return true;
             }
+
             return false;
         }
 
@@ -196,7 +194,6 @@ namespace LudoEngine
             bool moveActive = false;
             bool moveTwoPiecesFromYard = false;
 
-
             // If the user chooses to move an ACTIVE piece, moveActive == true.
             if (activePieceCount > 0)
             {
@@ -205,30 +202,31 @@ namespace LudoEngine
 
             // If the user chooses to move an 2 INACTIVE piece, moveTwoPiecesFromYard == true.
             if (roll == 6
-                && inactivePieces.Count >= 2
+                && inactivePieceCount >= 2
                 && !moveActive)
             {
                 moveTwoPiecesFromYard = Menu.WantToMoveTwoPiecesFromYard();
             }
 
+
             // If the user has no pieces in yard and rolled 1 or 6.
             if ((roll == 1 || roll == 6)
-                && inactivePieces.Count == 0)
+                && inactivePieceCount == 0)
             {
                 TryToMoveActivePiece(game, p, activePieces, roll);
             }
 
             // If the user has chosen to move an ACTIVE piece. Moves if possible.
-            if ((roll == 1 || roll == 6)
-                && activePieces.Count > 0
-                && inactivePieces.Count != 0
+            else if ((roll == 1 || roll == 6)
+                && activePieceCount > 0
+                && inactivePieceCount != 0
                 && moveActive)
             {
                 TryToMoveActivePiece(game, p, activePieces, roll);
             }
 
             // If the user has chosen to move an INACTIVE piece to square 1, will always move.
-            if (roll == 1 && inactivePieces.Count() > 0
+            else if (roll == 1 && inactivePieceCount > 0
                 && !moveActive)
             {
                 MoveToStart(inactivePieces);
@@ -237,21 +235,18 @@ namespace LudoEngine
 
             // If the user has chosen to move an INACTIVE piece to sqaure 6 and the path is blocked by own piece.
             // Tries to move an active piece instead.
-            if (roll == 6
-                && inactivePieces.Count() == 1
+            else if (roll == 6
+                && inactivePieceCount == 1
                 && !moveActive
                 && IsPieceClearForMoving(p, inactivePieces[0], game, roll))
             {
                 game.MovePiece(p, inactivePieces[0], roll);
-
-
                 inactivePieces.RemoveAt(0);
-
             }
 
             // If the user has chosen to move an INACTIVE piece to sqaure 6 and player only has 1 inactive piece.
-            if (roll == 6
-                && inactivePieces.Count() == 1
+            else if (roll == 6
+                && inactivePieceCount == 1
                 && !moveActive
                 && !IsPieceClearForMoving(p, inactivePieces[0], game, roll))
             {
@@ -263,9 +258,9 @@ namespace LudoEngine
 
             // If the user wants to move 2 INACTIVE pieces and there are at least 2 available. 
             // Then sets the 2 first pieces to square 1.
-            if (roll == 6
+            else if (roll == 6
                 && !moveActive
-                && inactivePieces.Count() > 1
+                && inactivePieceCount > 1
                 && moveTwoPiecesFromYard)
             {
                 MoveToStart(inactivePieces);
@@ -275,16 +270,15 @@ namespace LudoEngine
             }
 
             // If the user has chosen to move an INACTIVE piece to sqaure 6 if possible. 
-            if (roll == 6 && inactivePieces.Count() > 0
+            else if (roll == 6 && inactivePieceCount > 0
                 && !moveActive
                 && !moveTwoPiecesFromYard
                 && IsPieceClearForMoving(p, inactivePieces[0], game, roll))
             {
                 game.MovePiece(p, inactivePieces[0], roll);
-                //inactivePieces.RemoveAt(0);
             }
 
-            else if (roll == 6 && inactivePieces.Count() > 0
+            else if (roll == 6 && inactivePieceCount > 0
                    && !moveActive
                    && !moveTwoPiecesFromYard
                    && !IsPieceClearForMoving(p, inactivePieces[0], game, roll))
@@ -318,7 +312,7 @@ namespace LudoEngine
             {
                 int relativePosition = currentPlayer.GetRelativePositionOfOpponent(game, p);
 
-                foreach (var item in p.Pieces)
+                foreach (var opponentPiece in p.Pieces)
                 {
                     // Checks position of each piece in front of the pice we want to move.
                     // Checks if the position of a piece found is in the way or in the same square we want to move to. 
@@ -330,18 +324,21 @@ namespace LudoEngine
                     }
 
                     // If any of the sqaures in path are occupied.
-                    if ((item.Position > piece.Position && item.Position <= (piece.Position + roll) && item.HasFinished == false))
+                    if ((opponentPiece.Position > piece.Position
+                        && opponentPiece.Position <= (piece.Position + roll)
+                        && opponentPiece.HasFinished == false))
                     {
                         // If it's a piece owned by current player on the same square.
                         if (currentPlayer == p)
                         {
                             return false;
                         }
-                        else if ((item.Position + relativePosition == piece.Position + roll) && piece.Position < 41)
+                        else if ((opponentPiece.Position + relativePosition == piece.Position + roll)
+                            && piece.Position < 41)
                         {
                             // Push opponent piece back to start.
-                            item.IsActive = false;
-                            item.Position = 0;
+                            opponentPiece.IsActive = false;
+                            opponentPiece.Position = 0;
                             return true;
                         }
                         else if (piece.Position + roll <= 46)
@@ -369,10 +366,11 @@ namespace LudoEngine
 
         public void TryToMoveActivePiece(GameState game, Player p, List<Piece> activePieces, int roll)
         {
+            var availableActivePieces = activePieces;
+
             while (true)
             {
-                var activePiece = PickActivePieceToMove(activePieces, Menu.PickPieceFromList(activePieces));
-
+                var activePiece = PickActivePieceToMove(activePieces, Menu.PickPieceFromList(availableActivePieces));
                 if (IsPieceClearForMoving(p, activePiece, game, roll))
                 {
                     game.MovePiece(p, activePiece, roll);
@@ -382,7 +380,24 @@ namespace LudoEngine
                 {
                     Console.WriteLine();
                     Console.WriteLine("The path is blocked, choose another piece to move.");
+                    availableActivePieces.Remove(activePiece);
                     Thread.Sleep(2000);
+                }
+
+                if (activePieces.Count == 0 && (roll != 1 || roll != 6))
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("You can't move an active piece.");
+                    Thread.Sleep(2000);
+                    break;
+                }
+                else if (activePieces.Count == 0 && (roll == 1 || roll == 6))
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("You can't move an active piece, tries to move an inactive piece.");
+                    UserRolledOneOrSix(game, p, activePieces, GetPlayersInactivePieces(p.Pieces), roll);
+                    Thread.Sleep(2000);
+                    break;
                 }
             }
         }
