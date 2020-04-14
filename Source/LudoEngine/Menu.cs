@@ -8,7 +8,6 @@ namespace LudoEngine
 {
     public class Menu
     {
-
         public static void MenuHeader()
         {
             Console.Title = "SpacePark";
@@ -89,6 +88,7 @@ namespace LudoEngine
 
         public static void MainMenu(string input)
         {
+            Console.Clear();
 
             switch (input)
             {
@@ -100,29 +100,56 @@ namespace LudoEngine
                     game.PlayGame(gamestate);
                     break;
 
-                case "load game":
+                case "load unfinished games":
                     var loadedGame = new GameEngine();
                     var loadedGameState = new GameState();
                     loadedGameState = loadedGameState.LoadGame();
                     loadedGame.PlayGame(loadedGameState);
                     break;
-                default:
+
+                case "show finished games":
+                    var oldGame = new GameState();
+                    PrintFinishedGames(oldGame.GetFinishedGames());
                     break;
             }
+        }
+
+        public static void PrintFinishedGames(List<GameState> finishedGames)
+        {
+            Console.Clear();
+
+            if (finishedGames.Count == 0)
+            {
+                Console.WriteLine("There are no finished games!");
+            }
+            else
+            {
+                foreach (var game in finishedGames)
+                {
+                    var winner = game.getPlayersFromDatabase(game).SingleOrDefault(x => x.IsWinner);
+                    Console.WriteLine($"Game {game.ID} winner: {winner}.");
+                }
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("Press any key to go back to main menu...");
+            Console.ReadKey();
+
+            // Sends user back to main menu.
+            Menu.MainMenu(Menu.MenuOptions(new List<string> { "Start New Game", "Load Unfinished Games", "Show Finished Games" }, "Options"));
+        }
+
+        public static void PrintPlayerName(Player player)
+        {
+            Console.WriteLine();
+            Console.WriteLine($"It's {player.Name}'s turn.");
+            Console.WriteLine();
         }
 
         public static int ChoosePlayerAmount()
         {
             var choosenAmount = MenuOptions(new List<string> { "2", "3", "4" }, "Number of players 2-4");
             return int.Parse(choosenAmount);
-        }
-
-        public static void PrintNoActivePieces()
-        {
-            Console.WriteLine();
-            Console.WriteLine("You need to roll 1 or 6 to move pieces from yard.");
-            Console.WriteLine();
-            Thread.Sleep(2000);
         }
 
         public static void PromtUserToRollDice()
@@ -132,19 +159,12 @@ namespace LudoEngine
             Console.WriteLine();
         }
 
-        public static void PrintPlayerName(Player player)
-        {
-            Console.WriteLine();
-            Console.WriteLine($"It's {player.Name}'s turn.");
-            Console.WriteLine();
-        }
         public static void PrintDiceRoll(Player player, int roll)
         {
             Console.WriteLine($"{player.Name} rolled {roll}.");
             Thread.Sleep(2000);
         }
 
-        //This whole method needs refactoring.
         public static int PickPieceFromList(List<Piece> list)
         {
             int choice = -1;
@@ -167,6 +187,14 @@ namespace LudoEngine
                 }
             }
             return choice;
+        }
+
+        public static void PrintNoActivePieces()
+        {
+            Console.WriteLine();
+            Console.WriteLine("You need to roll 1 or 6 to move pieces from yard.");
+            Console.WriteLine();
+            Thread.Sleep(2000);
         }
 
         public static void PickInactivePieceToMove()

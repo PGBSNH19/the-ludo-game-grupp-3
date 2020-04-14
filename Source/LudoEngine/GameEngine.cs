@@ -9,12 +9,7 @@ namespace LudoEngine
     public class GameEngine
     {
         private int _numberOfPlayers;
-
         public int PiecesPerPlayer { get; set; }
-
-        /// <summary>
-        /// There has to be between 2 and 4 players.
-        /// </summary>
         public int NumberOfPlayers
         {
             get { return _numberOfPlayers; }
@@ -79,6 +74,7 @@ namespace LudoEngine
                     pieces.Add(new Piece(pieceColor));
 
                 }
+
                 // Adds the pieces to the current gamestate.
                 game.Players[i].Pieces = pieces;
                 // Removes the color as an alternative for the next player to choose.
@@ -87,7 +83,6 @@ namespace LudoEngine
                 Console.WriteLine();
                 Console.WriteLine($"{p.Name} choose color {pieces[0].Color} and has been added to the game.");
                 Thread.Sleep(2000);
-
             }
 
             game.SaveGame(game);
@@ -135,7 +130,7 @@ namespace LudoEngine
 
                         // If someone wins run Main menu.
                         rolledSix = (roll == 6) ? true : false;
-                        if (CheckForWinner(p)) Menu.MainMenu(Menu.MenuOptions(new List<string> { "Start new game", "Load game", "Save game" }, "Options")); ;
+                        if (CheckForWinner(p)) Menu.MainMenu(Menu.MenuOptions(new List<string> { "Start New Game", "Load Unfinished Games", "Show Finished Games" }, "Options")); ;
 
                     } while (rolledSix);
                 }
@@ -197,11 +192,13 @@ namespace LudoEngine
             bool moveTwoPiecesFromYard = false;
 
 
+            // If the user chooses to move an ACTIVE piece, moveActive == true.
             if (activePieceCount > 0)
             {
                 moveActive = Menu.WantToMoveActivePiece(Menu.MenuOptions(new List<string> { "yes", "no" }, "Do you want to move an active piece?"));
             }
 
+            // If the user chooses to move an 2 INACTIVE piece, moveTwoPiecesFromYard == true.
             if (roll == 6
                 && inactivePieces.Count >= 2
                 && !moveActive)
@@ -251,6 +248,7 @@ namespace LudoEngine
                 && !moveActive
                 && !IsPieceClearForMoving(p, inactivePieces[0], game, roll))
             {
+                Console.WriteLine();
                 Console.WriteLine("The path is blocked. You have to move an active piece.");
                 Thread.Sleep(2000);
                 TryToMoveActivePiece(game, p, activePieces, roll);
@@ -284,6 +282,7 @@ namespace LudoEngine
                    && !moveTwoPiecesFromYard
                    && !IsPieceClearForMoving(p, inactivePieces[0], game, roll))
             {
+                Console.WriteLine();
                 Console.WriteLine("The path is blocked. You have to move an active piece.");
                 Thread.Sleep(2000);
                 TryToMoveActivePiece(game, p, activePieces, roll);
@@ -301,6 +300,7 @@ namespace LudoEngine
             if (roll > 1 && roll < 6
                 && activePieces.Count() == 0)
             {
+                Console.WriteLine();
                 Menu.PrintNoActivePieces();
             }
         }
@@ -373,6 +373,7 @@ namespace LudoEngine
                 }
                 else
                 {
+                    Console.WriteLine();
                     Console.WriteLine("The path is blocked, choose another piece to move.");
                     Thread.Sleep(2000);
                 }
@@ -384,6 +385,8 @@ namespace LudoEngine
             var piece = inactivePieces.Where(x => x.IsActive == false).ToList();
             piece.FirstOrDefault().IsActive = true;
             piece.FirstOrDefault().Position = 1;
+
+            Console.WriteLine();
             Console.WriteLine($"Moved one piece to square one.");
         }
         

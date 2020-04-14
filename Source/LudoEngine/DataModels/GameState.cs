@@ -100,7 +100,7 @@ namespace LudoEngine
         public GameState LoadGame()
         {
             var availableGames = new List<string>();
-            List<GameState> savedGames = GetSavedGames();
+            List<GameState> savedGames = GetUnfinishedGames();
 
             if (savedGames == null)
             {
@@ -111,7 +111,6 @@ namespace LudoEngine
             savedGames.ForEach(x => x.Players.ForEach(z => z.Pieces = getPiecesFromDatabase(z)));
             savedGames.ForEach(x => availableGames.Add(x.ToString()));
 
-
             GameState selectedGame = PickSavedGame(Menu.MenuOptions(availableGames, "Choose a saved game: "), savedGames);
 
             return selectedGame;
@@ -121,18 +120,21 @@ namespace LudoEngine
         {
             return context.Player.Where(x => x.GameStateID == game.ID).ToList();
         }
+       
         public List<Piece> getPiecesFromDatabase(Player player)
         {
-            //context.Piece.Where(x => x.PlayerID == player.ID);
             var temp = context.Piece.Where(x => x.PlayerID == player.ID).ToList();
             return temp;
         }
 
-        public List<GameState> GetSavedGames()
+        public List<GameState> GetUnfinishedGames()
         {
+            return context.GameState.Where(x => x.HasFinished == false).ToList();
+        }
 
-
-            return context.GameState.ToList();
+        public List<GameState> GetFinishedGames()
+        {
+            return context.GameState.Where(x => x.HasFinished).ToList();
         }
 
         public GameState PickSavedGame(string selectedGame, List<GameState> savedGames)
@@ -144,23 +146,19 @@ namespace LudoEngine
         {
             if (Players.Count == 2)
             {
-
-                return $"Players in this game {ID}: {Players[0].Name}, {Players[1].Name}. ";
+                return $"Players in this game {ID}: {Players[0].Name}, {Players[1].Name}.";
             }
             else if (Players.Count == 3)
             {
-                return $"Players in this game {ID}: {Players[0].Name}, {Players[1].Name}, {Players[2].Name}. ";
-
+                return $"Players in this game {ID}: {Players[0].Name}, {Players[1].Name}, {Players[2].Name}.";
             }
             else if (Players.Count == 4)
             {
-                return $"Players in this game {ID}: {Players[0].Name}, {Players[1].Name}, {Players[2].Name}, {Players[3].Name}. ";
-
+                return $"Players in this game {ID}: {Players[0].Name}, {Players[1].Name}, {Players[2].Name}, {Players[3].Name}.";
             }
             else
             {
-                Players.Count();
-                return "hej";
+                return $"There are {Players.Count()} players in this game.";
             }
         }
     }
