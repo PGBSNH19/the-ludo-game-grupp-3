@@ -39,8 +39,8 @@ namespace LudoEngine
             NumberOfPlayers = numberOfPlayers;
             PiecesPerPlayer = piecesPerPlayer;
         }
-        
-        public string GetName()
+
+        private string GetName()
         {
             Console.WriteLine();
             Console.Write("Enter player name: ");
@@ -154,7 +154,7 @@ namespace LudoEngine
             return false;
         }
 
-        public List<Piece> GetPlayersActivePieces(List<Piece> CurrentPlayerPieces)
+        private List<Piece> GetPlayersActivePieces(List<Piece> CurrentPlayerPieces)
         {
             var pieces = new List<Piece>();
 
@@ -169,7 +169,7 @@ namespace LudoEngine
             return pieces;
         }
 
-        public List<Piece> GetPlayersInactivePieces(List<Piece> CurrentPlayerPieces)
+        private List<Piece> GetPlayersInactivePieces(List<Piece> CurrentPlayerPieces)
         {
             var pieces = new List<Piece>();
 
@@ -184,7 +184,7 @@ namespace LudoEngine
             return pieces;
         }
 
-        public void UserRolledOneOrSix(GameState game, Player p, List<Piece> activePieces, List<Piece> inactivePieces, int roll)
+        private void UserRolledOneOrSix(GameState game, Player p, List<Piece> activePieces, List<Piece> inactivePieces, int roll)
         {
             var inactivePieceCount = inactivePieces.Count();
             var activePieceCount = activePieces.Count();
@@ -289,7 +289,7 @@ namespace LudoEngine
             }
         }
 
-        public void UserRolledTwoToFive(GameState game, Player p, List<Piece> activePieces, List<Piece> inactivePieces, int roll)
+        private void UserRolledTwoToFive(GameState game, Player p, List<Piece> activePieces, List<Piece> inactivePieces, int roll)
         {
             if (roll > 1 && roll < 6
                 && activePieces.Count() != 0)

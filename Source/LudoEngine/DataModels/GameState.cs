@@ -11,12 +11,13 @@ namespace LudoEngine
         public int ID { get; set; }
         public bool HasFinished { get; set; }
         public List<Player> Players { get; set; }
-        public LudoGameContext context = new LudoGameContext();
+        public LudoGameContext context { get; set; }
 
         public GameState()
         {
             HasFinished = false;
             Players = new List<Player>();
+            context = new LudoGameContext();
         }
 
         public void MovePiece(Player player, Piece piece, int steps)
@@ -46,7 +47,7 @@ namespace LudoEngine
             Thread.Sleep(2500);
         }
 
-        public void SavePieceMove(Piece p)
+        private void SavePieceMove(Piece p)
         {
             var currentPiece = context.Piece.SingleOrDefault(x => x.ID == p.ID);
 
@@ -127,7 +128,7 @@ namespace LudoEngine
             return temp;
         }
 
-        public List<GameState> GetUnfinishedGames()
+        private List<GameState> GetUnfinishedGames()
         {
             return context.GameState.Where(x => x.HasFinished == false).ToList();
         }
@@ -137,7 +138,7 @@ namespace LudoEngine
             return context.GameState.Where(x => x.HasFinished).ToList();
         }
 
-        public GameState PickSavedGame(string selectedGame, List<GameState> savedGames)
+        private GameState PickSavedGame(string selectedGame, List<GameState> savedGames)
         {
             return savedGames.SingleOrDefault(x => x.ToString().ToLower() == selectedGame);
         }
