@@ -94,7 +94,7 @@ namespace LudoEngine
             // Sets the IsMyTurn to true for the CURRENT PLAYER both locally and in the database.
             p.IsMyTurn = true;
             context.Player.SingleOrDefault(x => x.ID == p.ID).IsMyTurn = true;
-            context.SaveChanges();
+            
             return p;
         }
 
@@ -121,7 +121,7 @@ namespace LudoEngine
         {
             return context.Player.Where(x => x.GameStateID == game.ID).ToList();
         }
-       
+
         public List<Piece> getPiecesFromDatabase(Player player)
         {
             var temp = context.Piece.Where(x => x.PlayerID == player.ID).ToList();

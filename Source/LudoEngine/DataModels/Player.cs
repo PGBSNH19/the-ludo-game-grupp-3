@@ -20,6 +20,7 @@ namespace LudoEngine
             HasFinished = false;
             IsMyTurn = false;
             IsWinner = false;
+            Pieces = new List<Piece>();
         }
 
         /// <summary>
@@ -41,7 +42,7 @@ namespace LudoEngine
         ///	    spelare1+20
         ///	    spelare2+30
         /// </summary>
-       
+
         public int GetRelativePositionOfOpponent(GameState game, Player p)
         {
             var currentPlayerIndex = game.Players.IndexOf(this);

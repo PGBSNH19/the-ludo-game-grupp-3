@@ -84,7 +84,8 @@ namespace LudoEngine
                 Console.WriteLine($"{p.Name} choose color {pieces[0].Color} and has been added to the game.");
                 Thread.Sleep(2000);
             }
-
+            //Sets the first player so be the start player.
+            game.Players[0].IsMyTurn = true;
             game.SaveGame(game);
             return game;
         }
@@ -97,57 +98,61 @@ namespace LudoEngine
                 // One round per person.
                 foreach (var p in game.Players)
                 {
-                    // Sets the turn to the active player.
-                    game.ChangePlayerTurn(p);
-                    bool rolledSix = false;
-
-                    // This will run if gets to roll again (rolled 6)
-                    do
+                    if (p.IsMyTurn)
                     {
-                        var CurrentPlayerPieces = game.getPiecesFromDatabase(p);
-                        var activePieces = GetPlayersActivePieces(CurrentPlayerPieces);
-                        var inactivePieces = GetPlayersInactivePieces(CurrentPlayerPieces);
+                        // Sets the turn to the active player.
+                        game.ChangePlayerTurn(p);
+                        game.context.SaveChanges();
+                        bool rolledSix = false;
 
-                        Console.Clear();
-                        //här ska vi skriva ut current game state så man vet var pjäserna står.
-                        Menu.PrintPlayerName(p);
-
-                        // Promts user to roll the dice and prints the roll in the console.
-                        Menu.PromtUserToRollDice();
-                        Console.ReadKey();
-                        int roll = Dice.Roll();
-                        //roll = 6;
-                        Menu.PrintDiceRoll(p, roll);
-
-                        if (roll == 1 || roll == 6)
+                        // This will run if gets to roll again (rolled 6)
+                        do
                         {
-                            UserRolledOneOrSix(game, p, activePieces, inactivePieces, roll);
-                        }
-                        if (roll > 1 && roll < 6)
-                        {
-                            UserRolledTwoToFive(game, p, activePieces, inactivePieces, roll);
-                        }
+                            var CurrentPlayerPieces = game.getPiecesFromDatabase(p);
+                            var activePieces = GetPlayersActivePieces(CurrentPlayerPieces);
+                            var inactivePieces = GetPlayersInactivePieces(CurrentPlayerPieces);
 
-                        // If someone wins run Main menu.
-                        rolledSix = (roll == 6) ? true : false;
-                        if (CheckForWinner(p)) Menu.MainMenu(Menu.MenuOptions(new List<string> { "Start New Game", "Load Unfinished Games", "Show Finished Games" }, "Options")); ;
+                            Console.Clear();
+                            //här ska vi skriva ut current game state så man vet var pjäserna står.
+                            Menu.PrintPlayerName(p);
 
-                    } while (rolledSix);
+                            // Promts user to roll the dice and prints the roll in the console.
+                            Menu.PromtUserToRollDice();
+                            Console.ReadKey();
+                            int roll = Dice.Roll();
+                            //roll = 6;
+                            Menu.PrintDiceRoll(p, roll);
+
+                            if (roll == 1 || roll == 6)
+                            {
+                                UserRolledOneOrSix(game, p, activePieces, inactivePieces, roll);
+                            }
+                            if (roll > 1 && roll < 6)
+                            {
+                                UserRolledTwoToFive(game, p, activePieces, inactivePieces, roll);
+                            }
+
+                            // If someone wins run Main menu.
+                            rolledSix = (roll == 6) ? true : false;
+                            if (CheckForWinner(p)) Menu.MainMenu(Menu.MenuOptions(new List<string> { "Start New Game", "Load Unfinished Games", "Show Finished Games" }, "Options")); ;
+
+                        } while (rolledSix);
+                    }
                 }
             }
         }
 
         public bool CheckForWinner(Player p)
         {
-            var temp = p.Pieces.Where(x => x.HasFinished).Count();
-            if (temp == 4)
+            var finishPiecesCount = p.Pieces.Where(x => x.HasFinished).Count();
+            if (finishPiecesCount == 4)
             {
                 p.IsWinner = true;
 
                 Console.WriteLine();
                 Console.WriteLine("YOU WON,END OF GAME! ");
                 Console.WriteLine();
-                
+
                 Thread.Sleep(2000);
                 return true;
             }
@@ -238,6 +243,8 @@ namespace LudoEngine
                 && IsPieceClearForMoving(p, inactivePieces[0], game, roll))
             {
                 game.MovePiece(p, inactivePieces[0], roll);
+
+
                 inactivePieces.RemoveAt(0);
 
             }
@@ -379,7 +386,7 @@ namespace LudoEngine
                 }
             }
         }
-        
+
         public void MoveToStart(List<Piece> inactivePieces)
         {
             var piece = inactivePieces.Where(x => x.IsActive == false).ToList();
@@ -389,7 +396,7 @@ namespace LudoEngine
             Console.WriteLine();
             Console.WriteLine($"Moved one piece to square one.");
         }
-        
+
         public Piece PickActivePieceToMove(List<Piece> activePieces, int playerpick)
         {
             return activePieces[playerpick];
